@@ -80,13 +80,14 @@ html, body {
   
   .project {
     display: flex;
+    flex-direction: row;
     align-items: flex-start;
     gap: 40px;
     margin-bottom: 60px;
   }
   
   .project img {
-    width: 360px; 
+    width: 360px;
     height: auto;
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
@@ -105,5 +106,12 @@ html, body {
   .project-text p {
     font-size: 14px;
     margin-bottom: 10px;
+  }  
+
+  .project-text img {
+    border-radius: 6px;
+    margin-top: 10px;
+    max-width: 100%;
+    height: auto;
   }
   

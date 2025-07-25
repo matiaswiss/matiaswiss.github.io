@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Box Breathing</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>body { margin: 0; overflow: hidden; }</style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/addons/p5.sound.min.js"></script>
+</head>
+<body>
+  <script>
+    let phase = 0;
+
+let timer = 0;
+
+const phases = ['inhale', 'hold', 'exhale', 'hold'];
+
+const duration = 240;
+
+let boxSize, centerX, centerY;
+
+let roundCount = 1;
+
+let completedSides = 0;
+
+let holdRegistered = false;
+
+let started = false;
+
+let boxPulse = 0;
+
+let pauseBeforeFinal = false;
+
+let pauseFrames = 0;
+
+let finalBoxSize;
+
+let sideAlphas = [0, 0, 0, 0];
+
+
+
+let fifthRound = false;
+
+let fifthRoundTimer = 0;
+
+const fastDuration = 60; // 1 second per side
+
+let fadeAlpha = 0;
+
+
+
+let osc, env;
+
+
+
+const freqMap = {
+
+  inhale: 174,
+
+  hold: 136,
+
+  exhale: 110
+
+};
+
+
+
+const progressColor = [0, 128, 128]; // Teal green to complement navy
+
+
+
+function setup() {
+
+  createCanvas(windowWidth, windowHeight);
+
+  textAlign(CENTER, CENTER);
+
+  textFont('Didact Gothic');
+
+  boxSize = min(width, height) * 0.6;
+
+
+
+  osc = new p5.Oscillator('sine');
+
+  osc.amp(0);
+
+  osc.start();
+
+
+
+  env = new p5.Envelope();
+
+  env.setADSR(0.05, 0.1, 0.1, 0.2);
+
+  env.setRange(0.08, 0);
+
+}
+
+
+
+function draw() {
+
+  clear();
+
+  background('#f0f8ff');
+
+  centerX = width / 2;
+
+  centerY = height / 2;
+
+
+
+  if (!started) {
+
+    drawIdleBox();
+
+    return;
+
+  }
+
+
+
+  if (pauseBeforeFinal) {
+
+    drawBoxAndProgress(true);
+
+    pauseFrames++;
+
+    if (pauseFrames > 60) {
+
+      pauseBeforeFinal = false;
+
+      fifthRound = true;
+
+      timer = 0;
+
+      phase = 0;
+
+    }
+
+    return;
+
+  }
+
+
+
+  if (fifthRound) {
+
+    drawBoxAndProgress(false, true);
+
+    fifthRoundTimer++;
+
+    if (fifthRoundTimer > fastDuration * 4) {
+
+      resetAll();
+
+    }
+
+    return;
+
+  }
+
+
+
+  if (phase === 3 && timer === 1 && !holdRegistered) {
+
+    holdRegistered = true;
+
+  }
+
+
+
+  if (phase === 0 && timer === 1 && holdRegistered) {
+
+    if (completedSides < 4) sideAlphas[completedSides] = 1;
+
+    completedSides++;
+
+    roundCount++;
+
+    holdRegistered = false;
+
+
+
+    if (roundCount > 4) {
+
+      finalBoxSize = boxSize;
+
+      pauseBeforeFinal = true;
+
+      return;
+
+    }
+
+  }
+
+
+
+  timer++;
+
+  if (timer > duration) {
+
+    timer = 0;
+
+    phase = (phase + 1) % 4;
+
+    triggerPhaseSound(phase);
+
+  }
+
+
+
+  drawBoxAndProgress();
+
+}
+
+
+
+function triggerPhaseSound(p) {
+
+  if (!started) return;
+
+  const phaseName = phases[p];
+
+  const freq = (phaseName === 'inhale') ? freqMap.inhale
+
+             : (phaseName === 'exhale') ? freqMap.exhale
+
+             : freqMap.hold;
+
+
+
+  osc.freq(freq);
+
+  osc.setType('sine');
+
+  env.play(osc);
+
+}
+
+
+
+function drawIdleBox() {
+
+  stroke('#000080');
+
+  strokeWeight(24);
+
+  noFill();
+
+  rectMode(CENTER);
+
+  rect(centerX, centerY, boxSize, boxSize, 20);
+
+
+
+  fill('#000');
+
+  noStroke();
+
+  let s = 70;
+
+  triangle(
+
+    centerX - s / 2.5, centerY - s / 2,
+
+    centerX - s / 2.5, centerY + s / 2,
+
+    centerX + s / 2, centerY
+
+  );
+
+}
+
+
+
+function drawBoxAndProgress(isStatic = false, isFifth = false) {
+
+  let progress = timer / (isFifth ? fastDuration : duration);
+
+  let scale = 1.0;
+
+  if (!isStatic && !isFifth) {
+
+    if (phase === 0) scale = map(progress, 0, 1, 1.0, 1.1);
+
+    else if (phase === 1) scale = 1.1;
+
+    else if (phase === 2) scale = map(progress, 0, 1, 1.1, 1.0);
+
+  }
+
+
+
+  let size = boxSize * scale;
+
+  let offset = size / 2;
+
+  let shortOffset = offset * 0.8;
+
+
+
+  stroke('#000080');
+
+  strokeWeight(24);
+
+  noFill();
+
+  rectMode(CENTER);
+
+  rect(centerX, centerY, size, size, 20);
+
+
+
+  strokeWeight(6);
+
+  for (let i = 0; i < 4; i++) {
+
+    if (sideAlphas[i] > 0 && sideAlphas[i] < 255) sideAlphas[i] += 5;
+
+  }
+
+
+
+  stroke(...progressColor, sideAlphas[0]);
+
+  if (completedSides >= 1) line(centerX - shortOffset, centerY - shortOffset, centerX + shortOffset, centerY - shortOffset);
+
+  stroke(...progressColor, sideAlphas[1]);
+
+  if (completedSides >= 2) line(centerX + shortOffset, centerY - shortOffset, centerX + shortOffset, centerY + shortOffset);
+
+  stroke(...progressColor, sideAlphas[2]);
+
+  if (completedSides >= 3) line(centerX + shortOffset, centerY + shortOffset, centerX - shortOffset, centerY + shortOffset);
+
+  stroke(...progressColor, sideAlphas[3]);
+
+  if (completedSides >= 4) line(centerX - shortOffset, centerY + shortOffset, centerX - shortOffset, centerY - shortOffset);
+
+
+
+  if (!isStatic) {
+
+    strokeWeight(4);
+
+    stroke(...progressColor);
+
+    if (phase === 0) {
+
+      let x = map(progress, 0, 1, centerX - shortOffset, centerX + shortOffset);
+
+      line(centerX - shortOffset, centerY - shortOffset, x, centerY - shortOffset);
+
+    } else if (phase === 1) {
+
+      let y = map(progress, 0, 1, centerY - shortOffset, centerY + shortOffset);
+
+      line(centerX + shortOffset, centerY - shortOffset, centerX + shortOffset, y);
+
+    } else if (phase === 2) {
+
+      let x = map(progress, 0, 1, centerX + shortOffset, centerX - shortOffset);
+
+      line(centerX + shortOffset, centerY + shortOffset, x, centerY + shortOffset);
+
+    } else if (phase === 3) {
+
+      let y = map(progress, 0, 1, centerY + shortOffset, centerY - shortOffset);
+
+      line(centerX - shortOffset, centerY + shortOffset, centerX - shortOffset, y);
+
+    }
+
+
+
+    if (isFifth) {
+
+      fadeAlpha = map(sin((fifthRoundTimer / (fastDuration * 4)) * PI), 0, 1, 0, 255);
+
+      fill(...progressColor, fadeAlpha);
+
+    } else {
+
+      fill('#333');
+
+    }
+
+    noStroke();
+
+    textSize(40);
+
+    let label = isFifth ? "calm mind" : phases[phase];
+
+    text(label, centerX, centerY - 20);
+
+
+
+    textSize(20);
+
+    if (!isFifth) {
+
+      let seconds = ceil((duration - timer) / 60);
+
+      text(`${seconds} seconds • round ${min(roundCount, 4)} of 4`, centerX, centerY + 30);
+
+    }
+
+  }
+
+}
+
+
+
+function resetAll() {
+
+  started = false;
+
+  pauseBeforeFinal = false;
+
+  pauseFrames = 0;
+
+  phase = 0;
+
+  timer = 0;
+
+  roundCount = 1;
+
+  completedSides = 0;
+
+  holdRegistered = false;
+
+  boxPulse = 0;
+
+  sideAlphas = [0, 0, 0, 0];
+
+  fifthRound = false;
+
+  fifthRoundTimer = 0;
+
+  fadeAlpha = 0;
+
+}
+
+
+
+function mousePressed() {
+
+  if (getAudioContext().state !== 'running') {
+
+    getAudioContext().resume();
+
+  }
+
+  if (!started) started = true;
+
+}
+
+
+
+function windowResized() {
+
+  resizeCanvas(windowWidth, windowHeight);
+
+  boxSize = min(width, height) * 0.6;
+
+}
+  </script>
+</body>
+</html>
