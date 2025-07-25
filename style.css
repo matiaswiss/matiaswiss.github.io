@@ -1,15 +1,12 @@
-html {
+html, body {
     background-color: white;
     font-family: 'Didact Gothic', sans-serif;
     font-size: 20px;
     color: #111;
-  }
-  
-  body {
     margin: 60px auto;
     max-width: 1200px;
     padding: 0 20px;
-  }
+  }  
   
   .container {
     display: flex;
