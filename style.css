@@ -1,8 +1,8 @@
 html {
-    background-color: #4E2A84;
+    background-color: white;
     font-family: 'Didact Gothic', sans-serif;
     font-size: 16px;
-    color: white;
+    color: black;
   }
   
   body {
@@ -29,12 +29,12 @@ html {
   }
   
   a {
-    color: #ccc;
+    color: #333;
     text-decoration: none;
   }
   
   a:hover {
-    color: white;
+    color: black;
     text-decoration: underline;
   }
   
