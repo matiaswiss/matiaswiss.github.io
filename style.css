@@ -80,29 +80,18 @@ html, body {
   
   .project {
     display: flex;
-    align-items: flex-start;
-    gap: 30px;
-    margin-bottom: 40px;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 60px;
   }
   
-  .project-img {
-    width: 240px;
+  .project img {
+    width: 300px; 
     height: auto;
     border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   }
   
   .project-text {
-    max-width: 700px;
+    max-width: 600px;
   }
   
-  .project-text h3 {
-    font-size: 20px;
-    margin-bottom: 8px;
-  }
-  
-  .project-text p {
-    font-size: 14px;
-    margin-bottom: 10px;
-  }
-     
