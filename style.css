@@ -15,10 +15,10 @@ html, body {
   }
   
   .photo-column img {
-    width: 380px;
+    width: 420px;
     height: auto;
     border-radius: 10px;
-  }
+  }  
   
   .text-column {
     max-width: 650px;
@@ -37,14 +37,19 @@ html, body {
   }
   
   nav a {
-    color: #444;
-    text-decoration: none;
-  }
+    color: #0056b3;
+    text-decoration: underline;
+    font-weight: 500;
+  }  
   
   nav a:hover {
     text-decoration: underline;
     color: #000;
   }
+
+  nav a:hover {
+    color: #003f88;
+  }  
   
   p {
     line-height: 1.8;
