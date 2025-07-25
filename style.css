@@ -86,10 +86,10 @@ html, body {
   }
   
   .project img {
-    width: 300px; 
+    width: 280px;
     height: auto;
     border-radius: 8px;
-  }
+  }  
   
   .project-text {
     max-width: 600px;
