@@ -33,7 +33,9 @@ html, body {
     font-weight: bold;
     opacity: 0.85;
     margin-bottom: 0.6em;
-  }
+    letter-spacing: -0.3px;
+    white-space: normal;
+  }  
   
   nav {
     margin-bottom: 1.5em;
