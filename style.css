@@ -138,3 +138,7 @@ html, body {
     }
   }
   
+  .text-column, .small-bio, .small-footer p {
+    letter-spacing: -0.25px;
+  }
+  
