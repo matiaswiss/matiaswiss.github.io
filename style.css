@@ -6,6 +6,7 @@ html, body {
     margin: 60px auto;
     max-width: 1200px;
     padding: 0 20px;
+    letter-spacing: -0.25px; 
   }
   
   .container {
