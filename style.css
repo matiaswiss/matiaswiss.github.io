@@ -34,24 +34,24 @@ html, body {
     font-weight: bold;
     opacity: 0.9;
     margin-bottom: 0.6em;
-    color: #333; 
-    letter-spacing: normal; 
-  }
+    color: #888; /* light gray */
+    letter-spacing: normal;
+  }  
   
   nav {
     margin-bottom: 1.5em;
     font-size: 24px;
   }
   
-  nav a {
-    color: #0056b3;
+  a {
+    color: green;
     text-decoration: underline;
-    font-weight: 500;
+    text-decoration-color: black;
   }
   
-  nav a:hover {
-    color: #003f88;
-    text-decoration: underline;
+  a:hover {
+    color: #006400;
+    text-decoration-color: black;
   }
   
   p {
