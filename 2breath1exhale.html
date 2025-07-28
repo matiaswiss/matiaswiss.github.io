@@ -5,212 +5,216 @@
   <title>Double Inhale Breathing</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>body { margin: 0; overflow: hidden; }</style>
+  <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/addons/p5.sound.min.js"></script>
 </head>
 <body>
   <script>
     let phase = 0;
-let timer = 0;
-let roundCount = 1;
-let started = false;
+    let timer = 0;
+    let roundCount = 1;
+    let started = false;
 
-const phases = ['inhale1', 'inhale2', 'exhale'];
-const durations = [240, 60, 240]; 
+    const phases = ['inhale1', 'inhale2', 'exhale'];
+    const durations = [240, 60, 240]; 
 
-const labels = {
-  inhale1: "inhale",
-  inhale2: "inhale again",
-  exhale: "exhale slowly"
-};
+    const labels = {
+      inhale1: "inhale",
+      inhale2: "inhale again",
+      exhale: "exhale slowly"
+    };
 
-const freqMap = {
-  inhale1: 174,
-  inhale2: 184,
-  exhale: 110
-};
+    const freqMap = {
+      inhale1: 174,
+      inhale2: 184,
+      exhale: 110
+    };
 
-let osc, env;
-let baseRadius;
-let currentScale = 1;
-let targetScale = 1;
-let centerX, centerY;
+    let osc, env;
+    let baseRadius;
+    let currentScale = 1;
+    let targetScale = 1;
+    let centerX, centerY;
 
-let pauseBeforeFinal = false;
-let pauseFrames = 0;
-let finalPhase = false;
-let finalTimer = 0;
-const fastDuration = 60;
-let fadeAlpha = 0;
+    let pauseBeforeFinal = false;
+    let pauseFrames = 0;
+    let finalPhase = false;
+    let finalTimer = 0;
+    const fastDuration = 60;
+    let fadeAlpha = 0;
 
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-  textAlign(CENTER, CENTER);
-  textFont('Didact Gothic');
-  angleMode(DEGREES);
+    function setup() {
+      createCanvas(windowWidth, windowHeight);
+      textAlign(CENTER, CENTER);
+      textFont('Didact Gothic');
+      angleMode(DEGREES);
 
-  baseRadius = min(width, height) * 0.15;
-  centerX = width / 2;
-  centerY = height / 2;
+      baseRadius = min(width, height) * 0.15;
+      centerX = width / 2;
+      centerY = height / 2;
 
-  osc = new p5.Oscillator('sine');
-  osc.amp(0);
-  osc.start();
+      osc = new p5.Oscillator('sine');
+      osc.amp(0);
+      osc.start();
 
-  env = new p5.Envelope();
-  env.setADSR(0.05, 0.1, 0.1, 0.2);
-  env.setRange(0.08, 0);
-}
+      env = new p5.Envelope();
+      env.setADSR(0.05, 0.1, 0.1, 0.2);
+      env.setRange(0.08, 0);
+    }
 
-function draw() {
-  background('#f0f8ff');
-  centerX = width / 2;
-  centerY = height / 2;
+    function draw() {
+      background('#f0f8ff');
+      centerX = width / 2;
+      centerY = height / 2;
 
-  if (!started) {
-    drawIdleCircle();
-    return;
-  }
+      if (!started) {
+        drawIdleCircle();
+        return;
+      }
 
-  if (pauseBeforeFinal) {
-    drawBreathingVisual(true);
-    pauseFrames++;
-    if (pauseFrames > 60) {
+      if (pauseBeforeFinal) {
+        drawBreathingVisual(true);
+        pauseFrames++;
+        if (pauseFrames > 60) {
+          pauseBeforeFinal = false;
+          finalPhase = true;
+          timer = 0;
+          phase = 0;
+        }
+        return;
+      }
+
+      if (finalPhase) {
+        drawBreathingVisual(false, true);
+        finalTimer++;
+        if (finalTimer > fastDuration * 4) {
+          resetAll();
+        }
+        return;
+      }
+
+      updateBreathingLogic();
+      drawBreathingVisual();
+    }
+
+    function drawIdleCircle() {
+      let r = baseRadius;
+      stroke('#000080');
+      strokeWeight(6);
+      noFill();
+      ellipse(centerX, centerY, r * 2);
+
+      fill('#000');
+      noStroke();
+      let s = 70;
+      triangle(
+        centerX - s / 2.5, centerY - s / 2,
+        centerX - s / 2.5, centerY + s / 2,
+        centerX + s / 2, centerY
+      );
+    }
+
+    function updateBreathingLogic() {
+      if (phases[phase] === 'inhale1') {
+        targetScale = map(timer, 0, durations[phase], 1.0, 1.3);
+      } else if (phases[phase] === 'inhale2') {
+        targetScale = map(timer, 0, durations[phase], 1.3, 1.45);
+      } else if (phases[phase] === 'exhale') {
+        targetScale = map(timer, 0, durations[phase], 1.45, 1.0);
+      }
+
+      currentScale = lerp(currentScale, targetScale, 0.05);
+      timer++;
+
+      if (timer > durations[phase]) {
+        timer = 0;
+        phase = (phase + 1) % phases.length;
+        if (phase === 0) roundCount++;
+        if (roundCount > 4) {
+          pauseBeforeFinal = true;
+        } else {
+          triggerTone(phases[phase]);
+        }
+      }
+    }
+
+    function drawBreathingVisual(isStatic = false, isFinal = false) {
+      let r = baseRadius * currentScale;
+
+      let strokeColor = isFinal ? [34, 139, 34, fadeAlpha] : [0, 0, 128];
+      let fillColor = isFinal ? [34, 139, 34, fadeAlpha * 0.3] : [0, 128, 128, 80];
+      let textColor = isFinal ? [34, 139, 34] : [51, 51, 51];
+
+      stroke(...strokeColor);
+      strokeWeight(6);
+      noFill();
+      ellipse(centerX, centerY, r * 2);
+
+      fill(...fillColor);
+      noStroke();
+      ellipse(centerX, centerY, r * 1.5);
+
+      let pulse = r + sin(frameCount * 2) * 10;
+      stroke(...strokeColor);
+      strokeWeight(2);
+      noFill();
+      ellipse(centerX, centerY, pulse * 2);
+
+      fill(...textColor);
+      noStroke();
+      textSize(40);
+      textAlign(CENTER, CENTER);
+      const labelKey = phases[phase] || 'exhale';  // Guard against undefined
+      let label = isFinal ? "calm mind" : labels[labelKey];
+      text(label, centerX, centerY - r - 30);
+
+      textSize(20);
+      if (!isFinal) {
+        let seconds = ceil((durations[phase] - timer) / 60);
+        text(`round ${min(roundCount, 4)} • ${seconds} sec`, centerX, centerY + r + 30);
+      }
+
+      if (isFinal) {
+        fadeAlpha = map(sin((finalTimer / (fastDuration * 4)) * PI), 0, 1, 0, 255);
+      }
+    }
+
+    function triggerTone(phaseName) {
+      const freq = freqMap[phaseName] || 110;
+      osc.freq(freq);
+      osc.setType('sine');
+      env.play(osc);
+    }
+
+    function mousePressed() {
+      if (getAudioContext().state !== 'running') getAudioContext().resume();
+      if (!started) {
+        started = true;
+        triggerTone(phases[phase]);
+      }
+    }
+
+    function windowResized() {
+      resizeCanvas(windowWidth, windowHeight);
+      baseRadius = min(width, height) * 0.15;
+      centerX = width / 2;
+      centerY = height / 2;
+    }
+
+    function resetAll() {
+      started = false;
       pauseBeforeFinal = false;
-      finalPhase = true;
+      pauseFrames = 0;
+      finalPhase = false;
+      finalTimer = 0;
       timer = 0;
       phase = 0;
+      roundCount = 1;
+      currentScale = 1;
+      targetScale = 1;
+      fadeAlpha = 0;
     }
-    return;
-  }
-
-  if (finalPhase) {
-    drawBreathingVisual(false, true);
-    finalTimer++;
-    if (finalTimer > fastDuration * 4) {
-      resetAll();
-    }
-    return;
-  }
-
-  updateBreathingLogic();
-  drawBreathingVisual();
-}
-
-function drawIdleCircle() {
-  let r = baseRadius;
-
-  stroke('#000080');
-  strokeWeight(6);
-  noFill();
-  ellipse(centerX, centerY, r * 2);
-
-  fill('#000');
-  noStroke();
-  let s = 70;
-  triangle(
-    centerX - s / 2.5, centerY - s / 2,
-    centerX - s / 2.5, centerY + s / 2,
-    centerX + s / 2, centerY
-  );
-}
-
-function updateBreathingLogic() {
-  if (phases[phase] === 'inhale1') {
-    targetScale = map(timer, 0, durations[phase], 1.0, 1.3);
-  } else if (phases[phase] === 'inhale2') {
-    targetScale = map(timer, 0, durations[phase], 1.3, 1.45);
-  } else if (phases[phase] === 'exhale') {
-    targetScale = map(timer, 0, durations[phase], 1.45, 1.0);
-  }
-
-  currentScale = lerp(currentScale, targetScale, 0.05);
-  timer++;
-
-  if (timer > durations[phase]) {
-    timer = 0;
-    phase = (phase + 1) % phases.length;
-    if (phase === 0) roundCount++;
-    if (roundCount > 4) {
-      pauseBeforeFinal = true;
-    } else {
-      triggerTone(phases[phase]);
-    }
-  }
-}
-
-function drawBreathingVisual(isStatic = false, isFinal = false) {
-  let r = baseRadius * currentScale;
-
-  let strokeColor = isFinal ? [34, 139, 34, fadeAlpha] : [0, 0, 128];
-  let fillColor = isFinal ? [34, 139, 34, fadeAlpha * 0.3] : [0, 128, 128, 80];
-  let textColor = isFinal ? [34, 139, 34] : [51, 51, 51];
-
-  stroke(...strokeColor);
-  strokeWeight(6);
-  noFill();
-  ellipse(centerX, centerY, r * 2);
-
-  fill(...fillColor);
-  noStroke();
-  ellipse(centerX, centerY, r * 1.5);
-
-  let pulse = r + sin(frameCount * 2) * 10;
-  stroke(...strokeColor);
-  strokeWeight(2);
-  noFill();
-  ellipse(centerX, centerY, pulse * 2);
-
-  fill(...textColor);
-  noStroke();
-  textSize(40);
-  textAlign(CENTER, CENTER);
-  let label = isFinal ? "calm mind" : labels[phases[phase]];
-  text(label, centerX, centerY - r - 30);
-
-  textSize(20);
-  if (!isFinal) {
-    let seconds = ceil((durations[phase] - timer) / 60);
-    text(`round ${min(roundCount, 4)} • ${seconds} sec`, centerX, centerY + r + 30);
-  }
-
-  if (isFinal) {
-    fadeAlpha = map(sin((finalTimer / (fastDuration * 4)) * PI), 0, 1, 0, 255);
-  }
-}
-
-function triggerTone(phaseName) {
-  const freq = freqMap[phaseName];
-  osc.freq(freq);
-  osc.setType('sine');
-  env.play(osc);
-}
-
-function mousePressed() {
-  if (getAudioContext().state !== 'running') getAudioContext().resume();
-  if (!started) {
-    started = true;
-    triggerTone(phases[phase]);
-  }
-}
-
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-  baseRadius = min(width, height) * 0.15;
-  centerX = width / 2;
-  centerY = height / 2;
-}
-
-function resetAll() {
-  started = false;
-  pauseBeforeFinal = false;
-  pauseFrames = 0;
-  finalPhase = false;
-  finalTimer = 0;
-  timer = 0;
-  phase = 0;
-  roundCount = 1;
-  currentScale = 1;
-  targetScale = 1;
-  fadeAlpha = 0;
-}
+  </script>
+</body>
+</html>
