@@ -145,14 +145,14 @@ html, body {
   }
   
   html, body {
-    cursor: url("green-chat-bubble-cursor.png") 0 31, auto;
+    cursor: url("green-chat-bubble-cursor.png") 16 16, auto;
   }
   
   a, button, [role='button'], input[type='button'], input[type='submit'] {
-    cursor: url("green-chat-bubble-cursor.png") 0 31, pointer;
+    cursor: url("green-chat-bubble-cursor.png") 16 16, pointer;
   }
   
   input[type="text"], input[type="search"], input[type="email"], input[type="url"],
   input[type="tel"], input[type="password"], textarea {
     cursor: text;
-  }  
+  }
