@@ -164,9 +164,9 @@ input[type="tel"], input[type="password"], textarea {
 }
 
 .dot {
-  font-size: 40px;  
+  font-size: 40px;
   line-height: 0;
   vertical-align: middle;
-  margin: 0 10px;    
-  color: black;     
+  margin: 0 10px;
+  color: #888888;
 }
