@@ -164,7 +164,7 @@ input[type="tel"], input[type="password"], textarea {
 }
 
 nav a:not(:first-child)::before {
-  content: "–";       
-  color: #888;         
-  margin: 0 12px;      
+  content: "/";
+  color: #888;          
+  margin: 0 12px;       
 }
