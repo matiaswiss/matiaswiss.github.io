@@ -1,14 +1,12 @@
-html, body, button, input, select, textarea {
+html, body {
   background-color: white;
-  font-family: 'Source Code Pro', monospace !important;
+  font-family: 'Didact Gothic', sans-serif;
   font-size: 16px;
-  font-weight: 300; /* lighter default */
-  color: #444;
+  color: #444; 
   margin: 60px auto;
   max-width: 1200px;
   padding: 0 20px;
-  letter-spacing: normal;
-  cursor: url("green-chat-bubble.png") 0 31, auto !important;
+  letter-spacing: normal; 
 }
 
 .container {
@@ -32,16 +30,12 @@ html, body, button, input, select, textarea {
 
 h1 {
   font-size: 35px;
-  font-weight: 400;
-  opacity: 0.95;
+  font-weight: bold;
+  opacity: 0.9;
   margin-bottom: 0.6em;
-  color: #888; /* light gray heading */
+  color: #888; /* light gray */
   letter-spacing: normal;
-}
-
-h2, h3 {
-  font-weight: 400; /* slightly heavier than body */
-}
+}  
 
 nav {
   margin-bottom: 1.5em;
@@ -51,18 +45,18 @@ nav {
 a {
   color: green;
   text-decoration: underline;
-  text-decoration-color: #888; /* gray underline */
+  text-decoration-color: black;
 }
 
 a:hover {
   color: #006400;
-  text-decoration-color: #888;
+  text-decoration-color: black;
 }
 
 p {
   line-height: 1.8;
   font-size: 16px;
-}
+}  
 
 .small-bio {
   font-size: 16px;
@@ -98,7 +92,7 @@ p {
 .project-text h2 {
   font-size: 16px;
   margin-bottom: 10px;
-  font-weight: 400;
+  font-weight: bold;
   text-decoration: underline;
 }
 
@@ -129,37 +123,11 @@ p {
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-.text-column,
-.small-bio,
-.small-footer p {
-  letter-spacing: -0.25px;
-}
-
-a,
-button,
-[role='button'],
-input[type='button'],
-input[type='submit'] {
-  cursor: url("green-chat-bubble.png") 0 31, pointer !important;
-}
-
-input[type="text"],
-input[type="search"],
-input[type="email"],
-input[type="url"],
-input[type="tel"],
-input[type="password"],
-textarea {
-  cursor: text !important;
-}
-
 @media (max-width: 768px) {
   .container {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 40px;
-    margin: 60px auto;
   }
 
   .photo-column img {
@@ -170,4 +138,21 @@ textarea {
   .text-column {
     max-width: 100%;
   }
+}
+
+.text-column, .small-bio, .small-footer p {
+  letter-spacing: -0.25px;
+}
+
+html, body {
+  cursor: url("green-chat-bubble.png") 16 16, auto !important;
+}
+
+a, button, [role='button'], input[type='button'], input[type='submit'] {
+  cursor: url("green-chat-bubble.png") 16 16, pointer !important;
+}
+
+input[type="text"], input[type="search"], input[type="email"], input[type="url"],
+input[type="tel"], input[type="password"], textarea {
+  cursor: text !important;
 }
