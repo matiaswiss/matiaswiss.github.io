@@ -162,3 +162,11 @@ input[type="tel"], input[type="password"], textarea {
 .single-line {
   white-space: nowrap;
 }
+
+.dot {
+  font-size: 28px;   /* adjust size */
+  line-height: 0;    /* keeps it vertically centered */
+  vertical-align: middle;
+  margin: 0 6px;     /* spacing around the dot */
+  color: black;      /* or green/gray if you want */
+}
