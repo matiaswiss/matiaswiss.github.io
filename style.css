@@ -168,3 +168,22 @@ nav a:not(:first-child)::before {
   color: #888;          
   margin: 0 12px;       
 }
+
+nav a {
+  position: relative;
+  display: inline-block;
+}
+
+nav a + a {
+  padding-left: 14px;
+}
+
+nav a + a::before {
+  content: "/";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-55%);
+  color: #888;
+  text-decoration: none;
+}
