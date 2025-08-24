@@ -1,11 +1,8 @@
-<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300;400&display=swap" rel="stylesheet">
-
-<style>
-html, body {
+html, body, button, input, select, textarea {
   background-color: white;
-  font-family: 'Source Code Pro', monospace;
+  font-family: 'Source Code Pro', monospace !important;
   font-size: 16px;
-  font-weight: 300;
+  font-weight: 300; /* lighter default */
   color: #444;
   margin: 60px auto;
   max-width: 1200px;
@@ -38,8 +35,12 @@ h1 {
   font-weight: 400;
   opacity: 0.95;
   margin-bottom: 0.6em;
-  color: #888; /* light gray */
+  color: #888; /* light gray heading */
   letter-spacing: normal;
+}
+
+h2, h3 {
+  font-weight: 400; /* slightly heavier than body */
 }
 
 nav {
@@ -50,7 +51,7 @@ nav {
 a {
   color: green;
   text-decoration: underline;
-  text-decoration-color: #888; /* light gray underline */
+  text-decoration-color: #888; /* gray underline */
 }
 
 a:hover {
@@ -170,4 +171,3 @@ textarea {
     max-width: 100%;
   }
 }
-</style>
