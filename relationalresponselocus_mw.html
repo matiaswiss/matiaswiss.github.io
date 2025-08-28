@@ -7,187 +7,116 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
   <style>
-    :root{
-      --panel: #141922;      
-      --muted: #8b93a6;       
-      --text: #ffffff;        
-      --accent: #228B22; 
-      --accent-2: #1e7a1e; 
-      --accent-3: #176317; 
-      --shadow: 0 10px 30px rgba(0,0,0,.3);
-      --radius: 16px;
-      --stage: #6bd38a;        
-    }
-    *{ box-sizing: border-box; }
-    html, body{ height:100%; }
-    body{
-      margin:0; font: 16px/1.4 'Source Code Pro', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-      color: var(--text); background: #0f1115;
-      letter-spacing:.2px;
-    }
-    
-    [hidden]{ display:none !important; }
-
+    :root{--panel:#141922;--muted:#8b93a6;--text:#ffffff;--accent:#228B22;--accent-2:#1e7a1e;--accent-3:#176317;--shadow:0 10px 30px rgba(0,0,0,.3);--radius:16px;--stage:#6bd38a}
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font:16px/1.4 'Source Code Pro',ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,'Liberation Mono','Courier New',monospace;color:var(--text);background:#0f1115;letter-spacing:.2px}
+    [hidden]{display:none!important}
     body:not([data-stage='results']):not([data-stage='reflect']) #legend,
     body:not([data-stage='results']):not([data-stage='reflect']) #gridWrap,
     body:not([data-stage='results']) #result,
-    body:not([data-stage='results']):not([data-stage='reflect']) #footerHint{ display:none !important; }
-
-    .wrap{ max-width: 980px; margin: 0 auto; padding: 24px; }
-    header{ display:flex; align-items:center; gap:16px; margin-bottom:12px; }
-    .logo{ width:44px; height:44px; display:grid; place-items:center; background: transparent; box-shadow: none; border: none; border-radius: 0; }
-    .title{ font-weight:700; font-size: 20px; }
-    .sub{ color: var(--muted); font-size: 13px; }
-
-    .card{ background: var(--panel); border: 1px solid rgba(255,255,255,.06); border-radius: var(--radius); box-shadow: var(--shadow); overflow:hidden; }
-
-    .controls{ position: sticky; top:0; z-index:10; padding:10px 16px; display:flex; gap:10px; align-items:center; border-bottom:1px solid rgba(255,255,255,.06); flex-wrap: wrap; background: rgba(20,25,34,.8); backdrop-filter: blur(6px); }
-    .btn{ padding: 10px 14px; border-radius: 6px; border:1px solid var(--accent-2); background: var(--accent); color:#ffffff; cursor:pointer; box-shadow:none; transition: none; }
-    .btn:hover{ background: var(--accent-2); color:#ffffff; }
-    .btn:active{ background: var(--accent-3); color:#ffffff; }
-    .btn:hover{ background: var(--accent-2); color:#ffffff; }
-    .btn:active{ background: var(--accent-3); color:#ffffff; filter: brightness(.98); }
-    
-
-    .current{ display:flex; align-items:center; gap:8px; max-width: 100%; padding:6px 10px; border-radius: 10px; background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.15); }
-    .current strong{ opacity:.9; }
-    .current span{ display:inline-block; max-width: 48ch; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-    
-    .stepper{ display:flex; align-items:center; gap:8px; margin-left:auto; }
-    .chip{ padding:6px 10px; border-radius:6px; border:1px solid #2a2f38; font-size:12px; opacity:1; background:transparent; color:#cfd3dc; }
-    .chip.active{ opacity:1; color: var(--stageText); background: transparent !important; border-color: transparent !important; font-weight:700; }
-
-    #chip-1.active, #chip-3.active, #chip-5.active{ background: transparent !important; border-color: transparent !important; }
-    #chip-2.active, #chip-4.active{ background: transparent !important; border-color: transparent !important; }
-
-    .main{ display:block; min-height: 70vh; }
-
-    .section{ padding:28px 16px; border-bottom:1px solid rgba(255,255,255,.06); }
-    .section h3{ margin:0 0 8px 0; font-size:14px; color:#cfd6e4; }
-
-    .panel{ min-height: 58vh; display:flex; flex-direction:column; justify-content:center; gap:14px; background: #0f141b; border-left: 5px solid var(--stageText); box-shadow: inset 0 0 0 1px rgba(255,255,255,.05); border-radius: 16px; }
-    .panel .inner{ padding: 16px; }
-
-    .choices{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
-    .choice{ background:#0b1117; border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:12px; cursor:pointer; transition: transform .08s ease, border-color .2s ease, background .2s ease; text-align:left; color: var(--text); }
-    .choice:hover{ border-color: var(--accent-2); background:#0e1620; }
-    .choice small{ display:block; color: var(--muted); margin-top:6px; }
-
-    .qa{ display:flex; gap:12px; padding: 6px 0; }
-    .qa .btn{ flex: 0 0 auto; }
-
-    .result{ padding:10px 12px; display:flex; flex-direction: column; align-items:flex-start; gap:6px; border-bottom:1px solid rgba(255,255,255,.06); font-size:14px; }
-    .result .pill{ padding:4px 8px; border-radius:999px; background:#0b0f15; border:1px solid rgba(255,255,255,.15); box-shadow: inset 0 0 0 1px rgba(255,255,255,.05); color: var(--text); white-space: nowrap; font-size:12px; }
-    .result .why{ color: var(--muted); font-size:12px; white-space: normal; overflow: visible; text-overflow: clip; margin: 2px 0 0 0; text-align: left; }
-
-    .legend{ display:flex; justify-content:space-between; padding:10px 14px; font-size:12px; color:var(--muted); border-bottom:1px solid rgba(255,255,255,.06); }
-    .legend strong{ color:#cfd6e4; }
-
-    .grid{ /* chill theme */ padding:14px; display:grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; gap:12px; overflow:auto; }
-    .cell{ background:#0f141b; border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:12px; display:flex; flex-direction:column; gap:8px; transition: box-shadow .2s ease, border-color .2s ease, transform .08s ease; cursor: default; }
-    .cell h4{ margin:0; font-size:13px; color:#ffffff;  letter-spacing:.2px; text-transform: none; }
-    .cell .quote{ margin:0; color:#ffffff;  font-size:13px; background:#0b0f15; border:1px solid rgba(255,255,255,.08); border-radius:10px; padding:8px 10px; }
-    .cell.active{ border-color: rgba(107,211,138,.9); box-shadow: 0 0 0 2px rgba(107,211,138,.25); }
-    .cell.pending .quote{ opacity: 0; }
-    .cell.kept{ transform: translateY(-1px); border-color: var(--accent); box-shadow: 0 0 0 3px rgba(107,211,138,.35), 0 12px 30px rgba(0,0,0,.35); }
-
-    .explain{ padding: 10px 14px; color: #cfe8d8; font-size: 13px; display:none; }
-
-    .hint{ margin-top:10px; font-size:12px; color: var(--muted); }
-    .badge{ font-size:11px; color:#042b17; background:var(--accent); padding:4px 8px; border-radius:999px; font-weight:700; }
-
-    @media (max-width: 720px){
-      .choices{ grid-template-columns: 1fr; }
-      .current span{ max-width: 32ch; }
-    }
-
-    body[data-stage='situations']{ --stage:#0b3a61; --stageText:#58b7ff; }
-    body[data-stage='q1']{ --stage:#4b2e83; --stageText:#c99cff; }
-    body[data-stage='q2']{ --stage:#166f49; --stageText:#38e2a0; }
-    body[data-stage='results']{ --stage:#8a4b0f; --stageText:#ffb36b; }
-    body[data-stage='reflect']{ --stage:#0e7490; --stageText:#6fd6ff; }
-
-    .qname{ color: var(--accent) !important; font-weight: 700; }
-    .qmeta{ opacity: .9; }
-
-    .reflect-head{ font-weight:700; margin-bottom:6px; }
-    .reflect-quote{ margin:6px 0 12px 0; padding:10px 12px; background:#0b0f15; border:1px solid rgba(255,255,255,.1); border-radius:10px; }
-    .reflect-grid-title{ margin:14px 0 6px 0; font-size:13px; color:#cfd6e4; }
-    .reflect-options{ display:grid; grid-template-columns: 1fr; gap:8px; }
-    .reflect-opt{ border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:10px 12px; background:#0b1117; cursor:pointer; transition: transform .06s ease, border-color .2s ease, background .2s ease; }
-    .reflect-opt:hover{ border-color: var(--accent-2); background:#0e1620; }
-    .reflect-opt.kept{ border-color: var(--accent); box-shadow: 0 0 0 3px rgba(107,211,138,.3); background: linear-gradient(180deg, rgba(107,211,138,.07), transparent); }
-
-    .pc{ margin-top:10px; padding:12px; background:#0b1016; border:1px solid rgba(255,255,255,.12); border-radius:12px; }
-    .pc h4{ margin:0 0 8px 0; font-size:14px; color:#e5f2eb; text-transform:none; letter-spacing:.2px; }
-    .pc h5{ margin:10px 0 6px 0; font-size:12px; color:#cfe8d8; text-transform:uppercase; letter-spacing:.6px; }
-    .pc ul{ margin:0; padding-left:18px; }
-  
-    
-    * { font-family: 'Source Code Pro', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace !important; }
-   
-  #gridWrap .cell .qname{ color:#ffffff !important; }
-  #gridWrap .cell .qmeta{ color:#ffffff; opacity:1; }
-  
-    #shuffleSituations, #reset{
-      background: #2e2e2e !important;
-      border: 1px solid #000 !important;
-      border-top-color:#777 !important; border-left-color:#777 !important;
-      border-right-color:#333 !important; border-bottom-color:#333 !important;
-      border-radius: 3px !important;
-      color:#ffffff !important;
-      text-shadow: 0 1px 0 rgba(0,0,0,.6);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.15), inset 0 -1px 0 rgba(0,0,0,.4);
-    }
-    #shuffleSituations:hover, #reset:hover{ background:#292929 !important; }
-    #shuffleSituations:active, #reset:active{ background:#1f1f1f !important; box-shadow: inset 0 2px 4px rgba(0,0,0,.6); }
-    
-  .chip.active{ opacity:1; color: var(--stage); background: transparent !important; border-color: transparent !important; }
-  #chip-1.active, #chip-2.active, #chip-3.active, #chip-4.active, #chip-5.active{ background: transparent !important; border-color: transparent !important; color: var(--stageText); }
-  
-  #currentProblem{ font-size:13px; line-height:1.3; }
-  #currentProblem .current{ font-size:13px; }
-  .current span{ max-width: none !important; white-space: normal !important; overflow: visible !important; text-overflow: clip !important; }
-
-    .result > div:first-child{ display:flex; align-items:center; gap:8px; white-space: nowrap; }
-    .result .why{ color: var(--muted); font-size:12px; white-space: normal; overflow: visible; text-overflow: clip; margin: 2px 0 0 0; text-align: left; }
-  
-    #footerHint{ display:none !important; }
-    
-    .stepper{ display:flex; align-items:center; gap:0; flex-wrap:nowrap; }
-    .chip{ padding:0; border:0; border-radius:0; background:transparent; color: var(--muted); font-size:13px; }
-    .chip.active{ color: var(--stage); background:transparent; border-color:transparent; }
-    .stepper .chip + .chip::before{ content:" / "; color: var(--muted); margin: 0 6px; }
-    
-    
+    body:not([data-stage='results']):not([data-stage='reflect']) #footerHint{display:none!important}
+    .wrap{max-width:980px;margin:0 auto;padding:24px}
+    header{display:flex;align-items:center;gap:16px;margin-bottom:12px}
+    .logo{width:44px;height:44px;display:grid;place-items:center;background:transparent;box-shadow:none;border:none;border-radius:0}
+    .title{font-weight:700;font-size:20px}
+    .sub{color:var(--muted);font-size:13px}
+    .card{background:var(--panel);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .controls{position:sticky;top:0;z-index:10;padding:10px 16px;display:flex;gap:10px;align-items:center;border-bottom:1px solid rgba(255,255,255,.06);flex-wrap:wrap;background:rgba(20,25,34,.8);backdrop-filter:blur(6px)}
+    .btn{padding:10px 14px;border-radius:6px;border:1px solid var(--accent-2);background:var(--accent);color:#fff;cursor:pointer;box-shadow:none;transition:none}
+    .btn:hover{background:var(--accent-2);color:#fff}
+    .btn:active{background:var(--accent-3);color:#fff;filter:brightness(.98)}
+    .current{display:flex;align-items:center;gap:8px;max-width:100%;padding:6px 10px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15)}
+    .current strong{opacity:.9}
+    .current span{display:inline-block;max-width:48ch;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .stepper{display:flex;align-items:center;gap:8px;margin-left:auto}
+    .chip{padding:6px 10px;border-radius:6px;border:1px solid #2a2f38;font-size:12px;background:transparent;color:#cfd3dc}
+    .chip.active{color:var(--stageText);background:transparent!important;border-color:transparent!important;font-weight:700}
+    .main{display:block;min-height:70vh}
+    .section{padding:28px 16px;border-bottom:1px solid rgba(255,255,255,.06)}
+    .section h3{margin:0 0 8px 0;font-size:14px;color:#cfd6e4}
+    .panel{min-height:58vh;display:flex;flex-direction:column;justify-content:center;gap:14px;background:#0f141b;border-left:5px solid var(--stageText);box-shadow:inset 0 0 0 1px rgba(255,255,255,.05);border-radius:16px}
+    .panel .inner{padding:16px}
+    .choices{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .choice{background:#0b1117;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;cursor:pointer;transition:transform .08s ease,border-color .2s ease,background .2s ease;text-align:left;color:var(--text)}
+    .choice:hover{border-color:var(--accent-2);background:#0e1620}
+    .choice small{display:block;color:var(--muted);margin-top:6px}
+    .qa{display:flex;gap:12px;padding:6px 0}
+    .qa .btn{flex:0 0 auto}
+    .result{padding:10px 12px;display:flex;flex-direction:column;align-items:flex-start;gap:6px;border-bottom:1px solid rgba(255,255,255,.06);font-size:14px}
+    .result .pill{padding:4px 8px;border-radius:999px;background:#0b0f15;border:1px solid rgba(255,255,255,.15);box-shadow:inset 0 0 0 1px rgba(255,255,255,.05);color:var(--text);white-space:nowrap;font-size:12px}
+    .result .why{color:var(--muted);font-size:12px;white-space:normal;overflow:visible;text-overflow:clip;margin:2px 0 0 0;text-align:left}
+    .legend{display:flex;justify-content:space-between;padding:10px 14px;font-size:12px;color:var(--muted);border-bottom:1px solid rgba(255,255,255,.06)}
+    .legend strong{color:#cfd6e4}
+    .grid{padding:14px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:12px;overflow:auto}
+    .cell{background:#0f141b;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px;transition:box-shadow .2s ease,border-color .2s ease,transform .08s ease;cursor:default}
+    .cell h4{margin:0;font-size:13px;color:#fff;letter-spacing:.2px;text-transform:none}
+    .cell .quote{margin:0;color:#fff;font-size:13px;background:#0b0f15;border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:8px 10px}
+    .cell.active{border-color:rgba(107,211,138,.9);box-shadow:0 0 0 2px rgba(107,211,138,.25)}
+    .cell.pending .quote{opacity:0}
+    .cell.kept{transform:translateY(-1px);border-color:var(--accent);box-shadow:0 0 0 3px rgba(107,211,138,.35),0 12px 30px rgba(0,0,0,.35)}
+    .explain{padding:10px 14px;color:#cfe8d8;font-size:13px;display:none}
+    .hint{margin-top:10px;font-size:12px;color:var(--muted)}
+    .badge{font-size:11px;color:#042b17;background:var(--accent);padding:4px 8px;border-radius:999px;font-weight:700}
+    @media (max-width:720px){.choices{grid-template-columns:1fr}.current span{max-width:32ch}}
+    body[data-stage='situations']{--stage:#0b3a61;--stageText:#58b7ff}
+    body[data-stage='q1']{--stage:#4b2e83;--stageText:#c99cff}
+    body[data-stage='q2']{--stage:#166f49;--stageText:#38e2a0}
+    body[data-stage='results']{--stage:#8a4b0f;--stageText:#ffb36b}
+    body[data-stage='reflect']{--stage:#0e7490;--stageText:#6fd6ff}
+    .qname{color:var(--accent)!important;font-weight:700}
+    .qmeta{opacity:.9}
+    .reflect-head{font-weight:700;margin-bottom:6px}
+    .reflect-quote{margin:6px 0 12px 0;padding:10px 12px;background:#0b0f15;border:1px solid rgba(255,255,255,.1);border-radius:10px}
+    .reflect-grid-title{margin:14px 0 6px 0;font-size:13px;color:#cfd6e4}
+    .reflect-options{display:grid;grid-template-columns:1fr;gap:8px}
+    .reflect-opt{border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px 12px;background:#0b1117;cursor:pointer;transition:transform .06s ease,border-color .2s ease,background .2s ease}
+    .reflect-opt:hover{border-color:var(--accent-2);background:#0e1620}
+    .reflect-opt.kept{border-color:var(--accent);box-shadow:0 0 0 3px rgba(107,211,138,.3);background:linear-gradient(180deg,rgba(107,211,138,.07),transparent)}
+    .pc{margin-top:10px;padding:12px;background:#0b1016;border:1px solid rgba(255,255,255,.12);border-radius:12px}
+    .pc h4{margin:0 0 8px 0;font-size:14px;color:#e5f2eb;text-transform:none;letter-spacing:.2px}
+    .pc h5{margin:10px 0 6px 0;font-size:12px;color:#cfe8d8;text-transform:uppercase;letter-spacing:.6px}
+    .pc ul{margin:0;padding-left:18px}
+    *{font-family:'Source Code Pro',ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,'Liberation Mono','Courier New',monospace!important}
+    #gridWrap .cell .qname{color:#fff!important}
+    #gridWrap .cell .qmeta{color:#fff;opacity:1}
+    #shuffleSituations,#reset{background:#2e2e2e!important;border:1px solid #000!important;border-top-color:#777!important;border-left-color:#777!important;border-right-color:#333!important;border-bottom-color:#333!important;border-radius:3px!important;color:#fff!important;text-shadow:0 1px 0 rgba(0,0,0,.6);box-shadow:inset 0 1px 0 rgba(255,255,255,.15),inset 0 -1px 0 rgba(0,0,0,.4)}
+    #shuffleSituations:hover,#reset:hover{background:#292929!important}
+    #shuffleSituations:active,#reset:active{background:#1f1f1f!important;box-shadow:inset 0 2px 4px rgba(0,0,0,.6)}
+    .chip.active{color:var(--stage);background:transparent!important;border-color:transparent!important}
+    #chip-1.active,#chip-2.active,#chip-3.active,#chip-4.active,#chip-5.active{background:transparent!important;border-color:transparent!important;color:var(--stageText)}
+    #currentProblem{font-size:13px;line-height:1.3}
+    #currentProblem .current{font-size:13px}
+    .current span{max-width:none!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important}
+    .result>div:first-child{display:flex;align-items:center;gap:8px;white-space:nowrap}
+    .stepper{display:flex;align-items:center;gap:0;flex-wrap:nowrap}
+    .chip{padding:0;border:0;border-radius:0;background:transparent;color:var(--muted);font-size:13px}
+    .chip.active{color:var(--stage);background:transparent;border-color:transparent}
+    .stepper .chip+.chip::before{content:" / ";color:var(--muted);margin:0 6px}
   </style>
 </head>
 <body data-stage="situations">
   <div class="wrap">
     <header>
       <div class="logo" aria-label="Conversation bubble" role="img">
-       
         <svg width="26" height="26" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path fill="#ffffff" d="M20 2H4a2 2 0 0 0-2 2v11.5A2.5 2.5 0 0 0 4.5 18H7v3.5a.5.5 0 0 0 .8.4L12.5 18H20a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2Zm0 13H12a1 1 0 0 0-.6.2L9 17.2V15a1 1 0 0 0-1-1H4V4h16v11Z"/>
         </svg>
       </div>
       <div>
         <div class="title">Relational Response Locus</div>
-        <div class="sub">A relationship reflection exercise. Pick a first‑person problem. Answer two questions (Control & Responsibility). On the next page, we’ll map your instinct on a <span class="badge">2×2</span> and then show other ways to reframe it.</div>
+        <div class="sub">A relationship reflection exercise. Pick a first-person problem. Answer two questions (Control & Responsibility). On the next page, we’ll map your instinct on a <span class="badge">2×2</span> and then show other ways to reframe it.</div>
       </div>
-    </header><div class="card">
+    </header>
+    <div class="card">
       <div class="controls">
         <button class="btn" id="back" hidden>← Back</button>
         <button class="btn" id="shuffleSituations">Shuffle situations</button>
         <button class="btn" id="reset">Reset</button>
-
         <div class="current" id="currentProblem" hidden>
           <strong>Problem:</strong> <span id="currentProblemText"></span>
         </div>
-
         <div class="stepper">
           <span class="chip" id="chip-1">1. Problem</span>
           <span class="chip" id="chip-2">2. Control</span>
@@ -196,16 +125,13 @@
           <span class="chip" id="chip-5">5. Reflect & Choose</span>
         </div>
       </div>
-
       <div class="main">
-   
         <div class="section" id="situationsSection">
           <div class="panel"><div class="inner">
             <h3>1) Pick a situation that has been on your mind.</h3>
             <div class="choices" id="situations"></div>
           </div></div>
         </div>
-
         <div class="section" id="q1Section" hidden>
           <div class="panel"><div class="inner">
             <h3>2) Reflection — Locus of Control</h3>
@@ -216,7 +142,6 @@
             </div>
           </div></div>
         </div>
-
         <div class="section" id="q2Section" hidden>
           <div class="panel"><div class="inner">
             <h3>3) Reflection — Responsibility</h3>
@@ -227,17 +152,14 @@
             </div>
           </div></div>
         </div>
-
         <div class="result" id="result" hidden>
           <div><strong>Placement:</strong> <span class="pill" id="quadPill"></span></div>
           <div class="why" id="why"></div>
         </div>
-
         <div class="legend" id="legend" hidden>
           <div><strong>Columns:</strong> Internal locus → External locus</div>
           <div><strong>Rows:</strong> Low responsibility → High responsibility</div>
         </div>
-
         <div class="grid" id="gridWrap" hidden>
           <div class="cell" id="cell-IL">
             <h4><span class="qname">Step Back</span> <span class="qmeta">(internal + low responsibility)</span></h4>
@@ -256,32 +178,25 @@
             <div class="quote" id="text-EH"></div>
           </div>
         </div>
-
         <div class="explain" id="explain">Here’s how this problem can be reframed in other ways too — notice how each perspective feels different.</div>
         <div class="section" id="revealSection" hidden>
           <button class="btn" id="revealBtn">Reveal other perspectives</button>
         </div>
-
         <div class="section" id="nextReflectSection" hidden>
           <button class="btn" id="nextReflect">Next: Reflect & Choose</button>
         </div>
-
         <div class="section" id="reflectSection" hidden>
           <div class="panel"><div class="inner">
             <h3>5) Reflect & Choose</h3>
-
             <div id="reflectPrimary"></div>
-
             <div class="reflect-grid-title">All perspectives (tap to explore)</div>
             <div id="reflectOthers" class="reflect-options"></div>
-
             <div class="reflect-grid-title" style="margin-top:14px">Quick reflection</div>
-            <ul class="reflect-options" style="list-style: disc; padding-left: 18px; background: transparent; border: 0;">
+            <ul class="reflect-options" style="list-style:disc;padding-left:18px;background:transparent;border:0">
               <li>Which of these perspectives feels most helpful right now?</li>
               <li>Which one lightens the weight you’re carrying?</li>
               <li>Which one would improve your relationship if you tried it?</li>
             </ul>
-
             <div id="metaInsight" class="pc"></div>
             <div class="qa" style="margin-top:8px">
               <button class="btn" id="restartProblem">Try another problem</button>
@@ -290,316 +205,252 @@
         </div>
       </div>
     </div>
-
     <div class="hint" id="footerHint">Each stage now takes the full panel with a color accent. Use Back to revisit earlier answers.</div>
   </div>
 
   <script>
-    
     const problems = [
-      {
-        id: 'reach',
-        text: "I feel like I’m always the one reaching out first.",
-        q1: "Do you feel you could realistically change this dynamic yourself?",
-        q2: "Do you feel it’s your responsibility to fix this, or more shared?",
-        reframes: {
-          IH: "I can bring this up directly and ask for more balance in initiating contact.",
-          IL: "My effort doesn’t mean I’m doing something wrong—it shows I care.",
-          EH: "Their busy schedule may hold them back, but I can help by suggesting simpler ways to connect.",
-          EL: "Their lack of initiative reflects their style, not my worth."
+      { id:'reach',
+        text:"I feel like I’m always the one reaching out first.",
+        q1:"Do you feel you could realistically change this dynamic yourself?",
+        q2:"Do you feel it’s your responsibility to fix this, or more shared?",
+        reframes:{
+          IH:"I can bring this up directly and ask for more balance in initiating contact.",
+          IL:"My effort doesn’t mean I’m doing something wrong—it shows I care.",
+          EH:"Their busy schedule may hold them back, but I can help by suggesting simpler ways to connect.",
+          EL:"Their lack of initiative reflects their style, not my worth."
         }
       },
-      {
-        id: 'unheard',
-        text: "I love them, but I don’t feel heard when I speak.",
-        q1: "Do you think you could change how you bring things up (clarity, calmer moments)?",
-        q2: "Do you feel it’s your responsibility to fix this, or more shared?",
-        reframes: {
-          IH: "I can practice expressing myself more clearly or at calmer moments.",
-          IL: "It’s not my fault if they sometimes struggle to listen.",
-          EH: "Their stress or distractions may block them, but I can invite us to talk when they’re more open.",
-          EL: "Their poor listening isn’t something I alone can fix—it doesn’t mean I’m unloved."
+      { id:'unheard',
+        text:"I love them, but I don’t feel heard when I speak.",
+        q1:"Do you think you could change how you bring things up (clarity, calmer moments)?",
+        q2:"Do you feel it’s your responsibility to fix this, or more shared?",
+        reframes:{
+          IH:"I can practice expressing myself more clearly or at calmer moments.",
+          IL:"It’s not my fault if they sometimes struggle to listen.",
+          EH:"Their stress or distractions may block them, but I can invite us to talk when they’re more open.",
+          EL:"Their poor listening isn’t something I alone can fix—it doesn’t mean I’m unloved."
         }
       },
-      {
-        id: 'growth',
-        text: "I can’t tell if we’re growing together or apart.",
-        q1: "Could you personally do something to influence growth (suggest activities, check‑ins)?",
-        q2: "Is it mainly your job to fix this, or more shared?",
-        reframes: {
-          IH: "I can suggest new activities to nurture growth together.",
-          IL: "I don’t have to blame myself if the pace of our growth feels different.",
-          EH: "Outside pressures may be pushing us in different directions, but I can help us reconnect.",
-          EL: "Relationships naturally shift—I can’t fully control that."
+      { id:'growth',
+        text:"I can’t tell if we’re growing together or apart.",
+        q1:"Could you personally do something to influence growth (suggest activities, check-ins)?",
+        q2:"Is it mainly your job to fix this, or more shared?",
+        reframes:{
+          IH:"I can suggest new activities to nurture growth together.",
+          IL:"I don’t have to blame myself if the pace of our growth feels different.",
+          EH:"Outside pressures may be pushing us in different directions, but I can help us reconnect.",
+          EL:"Relationships naturally shift—I can’t fully control that."
         }
       },
-      {
-        id: 'hide',
-        text: "I hide my true feelings because I don’t want to start a fight.",
-        q1: "Do you think you could change how you bring up your feelings?",
-        q2: "Do you think it’s mainly your job to make this easier, or should it be shared?",
-        reframes: {
-          IH: "I can share feelings calmly and set the tone for a healthier talk.",
-          IL: "It’s understandable I avoid conflict—many people do.",
-          EH: "Their reactions may be intense, but I can still invite safer spaces to talk.",
-          EL: "Their defensiveness is theirs—I can’t change that alone."
+      { id:'hide',
+        text:"I hide my true feelings because I don’t want to start a fight.",
+        q1:"Do you think you could change how you bring up your feelings?",
+        q2:"Do you think it’s mainly your job to make this easier, or should it be shared?",
+        reframes:{
+          IH:"I can share feelings calmly and set the tone for a healthier talk.",
+          IL:"It’s understandable I avoid conflict—many people do.",
+          EH:"Their reactions may be intense, but I can still invite safer spaces to talk.",
+          EL:"Their defensiveness is theirs—I can’t change that alone."
         }
       },
-      {
-        id: 'roommate',
-        text: "I feel more like a roommate than a partner these days.",
-        q1: "Could you change your approach to closeness (small gestures, plans)?",
-        q2: "Is it mainly your job to fix this, or shared?",
-        reframes: {
-          IH: "I can plan small gestures or date nights to bring back closeness.",
-          IL: "It’s okay if I’m not always the spark—this lull doesn’t mean I’ve failed.",
-          EH: "Stress or routines may be draining us, but I can help us create intentional time.",
-          EL: "This phase may simply be a natural rhythm, not something I caused."
+      { id:'roommate',
+        text:"I feel more like a roommate than a partner these days.",
+        q1:"Could you change your approach to closeness (small gestures, plans)?",
+        q2:"Is it mainly your job to fix this, or shared?",
+        reframes:{
+          IH:"I can plan small gestures or date nights to bring back closeness.",
+          IL:"It’s okay if I’m not always the spark—this lull doesn’t mean I’ve failed.",
+          EH:"Stress or routines may be draining us, but I can help us create intentional time.",
+          EL:"This phase may simply be a natural rhythm, not something I caused."
         }
       },
-      {
-        id: 'jealous',
-        text: "I get jealous even though I trust them.",
-        q1: "Could you change how you express/manage the jealousy?",
-        q2: "Is handling this mainly on you, or shared?",
-        reframes: {
-          IH: "I can work on expressing my jealousy in healthier ways.",
-          IL: "Feeling jealous doesn’t mean I’m broken—it’s human.",
-          EH: "Situations may trigger jealousy, but I can help by communicating openly.",
-          EL: "Their actions or others’ behaviors fuel this too—it’s not just on me."
+      { id:'jealous',
+        text:"I get jealous even though I trust them.",
+        q1:"Could you change how you express/manage the jealousy?",
+        q2:"Is handling this mainly on you, or shared?",
+        reframes:{
+          IH:"I can work on expressing my jealousy in healthier ways.",
+          IL:"Feeling jealous doesn’t mean I’m broken—it’s human.",
+          EH:"Situations may trigger jealousy, but I can help by communicating openly.",
+          EL:"Their actions or others’ behaviors fuel this too—it’s not just on me."
         }
       },
-      {
-        id: 'imbalance',
-        text: "I feel like I give more than I get.",
-        q1: "Could you ask for more reciprocity or rebalance tasks?",
-        q2: "Is fixing this mainly your job, or shared?",
-        reframes: {
-          IH: "I can talk openly about needing more reciprocity.",
-          IL: "Giving generously is part of me—it doesn’t mean I’m being taken advantage of.",
-          EH: "Life stressors may limit what they give back, but I can suggest ways to share the load.",
-          EL: "Sometimes imbalance happens naturally—it’s not all on me to fix."
+      { id:'imbalance',
+        text:"I feel like I give more than I get.",
+        q1:"Could you ask for more reciprocity or rebalance tasks?",
+        q2:"Is fixing this mainly your job, or shared?",
+        reframes:{
+          IH:"I can talk openly about needing more reciprocity.",
+          IL:"Giving generously is part of me—it doesn’t mean I’m being taken advantage of.",
+          EH:"Life stressors may limit what they give back, but I can suggest ways to share the load.",
+          EL:"Sometimes imbalance happens naturally—it’s not all on me to fix."
         }
       },
-      {
-        id: 'scared',
-        text: "I’m scared to bring up what’s really bothering me.",
-        q1: "Could you change how/when you bring it up (prep, kindness, practice)?",
-        q2: "Is making it easier mainly your job, or shared?",
-        reframes: {
-          IH: "I can prepare how to say it kindly and practice being vulnerable.",
-          IL: "Fear doesn’t mean weakness—it’s natural in close relationships.",
-          EH: "Their past reactions may have scared me, but I can suggest ground rules for safety.",
-          EL: "Their reactions are theirs—I can’t be solely responsible for how they respond."
+      { id:'scared',
+        text:"I’m scared to bring up what’s really bothering me.",
+        q1:"Could you change how/when you bring it up (prep, kindness, practice)?",
+        q2:"Is making it easier mainly your job, or shared?",
+        reframes:{
+          IH:"I can prepare how to say it kindly and practice being vulnerable.",
+          IL:"Fear doesn’t mean weakness—it’s natural in close relationships.",
+          EH:"Their past reactions may have scared me, but I can suggest ground rules for safety.",
+          EL:"Their reactions are theirs—I can’t be solely responsible for how they respond."
         }
       },
-      {
-        id: 'notenough',
-        text: "I can’t shake the feeling that I’m not enough for them.",
-        q1: "Could you influence this by how you speak to yourself or them?",
-        q2: "Is changing this mainly on you, or shared?",
-        reframes: {
-          IH: "I can build confidence and remind myself of my strengths.",
-          IL: "These doubts don’t mean I’m unworthy—they’re just feelings.",
-          EH: "Social comparisons or their comments may feed this, but I can speak up about how it impacts me.",
-          EL: "Their expectations are about them, not a true measure of me."
+      { id:'notenough',
+        text:"I can’t shake the feeling that I’m not enough for them.",
+        q1:"Could you influence this by how you speak to yourself or them?",
+        q2:"Is changing this mainly on you, or shared?",
+        reframes:{
+          IH:"I can build confidence and remind myself of my strengths.",
+          IL:"These doubts don’t mean I’m unworthy—they’re just feelings.",
+          EH:"Social comparisons or their comments may feed this, but I can speak up about how it impacts me.",
+          EL:"Their expectations are about them, not a true measure of me."
         }
       },
-      {
-        id: 'repeat',
-        text: "We argue about the same things over and over.",
-        q1: "Could you change your approach or propose a new way to resolve it?",
-        q2: "Is breaking the cycle mainly your job, or shared?",
-        reframes: {
-          IH: "I can change how I approach the argument and try breaking the cycle.",
-          IL: "Repeating arguments isn’t just my fault—it takes two.",
-          EH: "Stress, money, or family pressures may fuel this, but I can suggest new strategies.",
-          EL: "Some recurring arguments reflect bigger dynamics—it’s not all mine to solve."
+      { id:'repeat',
+        text:"We argue about the same things over and over.",
+        q1:"Could you change your approach or propose a new way to resolve it?",
+        q2:"Is breaking the cycle mainly your job, or shared?",
+        reframes:{
+          IH:"I can change how I approach the argument and try breaking the cycle.",
+          IL:"Repeating arguments isn’t just my fault—it takes two.",
+          EH:"Stress, money, or family pressures may fuel this, but I can suggest new strategies.",
+          EL:"Some recurring arguments reflect bigger dynamics—it’s not all mine to solve."
         }
       }
     ];
 
-    
-    function metaphorName(key){
-      return { IH: 'Speak Up', IL: 'Step Back', EH: 'Listen Together', EL: 'Leave It Unsaid' }[key];
-    }
+    function metaphorName(k){ return { IH:'Speak Up', IL:'Step Back', EH:'Listen Together', EL:'Leave It Unsaid' }[k]; }
+    function quadMetaLower(k){ return { IL:'(internal + low responsibility)', IH:'(internal + high responsibility)', EL:'(external + low responsibility)', EH:'(external + high responsibility)' }[k]; }
+    function quadLabel(k){ return `${metaphorName(k)} ${quadMetaLower(k)}`; }
 
-    function quadMetaLower(key){
-      return {
-        IL: '(internal + low responsibility)',
-        IH: '(internal + high responsibility)',
-        EL: '(external + low responsibility)',
-        EH: '(external + high responsibility)'
-      }[key];
-    }
-
-    function quadLabel(key){
-      
-      return `${metaphorName(key)} ${quadMetaLower(key)}`;
-    }
-
-    
     const prosCons = {
-      IH: {
-        title: 'Speak Up (internal + high responsibility)',
-        pos: [
-          'You’re leaning into agency and showing you believe you can shape this situation.',
-          'Taking responsibility can feel empowering and can spark positive change.'
-        ],
-        neg: [
-          'Carrying too much responsibility may leave you exhausted or resentful.',
-          'Not every problem can (or should) be solved by you alone.'
-        ]
-      },
-      IL: {
-        title: 'Step Back (internal + low responsibility)',
-        pos: [
-          'You’re giving yourself kindness and letting go of unnecessary blame.',
-          'This perspective helps protect you from overburdening yourself.'
-        ],
-        neg: [
-          'If you step back too often, you may avoid opportunities to grow or act.',
-          'It can slip into passivity, where important conversations never happen.'
-        ]
-      },
-      EH: {
-        title: 'Listen Together (external + high responsibility)',
-        pos: [
-          'You’re recognizing outside influences while still committing to shared repair.',
-          'This perspective fosters collaboration and teamwork in the relationship.'
-        ],
-        neg: [
-          'You might end up carrying responsibility for things that aren’t fully yours.',
-          'Be careful not to mistake “helping” with “fixing it all yourself.”'
-        ]
-      },
-      EL: {
-        title: 'Leave It Unsaid (external + low responsibility)',
-        pos: [
-          'You’re releasing what isn’t yours to carry, which protects your energy.',
-          'This perspective can bring acceptance and peace when things are beyond control.'
-        ],
-        neg: [
-          'If you lean here too often, you might disengage or give up on real opportunities for connection.',
-          'Letting go is wise at times, but silence can also create distance.'
-        ]
-      }
+      IH:{ title:'Speak Up (internal + high responsibility)', pos:[
+        'You’re leaning into agency and showing you believe you can shape this situation.',
+        'Taking responsibility can feel empowering and can spark positive change.'
+      ], neg:[
+        'Carrying too much responsibility may leave you exhausted or resentful.',
+        'Not every problem can (or should) be solved by you alone.'
+      ]},
+      IL:{ title:'Step Back (internal + low responsibility)', pos:[
+        'You’re giving yourself kindness and letting go of unnecessary blame.',
+        'This perspective helps protect you from overburdening yourself.'
+      ], neg:[
+        'If you step back too often, you may avoid opportunities to grow or act.',
+        'It can slip into passivity, where important conversations never happen.'
+      ]},
+      EH:{ title:'Listen Together (external + high responsibility)', pos:[
+        'You’re recognizing outside influences while still committing to shared repair.',
+        'This perspective fosters collaboration and teamwork in the relationship.'
+      ], neg:[
+        'You might end up carrying responsibility for things that aren’t fully yours.',
+        'Be careful not to mistake “helping” with “fixing it all yourself.”'
+      ]},
+      EL:{ title:'Leave It Unsaid (external + low responsibility)', pos:[
+        'You’re releasing what isn’t yours to carry, which protects your energy.',
+        'This perspective can bring acceptance and peace when things are beyond control.'
+      ], neg:[
+        'If you lean here too often, you might disengage or give up on real opportunities for connection.',
+        'Letting go is wise at times, but silence can also create distance.'
+      ]}
     };
 
-    function renderProsCons(key){
-      const pc = prosCons[key];
+    function renderProsCons(k){
+      const pc = prosCons[k];
       if(!pc) return '';
-      const highlightedTitle = pc.title.replace(/^([^()]+)/, '<span class="qname">$1</span>');
-      return `
-        <h4>${highlightedTitle}</h4>
-        <h5>Positive</h5>
-        <ul>${pc.pos.map(p=>`<li>${p}</li>`).join('')}</ul>
-        <h5>Negative</h5>
-        <ul>${pc.neg.map(n=>`<li>${n}</li>`).join('')}</ul>
-      `;
+      const t = pc.title.replace(/^([^()]+)/,'<span class="qname">$1</span>');
+      return `<h4>${t}</h4><h5>Positive</h5><ul>${pc.pos.map(p=>`<li>${p}</li>`).join('')}</ul><h5>Negative</h5><ul>${pc.neg.map(n=>`<li>${n}</li>`).join('')}</ul>`;
     }
 
-    
-    const situationsEl = document.getElementById('situations');
-    const q1Section = document.getElementById('q1Section');
-    const q2Section = document.getElementById('q2Section');
-    const q1Text = document.getElementById('q1Text');
-    const q2Text = document.getElementById('q2Text');
-    const q1Yes = document.getElementById('q1Yes');
-    const q1No = document.getElementById('q1No');
-    const q2Yes = document.getElementById('q2Yes');
-    const q2No = document.getElementById('q2No');
+    const situationsEl=document.getElementById('situations');
+    const q1Section=document.getElementById('q1Section');
+    const q2Section=document.getElementById('q2Section');
+    const q1Text=document.getElementById('q1Text');
+    const q2Text=document.getElementById('q2Text');
+    const q1Yes=document.getElementById('q1Yes');
+    const q1No=document.getElementById('q1No');
+    const q2Yes=document.getElementById('q2Yes');
+    const q2No=document.getElementById('q2No');
 
-    const resultEl = document.getElementById('result');
-    const legendEl = document.getElementById('legend');
-    const gridWrap = document.getElementById('gridWrap');
-    const quadPill = document.getElementById('quadPill');
-    const whyEl = document.getElementById('why');
+    const resultEl=document.getElementById('result');
+    const legendEl=document.getElementById('legend');
+    const gridWrap=document.getElementById('gridWrap');
+    const quadPill=document.getElementById('quadPill');
+    const whyEl=document.getElementById('why');
 
-    const cells = {
-      IL: document.getElementById('cell-IL'),
-      IH: document.getElementById('cell-IH'),
-      EL: document.getElementById('cell-EL'),
-      EH: document.getElementById('cell-EH')
+    const cells={
+      IL:document.getElementById('cell-IL'),
+      IH:document.getElementById('cell-IH'),
+      EL:document.getElementById('cell-EL'),
+      EH:document.getElementById('cell-EH')
     };
-    const textAreas = {
-      IL: document.getElementById('text-IL'),
-      IH: document.getElementById('text-IH'),
-      EL: document.getElementById('text-EL'),
-      EH: document.getElementById('text-EH')
+    const textAreas={
+      IL:document.getElementById('text-IL'),
+      IH:document.getElementById('text-IH'),
+      EL:document.getElementById('text-EL'),
+      EH:document.getElementById('text-EH')
     };
 
-    const revealSection = document.getElementById('revealSection');
-    const revealBtn = document.getElementById('revealBtn');
-    const nextReflectSection = document.getElementById('nextReflectSection');
-    const nextReflectBtn = document.getElementById('nextReflect');
+    const revealSection=document.getElementById('revealSection');
+    const revealBtn=document.getElementById('revealBtn');
+    const nextReflectSection=document.getElementById('nextReflectSection');
+    const nextReflectBtn=document.getElementById('nextReflect');
 
-    const reflectSection = document.getElementById('reflectSection');
-    const reflectPrimary = document.getElementById('reflectPrimary');
-    const reflectOthers = document.getElementById('reflectOthers');
-    const metaInsight = document.getElementById('metaInsight');
-    const restartProblem = document.getElementById('restartProblem');
+    const reflectSection=document.getElementById('reflectSection');
+    const reflectPrimary=document.getElementById('reflectPrimary');
+    const reflectOthers=document.getElementById('reflectOthers');
+    const metaInsight=document.getElementById('metaInsight');
+    const restartProblem=document.getElementById('restartProblem');
 
-    const explain = document.getElementById('explain');
+    const explain=document.getElementById('explain');
 
-    const resetBtn = document.getElementById('reset');
-    const shuffleSituationsBtn = document.getElementById('shuffleSituations');
-    const backBtn = document.getElementById('back');
+    const resetBtn=document.getElementById('reset');
+    const shuffleSituationsBtn=document.getElementById('shuffleSituations');
+    const backBtn=document.getElementById('back');
 
-    const chip1 = document.getElementById('chip-1');
-    const chip2 = document.getElementById('chip-2');
-    const chip3 = document.getElementById('chip-3');
-    const chip4 = document.getElementById('chip-4');
-    const chip5 = document.getElementById('chip-5');
+    const chip1=document.getElementById('chip-1');
+    const chip2=document.getElementById('chip-2');
+    const chip3=document.getElementById('chip-3');
+    const chip4=document.getElementById('chip-4');
+    const chip5=document.getElementById('chip-5');
 
-    const currentProblem = document.getElementById('currentProblem');
-    const currentProblemText = document.getElementById('currentProblemText');
-    const footerHint = document.getElementById('footerHint');
+    const currentProblem=document.getElementById('currentProblem');
+    const currentProblemText=document.getElementById('currentProblemText');
+    const footerHint=document.getElementById('footerHint');
 
-    
-    let pickedProblem = null; 
-    let locus = null; 
-    let resp = null;  
+    let pickedProblem=null;
+    let locus=null;
+    let resp=null;
 
-    
-    function setStage(stage){
-      document.body.setAttribute('data-stage', stage);
-      chip1.classList.toggle('active', stage==='situations');
-      chip2.classList.toggle('active', stage==='q1');
-      chip3.classList.toggle('active', stage==='q2');
-      chip4.classList.toggle('active', stage==='results');
-      chip5.classList.toggle('active', stage==='reflect');
+    function setStage(s){
+      document.body.setAttribute('data-stage',s);
+      chip1.classList.toggle('active',s==='situations');
+      chip2.classList.toggle('active',s==='q1');
+      chip3.classList.toggle('active',s==='q2');
+      chip4.classList.toggle('active',s==='results');
+      chip5.classList.toggle('active',s==='reflect');
 
-      document.getElementById('situationsSection').hidden = stage!=='situations';
-      q1Section.hidden = stage!=='q1';
-      q2Section.hidden = stage!=='q2';
+      document.getElementById('situationsSection').hidden = s!=='situations';
+      q1Section.hidden = s!=='q1';
+      q2Section.hidden = s!=='q2';
 
-      const onStep4 = stage==='results';
-      const onStep45 = stage==='results' || stage==='reflect';
+      const on4 = s==='results';
+      const on45 = s==='results' || s==='reflect';
 
-      
-      resultEl.hidden = !onStep4;
-      
-      legendEl.hidden = !onStep45;
-      gridWrap.hidden = !onStep45;
-     
-      revealSection.hidden = !onStep4;
-      nextReflectSection.hidden = !onStep4;
-      
-      reflectSection.hidden = stage!=='reflect';
+      resultEl.hidden = !on4;
+      legendEl.hidden = !on45;
+      gridWrap.hidden = !on45;
+      revealSection.hidden = !on4;
+      nextReflectSection.hidden = !on4;
+      reflectSection.hidden = s!=='reflect';
+      footerHint.hidden = !on45;
 
-      
-      footerHint.hidden = !onStep45;
+      backBtn.hidden = (s==='situations');
 
-      backBtn.hidden = (stage==='situations');
-
-      if(stage!=='reflect'){
-        explain.style.display = 'none';
-      }
-
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      updateStateDebug();
-      log(`stage → ${stage}`);
+      if(s!=='reflect'){ explain.style.display='none'; }
+      window.scrollTo({top:0,behavior:'smooth'});
     }
 
     function clearHighlight(){
@@ -607,179 +458,139 @@
       Array.from(document.querySelectorAll('.reflect-opt')).forEach(n=>n.classList.remove('kept'));
     }
 
-    function populateGrid(reframes){
-      textAreas.IL.textContent = reframes.IL;
-      textAreas.IH.textContent = reframes.IH;
-      textAreas.EL.textContent = reframes.EL;
-      textAreas.EH.textContent = reframes.EH;
+    function populateGrid(r){
+      textAreas.IL.textContent=r.IL;
+      textAreas.IH.textContent=r.IH;
+      textAreas.EL.textContent=r.EL;
+      textAreas.EH.textContent=r.EH;
     }
 
-    function showOnly(key){
-      
-      Object.entries(textAreas).forEach(([k,el])=>{
-        el.parentElement.parentElement.classList.toggle('pending', k!==key);
-        if(k!==key){ el.style.opacity = 0; }
-        else { el.style.opacity = 1; }
+    function showOnly(k){
+      Object.entries(textAreas).forEach(([x,e])=>{
+        e.parentElement.parentElement.classList.toggle('pending',x!==k);
+        e.style.opacity = (x!==k)?0:1;
       });
     }
 
     function revealOthers(){
-      Object.entries(textAreas).forEach(([k,el])=>{
-        el.style.opacity = 1;
-        el.parentElement.parentElement.classList.remove('pending');
+      Object.entries(textAreas).forEach(([x,e])=>{
+        e.style.opacity=1;
+        e.parentElement.parentElement.classList.remove('pending');
       });
-      explain.style.display = 'block';
-      revealSection.hidden = true;
-      nextReflectSection.hidden = false; 
+      explain.style.display='block';
+      revealSection.hidden=true;
+      nextReflectSection.hidden=false;
+    }
 
     function renderReflect(){
-      const quad = locus + resp;
-      const primary = pickedProblem.reframes[quad];
-      reflectPrimary.innerHTML = `
-        <div class=\"reflect-head\">You answered in a way that suggests a <span class=\"qname\">${metaphorName(quad)}</span> perspective.</div>
-        <blockquote class=\"reflect-quote\">“${primary}”</blockquote>
-      `;
-
+      const q = locus+resp;
+      const p = pickedProblem.reframes[q];
+      reflectPrimary.innerHTML =
+        `<div class="reflect-head">You answered in a way that suggests a <span class="qname">${metaphorName(q)}</span> perspective.</div>`+
+        `<blockquote class="reflect-quote">“${p}”</blockquote>`;
       const order = ['IL','IH','EL','EH'];
-      reflectOthers.innerHTML = order.map(k=>`
-        <div class=\"reflect-opt ${k===quad?'kept':''}\" data-quad=\"${k}\">
-          <div class=\"reflect-head\"><span class=\"qname\">${metaphorName(k)}</span></div>
-          <div>“${pickedProblem.reframes[k]}”</div>
-        </div>
-      `).join('');
-
-      
+      reflectOthers.innerHTML = order.map(k =>
+        `<div class="reflect-opt ${k===q?'kept':''}" data-quad="${k}">`+
+          `<div class="reflect-head"><span class="qname">${metaphorName(k)}</span></div>`+
+          `<div>“${pickedProblem.reframes[k]}”</div>`+
+        `</div>`
+      ).join('');
       Object.values(cells).forEach(c=>c.classList.remove('kept'));
-      cells[quad].classList.add('kept');
+      cells[q].classList.add('kept');
       metaInsight.innerHTML = '';
     }
 
     function classifyAndRender(){
-      const quad = locus + resp; 
-      
-      quadPill.innerHTML = `<span class="qname">${metaphorName(quad)}</span> <span class="qmeta">${quadMetaLower(quad)}</span>`;
+      const q = locus+resp;
+      quadPill.innerHTML = `<span class="qname">${metaphorName(q)}</span> <span class="qmeta">${quadMetaLower(q)}</span>`;
       whyEl.textContent = `${locus==='I'?'You felt you could influence it':'You felt it was mostly situational'} and ${resp==='H'?'you took primary responsibility.':'you saw responsibility as shared.'}`;
-
       clearHighlight();
-      cells[quad].classList.add('active');
-
+      cells[q].classList.add('active');
       populateGrid(pickedProblem.reframes);
-      showOnly(quad);
-
+      showOnly(q);
       setStage('results');
-      log(`classified → ${quad}`);
-      updateStateDebug();
     }
-    
-    function log(){}
-    function updateStateDebug(){}
 
-   
-    situationsEl.addEventListener('click', (e)=>{
-      const btn = e.target.closest('.choice');
-      if(!btn) return;
-      const sid = btn.dataset.sid;
+    situationsEl.addEventListener('click', e=>{
+      const b = e.target.closest('.choice');
+      if(!b) return;
+      const sid = b.dataset.sid;
       pickedProblem = problems.find(p=>p.id===sid);
-      locus = null; resp = null;
+      locus = null;
+      resp = null;
 
-      
-      const currentProblem = document.getElementById('currentProblem');
-      const currentProblemText = document.getElementById('currentProblemText');
       currentProblemText.textContent = pickedProblem.text;
       currentProblem.hidden = false;
 
-      // Reset views/state
-      resultEl.hidden = true; legendEl.hidden = true; gridWrap.hidden = true; explain.style.display='none'; revealSection.hidden = true; nextReflectSection.hidden = true; reflectSection.hidden = true; clearHighlight();
-      document.getElementById('footerHint').hidden = true;
+      resultEl.hidden=true; legendEl.hidden=true; gridWrap.hidden=true;
+      explain.style.display='none'; revealSection.hidden=true; nextReflectSection.hidden=true;
+      reflectSection.hidden=true; clearHighlight(); footerHint.hidden=true;
       Object.values(textAreas).forEach(el=>{ el.textContent=''; el.style.opacity=1; el.parentElement.parentElement.classList.remove('pending'); });
 
-      // Ask Q1
       q1Text.textContent = pickedProblem.q1;
       setStage('q1');
-      log(`picked → ${sid}`);
-      updateStateDebug();
     });
 
-    q1Yes.addEventListener('click', ()=>{ locus = 'I'; q2Text.textContent = pickedProblem.q2; setStage('q2'); log('Q1 → Yes (internal)'); updateStateDebug(); });
-    q1No.addEventListener('click',  ()=>{ locus = 'E'; q2Text.textContent = pickedProblem.q2; setStage('q2'); log('Q1 → No (external)'); updateStateDebug(); });
+    q1Yes.addEventListener('click', ()=>{ locus='I'; q2Text.textContent=pickedProblem.q2; setStage('q2'); });
+    q1No.addEventListener('click',  ()=>{ locus='E'; q2Text.textContent=pickedProblem.q2; setStage('q2'); });
 
-    q2Yes.addEventListener('click', ()=>{ resp='H'; log('Q2 → Yes (high responsibility)'); updateStateDebug(); classifyAndRender(); });
-    q2No.addEventListener('click',  ()=>{ resp='L'; log('Q2 → No (low/shared responsibility)'); updateStateDebug(); classifyAndRender(); });
+    q2Yes.addEventListener('click', ()=>{ resp='H'; classifyAndRender(); });
+    q2No.addEventListener('click',  ()=>{ resp='L'; classifyAndRender(); });
 
-    revealBtn.addEventListener('click', ()=>{ revealOthers(); log('revealed others'); });
-    nextReflectBtn.addEventListener('click', ()=>{
-      
-      revealOthers();
-      setStage('reflect');
-      renderReflect();
-      log('stage → reflect');
-      updateStateDebug();
-    });
+    revealBtn.addEventListener('click', ()=>{ revealOthers(); });
+    nextReflectBtn.addEventListener('click', ()=>{ revealOthers(); setStage('reflect'); renderReflect(); });
 
-    reflectSection.addEventListener('click', (e)=>{
-      const opt = e.target.closest('.reflect-opt');
-      if(!opt) return;
-      const key = opt.dataset.quad;
+    reflectSection.addEventListener('click', e=>{
+      const o = e.target.closest('.reflect-opt');
+      if(!o) return;
+      const k = o.dataset.quad;
       Array.from(document.querySelectorAll('.reflect-opt')).forEach(n=>n.classList.remove('kept'));
-      opt.classList.add('kept');
+      o.classList.add('kept');
       Object.values(cells).forEach(c=>c.classList.remove('kept'));
-      cells[key].classList.add('kept');
-      metaInsight.innerHTML = renderProsCons(key);
-      log(`reflect choose → ${key}`);
-      updateStateDebug();
+      cells[k].classList.add('kept');
+      metaInsight.innerHTML = renderProsCons(k);
     });
 
-    gridWrap.addEventListener('click', (e)=>{
-      const cell = e.target.closest('.cell');
-      if(!cell) return;
+    gridWrap.addEventListener('click', e=>{
+      const c = e.target.closest('.cell');
+      if(!c) return;
       if(document.body.getAttribute('data-stage')!=='reflect') return;
-      const key = cell.id.split('-')[1];
-      Object.values(cells).forEach(c=>c.classList.remove('kept'));
-      cell.classList.add('kept');
+      const k = c.id.split('-')[1];
+      Object.values(cells).forEach(x=>x.classList.remove('kept'));
+      c.classList.add('kept');
       Array.from(document.querySelectorAll('.reflect-opt')).forEach(n=>{
-        n.classList.toggle('kept', n.getAttribute('data-quad')===key);
+        n.classList.toggle('kept', n.getAttribute('data-quad')===k);
       });
-      metaInsight.innerHTML = renderProsCons(key);
-      log(`grid choose → ${key}`);
-      updateStateDebug();
+      metaInsight.innerHTML = renderProsCons(k);
     });
 
     backBtn.addEventListener('click', ()=>{
-      const stage = document.body.getAttribute('data-stage');
-      if(stage==='q1'){ setStage('situations'); }
-      else if(stage==='q2'){ setStage('q1'); }
-      else if(stage==='results'){ setStage('q2'); }
-      else if(stage==='reflect'){ setStage('results'); }
-      log('nav → back');
-      updateStateDebug();
+      const s = document.body.getAttribute('data-stage');
+      if(s==='q1'){ setStage('situations'); }
+      else if(s==='q2'){ setStage('q1'); }
+      else if(s==='results'){ setStage('q2'); }
+      else if(s==='reflect'){ setStage('results'); }
     });
 
     resetBtn.addEventListener('click', ()=>{
-      pickedProblem=null; locus=resp=null;
-      document.getElementById('currentProblem').hidden = true; document.getElementById('currentProblemText').textContent='';
+      pickedProblem=null; locus=null; resp=null;
+      currentProblem.hidden=true; currentProblemText.textContent='';
       clearHighlight();
       Object.values(textAreas).forEach(el=>{ el.textContent=''; el.style.opacity=1; el.parentElement.parentElement.classList.remove('pending'); });
       renderSituations();
       setStage('situations');
-      log('reset');
-      updateStateDebug();
     });
 
-    restartProblem.addEventListener('click', ()=>{
-      setStage('situations');
-      log('restart → situations');
-      updateStateDebug();
-    });
+    restartProblem.addEventListener('click', ()=>{ setStage('situations'); });
 
     shuffleSituationsBtn.addEventListener('click', ()=>{ renderSituations(); });
 
-    
     function renderSituations(){
       const bank = problems.slice();
-    
       for(let i=bank.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [bank[i],bank[j]]=[bank[j],bank[i]]; }
-      situationsEl.innerHTML = bank.map(s=>`<button class=\"choice\" data-sid=\"${s.id}\">${s.text}</button>`).join('');
+      situationsEl.innerHTML = bank.map(s=>`<button class="choice" data-sid="${s.id}">${s.text}</button>`).join('');
     }
+
     renderSituations();
     setStage('situations');
   </script>
