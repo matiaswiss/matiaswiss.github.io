@@ -20,7 +20,7 @@
       }
 
       .projects-inner {
-        max-width: 1320px;   /* widened so all three tiles sit inside the gray */
+        max-width: 1320px;
         margin: 0 auto;
         padding: 0 24px;
       }
@@ -28,7 +28,7 @@
       .caption-row,
       .project-row {
         display: grid;
-        grid-template-columns: repeat(3, 400px);
+        grid-template-columns: 400px 360px 360px;
         justify-content: center;
         column-gap: 24px;
       }
@@ -37,7 +37,7 @@
 
       .caption {
         font-size: 0.95rem;
-        color: #8b929b;  /* darker gray */
+        color: #8b929b;
         font-weight: 400;
         font-style: italic;
         text-align: center;
@@ -67,6 +67,10 @@
         align-items: center;
         justify-content: center;
         text-align: center;
+      }
+      .image-tile.img-small {
+        width: 360px;
+        height: 360px;
       }
       .image-tile img {
         max-width: 100%;
@@ -126,11 +130,11 @@
         <div class="project-row">
           <div id="sketch-holder"></div>
 
-          <a class="image-tile" href="relationalresponselocus_mw.html" target="_blank" rel="noopener">
+          <a class="image-tile img-small" href="relationalresponselocus_mw.html" target="_blank" rel="noopener">
             <img src="relresponselocus.png" alt="Reflect on a relationship" />
           </a>
 
-          <a class="image-tile" href="importantconversations_schedule_helper.html" target="_blank" rel="noopener">
+          <a class="image-tile img-small" href="importantconversations_schedule_helper.html" target="_blank" rel="noopener">
             <img src="importantconversations.png" alt="Schedule an important conversation" />
           </a>
         </div>
@@ -229,7 +233,7 @@
         const freq =
           phaseName === "inhale" ? freqMap.inhale
           : phaseName === "exhale" ? freqMap.exhale
-          : freqMap.hold;
+          : phaseName === "hold" ? freqMap.hold : freqMap.hold;
         osc.freq(freq);
         osc.setType("sine");
         env.play(osc);
@@ -334,3 +338,4 @@
     </script>
   </body>
 </html>
+
