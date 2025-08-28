@@ -15,14 +15,21 @@
         clear: both;
         margin-top: 40px;
         border-top: 1px solid #e6e9ee;
-        background: #fafbfc;
         padding: 24px 0;
+        background: transparent;
       }
 
       .projects-inner {
         max-width: 1320px;
         margin: 0 auto;
         padding: 0 24px;
+      }
+
+      .projects-bubble {
+        background: #fafbfc;
+        border: 1px solid #e6e9ee;
+        border-radius: 28px;
+        padding: 20px;
       }
 
       .caption-row,
@@ -121,22 +128,24 @@
 
     <section class="projects-section">
       <div class="projects-inner">
-        <div class="caption-row">
-          <div class="caption">Stop and breathe for a moment:</div>
-          <div class="caption">Reflect on a relationship:</div>
-          <div class="caption">Schedule an important conversation:</div>
-        </div>
+        <div class="projects-bubble">
+          <div class="caption-row">
+            <div class="caption">Stop and breathe for a moment:</div>
+            <div class="caption">Reflect on a relationship:</div>
+            <div class="caption">Schedule an important conversation:</div>
+          </div>
 
-        <div class="project-row">
-          <div id="sketch-holder"></div>
+          <div class="project-row">
+            <div id="sketch-holder"></div>
 
-          <a class="image-tile img-small" href="relationalresponselocus_mw.html" target="_blank" rel="noopener">
-            <img src="relresponselocus.png" alt="Reflect on a relationship" />
-          </a>
+            <a class="image-tile img-small" href="relationalresponselocus_mw.html" target="_blank" rel="noopener">
+              <img src="relresponselocus.png" alt="Reflect on a relationship" />
+            </a>
 
-          <a class="image-tile img-small" href="importantconversations_schedule_helper.html" target="_blank" rel="noopener">
-            <img src="importantconversations.png" alt="Schedule an important conversation" />
-          </a>
+            <a class="image-tile img-small" href="importantconversations_schedule_helper.html" target="_blank" rel="noopener">
+              <img src="importantconversations.png" alt="Schedule an important conversation" />
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -233,7 +242,7 @@
         const freq =
           phaseName === "inhale" ? freqMap.inhale
           : phaseName === "exhale" ? freqMap.exhale
-          : phaseName === "hold" ? freqMap.hold : freqMap.hold;
+          : freqMap.hold;
         osc.freq(freq);
         osc.setType("sine");
         env.play(osc);
@@ -338,4 +347,3 @@
     </script>
   </body>
 </html>
-
