@@ -10,6 +10,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/addons/p5.sound.min.js"></script>
     <style>
       .container { margin-bottom: 0; }
+
       .projects-section {
         clear: both;
         margin-top: 40px;
@@ -17,14 +18,23 @@
         background: #fafbfc;
         padding: 24px 0;
       }
+
+      .projects-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
       .caption-row,
       .project-row {
         display: grid;
         grid-template-columns: repeat(3, 400px);
-        justify-content: space-between;
+        justify-content: center;
         column-gap: 24px;
       }
+
       .caption-row { margin-bottom: 10px; }
+
       .caption {
         font-size: 0.95rem;
         color: #b9bec6;
@@ -34,7 +44,9 @@
         text-decoration: underline;
         text-underline-offset: 3px;
       }
+
       .project-row { align-items: center; }
+
       #sketch-holder {
         width: 400px;
         height: 400px;
@@ -46,6 +58,7 @@
         cursor: pointer;
         display: block;
       }
+
       .image-tile {
         width: 400px;
         height: 400px;
@@ -103,7 +116,7 @@
     </div>
 
     <section class="projects-section">
-      <div class="container">
+      <div class="projects-inner">
         <div class="caption-row">
           <div class="caption">Stop and breathe for a moment:</div>
           <div class="caption">Reflect on a relationship:</div>
