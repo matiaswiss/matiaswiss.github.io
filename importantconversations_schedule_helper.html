@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Important Conversations — Schedule Helper</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--primary:#7fa3b6;--secondary:#b7c392;--bg:#ffffff;--panel:#f6f8fb;--ink:#222;--muted:#5a6772;--line:#d7e1e8}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Source Code Pro", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace}
+  .wrap{max-width:980px;margin:32px auto;padding:0 16px}
+  h1{font-size:1.6rem;margin:0 0 8px;font-weight:600}
+  p.lead{color:var(--muted);margin:0 0 16px}
+  .tabs{display:flex;gap:8px;margin:10px 0 18px}
+  .tab{padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#fff;cursor:pointer}
+  .tab[aria-selected="true"]{outline:2px solid var(--primary)}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr}
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px}
+  label{display:block;font-size:.9rem;color:var(--muted);margin-bottom:6px}
+  input,textarea,select,button{width:100%;background:#fff;border:1px solid var(--line);color:var(--ink);padding:10px;border-radius:10px;font:inherit}
+  textarea{min-height:110px;resize:vertical}
+  input:focus,textarea:focus,select:focus,button:focus{outline:2px solid var(--secondary);outline-offset:2px}
+  .row{display:flex;gap:10px}
+  .row>*{flex:1}
+  .chips{display:flex;gap:8px;flex-wrap:wrap}
+  .chip{background:#fff;border:1px dashed var(--secondary);color:var(--muted);padding:6px 10px;border-radius:999px;cursor:pointer}
+  .actions{display:flex;gap:10px;flex-wrap:wrap}
+  .btn-primary{background:var(--primary);border-color:var(--primary);color:#fff}
+  .btn-ghost{background:#fff;border-color:var(--primary);color:#222}
+  .btn-secondary{background:var(--secondary);border-color:var(--secondary);color:#1b2a1b}
+  .preview{white-space:pre-wrap;background:#fff;border:1px solid var(--line);padding:10px;border-radius:10px;min-height:120px}
+  .hr{height:1px;background:var(--line);margin:10px 0}
+  .notice{border-left:3px solid var(--secondary);padding-left:10px;color:#2d3a2d}
+  .affirmation{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--secondary);padding:12px;border-radius:10px;color:#1f2a1f;font-style:italic;margin:10px 0 16px}
+  .path{display:flex;gap:0;align-items:center;list-style:none;padding:0;margin:0 0 8px;font-size:.9rem}
+  .path li{position:static;padding:0;border:none;border-radius:0;color:var(--muted);white-space:nowrap}
+  .path li.active{color:#000}
+  .path li .label{display:inline-block;border-bottom:2px solid transparent;padding-bottom:2px}
+  .path li.active .label{border-bottom-color:var(--secondary)}
+  .path li + li::before{content:" / "; color:var(--muted); margin:0 8px}
+  .breath{display:flex;align-items:center;gap:8px;margin-top:8px}
+  .breath .circle{width:20px;height:20px;border-radius:999px;background:var(--secondary);opacity:.6;animation:breathe 4s ease-in-out infinite}
+  @keyframes breathe{0%{transform:scale(1);opacity:.5}50%{transform:scale(1.35);opacity:.8}100%{transform:scale(1);opacity:.5}}
+  .gate{position:fixed;inset:0;background:rgba(255,255,255,.96);display:flex;align-items:center;justify-content:center;padding:16px;z-index:1000}
+  .gate .panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 20px;max-width:560px;width:min(560px,92vw);text-align:center}
+  .gate h2{margin:4px 0 6px;font-size:1.25rem}
+  .gate p{margin:0 0 14px;color:var(--muted)}
+  .gate .choices{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+  .gate .choices button{flex:1 1 220px;padding:14px 16px;border-radius:12px}
+</style>
+</head>
+<body>
+<div class="wrap" id="appRoot" aria-hidden="true">
+  <h1>Important Conversations — Schedule Helper</h1>
+  <div class="affirmation">“I am courageous and confident in expressing my thoughts and opinions, even in difficult situations.”</div>
+  <p class="lead">
+    This reflective tool helps you articulate a conversation you’ve been delaying and block time on your <strong>personal</strong> calendar — or export your notes for later.
+  </p>
+  <div class="tabs" role="tablist" aria-label="Mode">
+    <button class="tab" role="tab" id="tab-work" aria-selected="false">Work</button>
+    <button class="tab" role="tab" id="tab-personal" aria-selected="false">Personal</button>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <ol class="path" aria-label="Progress" id="progressPath">
+        <li data-step="notice" class="active"><span class="label">Noticing</span></li>
+        <li data-step="prepare"><span class="label">Preparing</span></li>
+        <li data-step="schedule"><span class="label">Scheduling</span></li>
+        <li data-step="reflect"><span class="label">Reflecting</span></li>
+      </ol>
+      <section id="step1">
+        <h2 style="margin:.2rem 0 .6rem">Step 1 · Potential topics</h2>
+        <p class="lead" style="margin-top:-6px">Tap an example to prefill your topic, then continue.</p>
+        <div id="examples" class="chips" style="margin-bottom:12px"></div>
+        <div class="actions" style="margin-top:12px">
+          <button class="btn-primary" id="next1">Next: Reflection</button>
+        </div>
+      </section>
+      <section id="step2" hidden>
+        <h2 style="margin:.2rem 0 .6rem">Step 2 · Reflection</h2>
+        <div class="row">
+          <div>
+            <label>Who do you need to talk with?</label>
+            <input id="who" placeholder="e.g., Jordan (manager), Taylor (teammate), Alex (partner)" />
+          </div>
+          <div>
+            <label>Conversation topic</label>
+            <input id="topic" placeholder="e.g., role expectations, workload, recognition" />
+          </div>
+        </div>
+        <label>Why this matters</label>
+        <textarea id="why" placeholder="What outcome do you hope for? Why now?"></textarea>
+        <label>Hesitations or emotions</label>
+        <textarea id="feelings" placeholder="What makes this hard? What fear or risk are you managing?"></textarea>
+        <div class="actions" style="margin-top:12px">
+          <button class="btn-ghost" id="back2">← Back</button>
+          <button class="btn-primary" id="next2">Next: Scheduling</button>
+        </div>
+      </section>
+      <section id="step3" hidden>
+        <h2 style="margin:.2rem 0 .6rem">Step 3 · Schedule It</h2>
+        <div class="row">
+          <div>
+            <label>Date & start time</label>
+            <input id="dt" type="datetime-local" />
+          </div>
+          <div>
+            <label>Duration (minutes)</label>
+            <input id="dur" type="number" min="10" step="5" value="30" />
+          </div>
+        </div>
+        <div class="row" style="margin-top:8px">
+          <div>
+            <label>Medium</label>
+            <select id="medium">
+              <option>In person</option>
+              <option>Zoom/Meet</option>
+              <option>Phone</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div>
+            <label>Location / Link</label>
+            <input id="place" placeholder="Conference Room B, Zoom link, café, etc." />
+          </div>
+        </div>
+        <div class="hr"></div>
+        <label>Notes preview (editable)</label>
+        <textarea id="invite" class="preview"></textarea>
+        <div class="breath">
+          <div class="circle" aria-hidden="true"></div>
+          <div class="tiny">Pause for one breath before you schedule.</div>
+        </div>
+        <div class="actions" style="margin-top:12px">
+          <button class="btn-ghost" id="back3">← Back</button>
+          <button class="btn-primary" id="next3">Next: Save</button>
+        </div>
+      </section>
+      <section id="step4" hidden>
+        <h2 style="margin:.2rem 0 .6rem">Step 4 · Save & Reflect</h2>
+        <div class="actions" style="margin:12px 0">
+          <button id="copyText" class="btn-secondary">Copy notes</button>
+          <button id="dlTXT" class="btn-ghost">Download .txt</button>
+          <button id="dlICS" class="btn-ghost">Download .ics (personal calendar)</button>
+          <button id="gcal" class="btn-primary">Add to Google Calendar</button>
+        </div>
+        <div class="hr"></div>
+        <label>Reflection (optional)</label>
+        <textarea id="reflect" class="preview" placeholder="After the conversation: What did you notice? What changed? What would you do differently next time?"></textarea>
+        <div class="actions" style="margin-top:12px">
+          <button class="btn-ghost" id="back4">← Back</button>
+          <button class="btn-primary" id="reset">Start over</button>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+<div class="gate" id="modeGate" role="dialog" aria-modal="true" aria-labelledby="modeTitle">
+  <div class="panel">
+    <h2 id="modeTitle">Choose your context to begin</h2>
+    <p>Do you want to schedule conversations for <strong>Work</strong> or <strong>Personal</strong> life?</p>
+    <div class="choices">
+      <button class="btn-primary" id="chooseWork">Work</button>
+      <button class="btn-secondary" id="choosePersonal">Personal</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const mode = { current: null };
+  const chipsWork = ["Feedback","Role expectations","Workload","Boundaries","Credit & recognition","Conflict repair","Deadlines","Resources","Team norms","Career growth","Compensation" ];
+  const chipsPersonal = ["Dreams/Aspirations","Finances","Hobbies","Life goals","Vulnerability","Challenges","Fears","Parenting","Health","Intimacy" ];
+  const examplesWork = [
+    "Clarify role expectations","Ask for feedback cadence","Discuss workload or priorities","Set meeting or focus-time boundaries","Repair a conflict / miscommunication","Align on deadlines & scope","Request resources or support","Define team norms","Career development talk","Compensation or promotion"
+  ];
+  const examplesPersonal = [
+    "Share dreams or long-term plans","Budgeting & finances check-in","Time for hobbies or rest","Life goals alignment","Vulnerability / how I’m really doing","Naming a challenge we’re facing","Naming a fear and asking for support","Parenting approach check-in","Health or wellbeing plans","Intimacy & connection"
+  ];
+  const appRoot = document.getElementById('appRoot');
+  const gate = document.getElementById('modeGate');
+  const tabWork = document.getElementById('tab-work');
+  const tabPersonal = document.getElementById('tab-personal');
+  const chooseWork = document.getElementById('chooseWork');
+  const choosePersonal = document.getElementById('choosePersonal');
+  const examples = document.getElementById('examples');
+  const who = document.getElementById('who');
+  const topic = document.getElementById('topic');
+  const why = document.getElementById('why');
+  const feelings = document.getElementById('feelings');
+  const dt = document.getElementById('dt');
+  const dur = document.getElementById('dur');
+  const medium = document.getElementById('medium');
+  const place = document.getElementById('place');
+  const invite = document.getElementById('invite');
+  const reflect = document.getElementById('reflect');
+  const path = document.getElementById('progressPath');
+  const step1 = document.getElementById('step1');
+  const step2 = document.getElementById('step2');
+  const step3 = document.getElementById('step3');
+  const step4 = document.getElementById('step4');
+  function setMode(m){
+    mode.current = m;
+    tabWork.setAttribute('aria-selected', m==='work');
+    tabPersonal.setAttribute('aria-selected', m==='personal');
+    renderExamples();
+    if(!topic.value) topic.placeholder = m==='work' ? "e.g., role expectations, workload, recognition" : "e.g., finances, vulnerability, dreams";
+  }
+  function makeChip(text, onClick){
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'chip'; b.textContent = text;
+    b.addEventListener('click', onClick);
+    return b;
+  }
+  function renderExamples(){
+    examples.innerHTML = '';
+    const arr = mode.current==='work' ? examplesWork : examplesPersonal;
+    arr.forEach(t=>{ examples.appendChild(makeChip(t, ()=>{ topic.value = t; })); });
+  }
+  tabWork.addEventListener('click', ()=> setMode('work'));
+  tabPersonal.addEventListener('click', ()=> setMode('personal'));
+  chooseWork.addEventListener('click', ()=> startWith('work'));
+  choosePersonal.addEventListener('click', ()=> startWith('personal'));
+  function startWith(m){
+    setMode(m);
+    gate.style.display = 'none';
+    appRoot.removeAttribute('aria-hidden');
+    setStep(1);
+  }
+  function setStep(which){
+    step1.hidden = step2.hidden = step3.hidden = step4.hidden = true;
+    if(which===1){ step1.hidden=false; }
+    if(which===2){ step2.hidden=false; }
+    if(which===3){ step3.hidden=false; }
+    if(which===4){ step4.hidden=false; }
+    updatePathActive(which);
+  }
+  function updatePathActive(which){
+    const items = path.querySelectorAll('li');
+    items.forEach(li=>li.classList.remove('active'));
+    if(topic.value.trim()!=='' || which>1) path.querySelector('li[data-step="notice"]').classList.add('active');
+    if(why.value.trim()!=='' || feelings.value.trim()!=='' || which>2) path.querySelector('li[data-step="prepare"]').classList.add('active');
+    if(which>2) path.querySelector('li[data-step="schedule"]').classList.add('active');
+    if((reflect && reflect.value.trim()!=='') || which===4) path.querySelector('li[data-step="reflect"]').classList.add('active');
+  }
+  document.getElementById('next1').addEventListener('click', ()=> setStep(2));
+  document.getElementById('back2').addEventListener('click', ()=> setStep(1));
+  document.getElementById('next2').addEventListener('click', ()=>{ seedInvite(); setStep(3); });
+  document.getElementById('back3').addEventListener('click', ()=> setStep(2));
+  document.getElementById('next3').addEventListener('click', ()=> setStep(4));
+  document.getElementById('back4').addEventListener('click', ()=> setStep(3));
+  document.getElementById('reset').addEventListener('click', ()=>{
+    [who,topic,why,feelings,dt,dur,place,invite].forEach(el=>el.value='');
+    if(reflect) reflect.value='';
+    setMode('work');
+    setStep(1);
+  });
+  function seedInvite(){
+    const name = who.value || '';
+    const t = topic.value || (mode.current==='work' ? 'topic' : 'something that matters to us');
+    const whyTxt = why.value ? `\n\nWhy now → ${why.value.trim()}` : '';
+    const feel = feelings.value ? `\n\nWhat feels hard → ${feelings.value.trim()}` : '';
+    const med = medium.value;
+    const loc = place.value ? ` (${place.value.trim()})` : '';
+    const when = dt.value ? new Date(dt.value) : null;
+    const whenStr = when ? when.toLocaleString([], {hour:'2-digit', minute:'2-digit', year:'numeric', month:'short', day:'numeric'}) : '[date/time]';
+    const header = `Important conversation${name ? ' with ' + name : ''}`;
+    const body = `Topic → ${t}${whyTxt}${feel}`;
+    const details = `\n\nBlock: ${whenStr} · ${med}${loc}\n\nIntention: Show up calm, be specific, invite their view.`;
+    invite.value = `${header}\n\n${body}${details}`;
+  }
+  function z(n){ return String(n).padStart(2,'0'); }
+  function toICSDate(d){
+    return d.getUTCFullYear() + z(d.getUTCMonth()+1) + z(d.getUTCDate()) + 'T' +
+           z(d.getUTCHours()) + z(d.getUTCMinutes()) + z(d.getUTCSeconds()) + 'Z';
+  }
+  function escapeICS(s){
+    return s.replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,').replace(/\n/g,'\\n');
+  }
+  function buildICS(){
+    const start = dt.value ? new Date(dt.value) : new Date();
+    const minutes = Number(dur.value||30);
+    const end = new Date(start.getTime() + minutes*60000);
+    const summary = (mode.current==='work' ? 'Reminder: conversation' : 'Reminder: personal conversation') + (who.value?` with ${who.value}`:'') + (topic.value?` — ${topic.value}`:'');
+    const description = invite.value || 'Conversation reminder.';
+    const location = place.value || '';
+    const uid = Date.now() + '@important-conversations.local';
+    const now = new Date();
+    const ics =
+`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Important Conversations//Scheduler//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:${uid}
+DTSTAMP:${toICSDate(now)}
+DTSTART:${toICSDate(start)}
+DTEND:${toICSDate(end)}
+SUMMARY:${escapeICS(summary)}
+DESCRIPTION:${escapeICS(description)}
+LOCATION:${escapeICS(location)}
+END:VEVENT
+END:VCALENDAR`;
+    return ics;
+  }
+  function download(filename, text, type='text/plain;charset=utf-8'){
+    const blob = new Blob([text], {type});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); }, 0);
+  }
+  function gcalLink(){
+    const start = dt.value ? new Date(dt.value) : new Date();
+    const minutes = Number(dur.value||30);
+    const end = new Date(start.getTime() + minutes*60000);
+    const fmt = (d)=> d.getUTCFullYear()
+      + z(d.getUTCMonth()+1) + z(d.getUTCDate())
+      + 'T' + z(d.getUTCHours()) + z(d.getUTCMinutes()) + z(d.getUTCHours()) + 'Z';
+    const text = (mode.current==='work' ? 'Reminder: conversation' : 'Reminder: personal conversation') + (who.value?` with ${who.value}`:'') + (topic.value?` — ${topic.value}`:'');
+    const details = invite.value || '';
+    const location = place.value || '';
+    const url = new URL('https://calendar.google.com/calendar/render');
+    url.searchParams.set('action','TEMPLATE');
+    url.searchParams.set('text', text);
+    url.searchParams.set('dates', `${fmt(start)}/${fmt(end)}`);
+    url.searchParams.set('details', details);
+    if(location) url.searchParams.set('location', location);
+    return url.toString();
+  }
+  document.getElementById('copyText').addEventListener('click', async ()=>{ try { await navigator.clipboard.writeText(invite.value); } catch(e){} });
+  document.getElementById('dlTXT').addEventListener('click', ()=>{
+    const name = who.value ? ` with ${who.value}` : '';
+    const filename = `important_conversation${name.replace(/\s+/g,'_')}.txt`;
+    download(filename, invite.value, 'text/plain;charset=utf-8');
+  });
+  document.getElementById('dlICS').addEventListener('click', ()=>{
+    const filename = 'important_conversation.ics';
+    download(filename, buildICS(), 'text/calendar;charset=utf-8');
+  });
+  document.getElementById('gcal').addEventListener('click', ()=>{ window.open(gcalLink(), '_blank'); });
+  appRoot.setAttribute('aria-hidden','true');
+})();
+</script>
+</body>
+</html>
