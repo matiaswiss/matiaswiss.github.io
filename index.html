@@ -10,43 +10,41 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/addons/p5.sound.min.js"></script>
     <style>
       .container { margin-bottom: 0; }
-
       .projects-section { clear: both; margin-top: 40px; }
-
+      .caption-row,
       .project-row {
-        display: flex;
+        display: grid;
+        grid-template-columns: repeat(3, 400px);
         justify-content: center;
-        align-items: center;
-        gap: 60px;
-        flex-wrap: wrap;
+        column-gap: 60px;
       }
-
-      .caption-row {
-        display: flex;
-        justify-content: center;
-        gap: 60px;
-        margin-bottom: 8px;
-      }
-
+      .caption-row { margin-bottom: 10px; }
       .caption {
         font-size: 0.95rem;
         color: #666;
         font-weight: 400;
         font-style: italic;
-        width: 400px;
         text-align: center;
       }
-
-      #sketch-holder { width: 400px; height: 400px; margin: 0 auto; }
+      #sketch-holder {
+        width: 400px;
+        height: 400px;
+        margin: 0 auto;
+      }
       #sketch-holder canvas {
         max-width: 100%;
         height: auto;
         cursor: pointer;
         display: block;
       }
-
+      .image-tile {
+        display: block;
+        width: 400px;
+        margin: 0 auto;
+        text-align: center;
+      }
       .image-tile img {
-        max-width: 400px;
+        max-width: 100%;
         height: auto;
         border-radius: 20px;
         display: block;
@@ -96,16 +94,22 @@
       <div class="caption-row">
         <div class="caption">Stop and breathe for a moment:</div>
         <div class="caption">Reflect on a relationship:</div>
+        <div class="caption">Schedule an important conversation:</div>
       </div>
+
       <div class="project-row">
         <div id="sketch-holder"></div>
-        <a class="image-tile" href="relationalresponselocus_mw.html" target="_blank">
+
+        <a class="image-tile" href="relationalresponselocus_mw.html" target="_blank" rel="noopener">
           <img src="relresponselocus.png" alt="Reflect on a relationship" />
+        </a>
+
+        <a class="image-tile" href="importantconversations_schedule_helper.html" target="_blank" rel="noopener">
+          <img src="importantconversations.png" alt="Schedule an important conversation" />
         </a>
       </div>
     </section>
 
-    <!-- p5.js breathing script stays the same -->
     <script>
       let phase = 0;
       let timer = 0;
