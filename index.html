@@ -13,16 +13,39 @@
 
       .projects-section { clear: both; margin-top: 40px; }
 
-      .project-row { display: flex; justify-content: center; align-items: flex-start; gap: 40px; flex-wrap: wrap; }
+      .project-row {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 60px;
+        flex-wrap: wrap;
+      }
 
-      .tile { text-align: center; max-width: 400px; }
+      .tile { text-align: center; }
 
-      .caption { margin-bottom: 8px; font-size: 0.95rem; color: #666; font-weight: 400; font-style: italic; }
+      .caption {
+        margin-bottom: 8px;
+        font-size: 0.95rem;
+        color: #666;
+        font-weight: 400;
+        font-style: italic;
+      }
 
       #sketch-holder { width: 400px; height: 400px; margin: 0 auto; }
-      #sketch-holder canvas { max-width: 100%; height: auto; cursor: pointer; display: block; }
+      #sketch-holder canvas {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+        display: block;
+      }
 
-      .image-tile img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+      .image-tile img {
+        max-width: 400px;
+        height: auto;
+        border-radius: 20px;
+        display: block;
+        margin: 0 auto;
+      }
     </style>
   </head>
   <body>
