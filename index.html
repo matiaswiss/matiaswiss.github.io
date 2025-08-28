@@ -10,27 +10,31 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/addons/p5.sound.min.js"></script>
     <style>
       .container { margin-bottom: 0; }
-      .projects-section { clear: both; margin-top: 40px; }
-
+      .projects-section {
+        clear: both;
+        margin-top: 40px;
+        border-top: 1px solid #e6e9ee;
+        background: #fafbfc;
+        padding: 24px 0;
+      }
       .caption-row,
       .project-row {
         display: grid;
         grid-template-columns: repeat(3, 400px);
-        justify-content: center;
-        column-gap: 60px;
+        justify-content: space-between;
+        column-gap: 24px;
       }
       .caption-row { margin-bottom: 10px; }
-
       .caption {
         font-size: 0.95rem;
-        color: #666;
+        color: #b9bec6;
         font-weight: 400;
         font-style: italic;
         text-align: center;
+        text-decoration: underline;
+        text-underline-offset: 3px;
       }
-
       .project-row { align-items: center; }
-
       #sketch-holder {
         width: 400px;
         height: 400px;
@@ -42,7 +46,6 @@
         cursor: pointer;
         display: block;
       }
-
       .image-tile {
         width: 400px;
         height: 400px;
@@ -80,7 +83,7 @@
           I'm a Predoctoral Research Fellow at Northwestern’s Kellogg School of
           Management, where I work with
           <a href="https://www.kellogg.northwestern.edu/faculty/directory/teeny_jacob.aspx" target="_blank">Dr. Jacob Teeny</a>,
-          <a href="https://www.kellogg.northwestern.edu/faculty/directory/achar_chethana.aspx" target="_blank">Dr. Chethana Achar</a>, and Management and Organizations faculty.
+          <a href="https://www.kellogg.northwestern.edu/faculty/directory/achar_chethana.aspx" target="_blank">Dr. Chethana Achar</a>, and MORS faculty.
         </p>
 
         <p class="small-bio">
@@ -100,22 +103,24 @@
     </div>
 
     <section class="projects-section">
-      <div class="caption-row">
-        <div class="caption">Stop and breathe for a moment:</div>
-        <div class="caption">Reflect on a relationship:</div>
-        <div class="caption">Schedule an important conversation:</div>
-      </div>
+      <div class="container">
+        <div class="caption-row">
+          <div class="caption">Stop and breathe for a moment:</div>
+          <div class="caption">Reflect on a relationship:</div>
+          <div class="caption">Schedule an important conversation:</div>
+        </div>
 
-      <div class="project-row">
-        <div id="sketch-holder"></div>
+        <div class="project-row">
+          <div id="sketch-holder"></div>
 
-        <a class="image-tile" href="relationalresponselocus_mw.html" target="_blank" rel="noopener">
-          <img src="relresponselocus.png" alt="Reflect on a relationship" />
-        </a>
+          <a class="image-tile" href="relationalresponselocus_mw.html" target="_blank" rel="noopener">
+            <img src="relresponselocus.png" alt="Reflect on a relationship" />
+          </a>
 
-        <a class="image-tile" href="importantconversations_schedule_helper.html" target="_blank" rel="noopener">
-          <img src="importantconversations.png" alt="Schedule an important conversation" />
-        </a>
+          <a class="image-tile" href="importantconversations_schedule_helper.html" target="_blank" rel="noopener">
+            <img src="importantconversations.png" alt="Schedule an important conversation" />
+          </a>
+        </div>
       </div>
     </section>
 
@@ -285,7 +290,7 @@
           textSize(10);
           if (!isFifth) {
             let seconds = ceil((duration - timer) / 60);
-            text(`${seconds} sec • round ${min(roundCount, 4)} of 4`, centerX, centerY + 15);
+            text(`${seconds} sec • round ${Math.min(roundCount, 4)} of 4`, centerX, centerY + 15);
           }
         }
       }
@@ -306,7 +311,7 @@
       }
 
       function touchStarted() {
-        if (mouseX >= 0 && mouseX <= width && mouseY >= 0 && mouseY <= height) {
+        if (mouseX >= 0 && mouseY >= 0 && mouseX <= width && mouseY <= height) {
           if (getAudioContext().state !== "running") getAudioContext().resume();
           if (!started) { started = true; paused = false; }
           else { paused = !paused; }
