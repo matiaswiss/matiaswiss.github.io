@@ -28,14 +28,17 @@
         border-radius: 28px;
         padding: 20px;
       }
+
       .caption-row,
       .project-row {
         display: grid;
-        grid-template-columns: repeat(3, 300px);
-        justify-content: center;
+        grid-template-columns: repeat(3, minmax(300px, 1fr)); /* spreads horizontally */
         column-gap: 24px;
+        justify-items: center;  /* centers content in each column */
+        align-items: center;
       }
       .caption-row { margin-bottom: 10px; }
+
       .caption {
         font-size: 0.95rem;
         color: #8b929b;
@@ -45,7 +48,7 @@
         text-decoration: underline;
         text-underline-offset: 3px;
       }
-      .project-row { align-items: center; }
+
       #sketch-holder {
         width: 300px;
         height: 300px;
@@ -57,6 +60,7 @@
         cursor: pointer;
         display: block;
       }
+
       .image-tile {
         width: 300px;
         height: 300px;
