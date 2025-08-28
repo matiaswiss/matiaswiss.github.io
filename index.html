@@ -13,16 +13,16 @@
 
       .projects-section { clear: both; margin-top: 40px; }
 
-      .project-row { display: flex; justify-content: center; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
+      .project-row { display: flex; justify-content: center; align-items: flex-start; gap: 40px; flex-wrap: wrap; }
 
-      .tile { width: 400px; text-align: center; }
+      .tile { text-align: center; max-width: 400px; }
 
       .caption { margin-bottom: 8px; font-size: 0.95rem; color: #666; font-weight: 400; font-style: italic; }
 
       #sketch-holder { width: 400px; height: 400px; margin: 0 auto; }
       #sketch-holder canvas { max-width: 100%; height: auto; cursor: pointer; display: block; }
 
-      .image-tile img { width: 400px; height: 400px; display: block; object-fit: cover; }
+      .image-tile img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
     </style>
   </head>
   <body>
@@ -66,12 +66,12 @@
     <section class="projects-section">
       <div class="project-row">
         <div class="tile">
-          <div class="caption">Stop and breathe for a moment.</div>
+          <div class="caption">Stop and breathe for a moment:</div>
           <div id="sketch-holder"></div>
         </div>
 
         <div class="tile">
-          <div class="caption">Reflect on a relationship</div>
+          <div class="caption">Reflect on a relationship:</div>
           <a class="image-tile" href="relationalresponselocus_mw.html">
             <img src="relresponselocus.png" alt="Reflect on a relationship" />
           </a>
