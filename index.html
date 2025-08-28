@@ -4,40 +4,25 @@
     <meta charset="UTF-8" />
     <title>Matías Wissinger</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap" rel="stylesheet" />
     <link href="style.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/addons/p5.sound.min.js"></script>
     <style>
-      .container {
-        margin-bottom: 0;
-      }
-      .projects-section {
-        clear: both;
-        margin-top: 10px;
-        text-align: center;
-      }
-      #sketch-holder {
-        width: 400px;
-        height: 400px;
-        margin: 0 auto;
-      }
-      #sketch-holder canvas {
-        max-width: 100%;
-        height: auto;
-        cursor: pointer;
-        display: block;
-      }
-      .project-copy {
-        margin-bottom: 6px; 
-        font-size: 1.2rem;
-      }
-      .project-copy strong {
-        font-weight: 600;
-      }
+      .container { margin-bottom: 0; }
+
+      .projects-section { clear: both; margin-top: 40px; }
+
+      .project-row { display: flex; justify-content: center; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
+
+      .tile { width: 400px; text-align: center; }
+
+      .caption { margin-bottom: 8px; font-size: 0.95rem; color: #666; font-weight: 400; font-style: italic; }
+
+      #sketch-holder { width: 400px; height: 400px; margin: 0 auto; }
+      #sketch-holder canvas { max-width: 100%; height: auto; cursor: pointer; display: block; }
+
+      .image-tile img { width: 400px; height: 400px; display: block; object-fit: cover; }
     </style>
   </head>
   <body>
@@ -58,53 +43,40 @@
         <p class="small-bio">
           I'm a Predoctoral Research Fellow at Northwestern’s Kellogg School of
           Management, where I work with
-          <a
-            href="https://www.kellogg.northwestern.edu/faculty/directory/teeny_jacob.aspx"
-            target="_blank"
-            >Dr. Jacob Teeny</a
-          >,
-          <a
-            href="https://www.kellogg.northwestern.edu/faculty/directory/achar_chethana.aspx"
-            target="_blank"
-            >Dr. Chethana Achar</a
-          >, and Management and Organizations faculty.
+          <a href="https://www.kellogg.northwestern.edu/faculty/directory/teeny_jacob.aspx" target="_blank">Dr. Jacob Teeny</a>,
+          <a href="https://www.kellogg.northwestern.edu/faculty/directory/achar_chethana.aspx" target="_blank">Dr. Chethana Achar</a>, and MORS faculty.
         </p>
 
         <p class="small-bio">
           Before Kellogg, I worked in the
-          <a
-            href="https://www.gonzaga.edu/college-of-arts-sciences/departments/psychology/research-labs/social-interdependence-lab/ongoing-projects"
-            target="_blank"
-          >
-            Social Interdependence Lab</a
-          >
+          <a href="https://www.gonzaga.edu/college-of-arts-sciences/departments/psychology/research-labs/social-interdependence-lab/ongoing-projects" target="_blank">
+            Social Interdependence Lab</a>
           at Gonzaga University with
-          <a
-            href="https://www.gonzaga.edu/college-of-arts-sciences/faculty-listing/detail/adam-w-stivers-phd-e14a1d4a"
-            target="_blank"
-            >Dr. Adam Stivers</a
-          >
+          <a href="https://www.gonzaga.edu/college-of-arts-sciences/faculty-listing/detail/adam-w-stivers-phd-e14a1d4a" target="_blank">Dr. Adam Stivers</a>
           and completed my thesis with the help of
-          <a
-            href="https://www.gonzaga.edu/school-of-business-administration/faculty/detail/rebecca-a-bull-schaefer-phd-ed35b7f4"
-            target="_blank"
-            >Dr. Rebecca Bull Schaefer</a
-          >.
+          <a href="https://www.gonzaga.edu/school-of-business-administration/faculty/detail/rebecca-a-bull-schaefer-phd-ed35b7f4" target="_blank">Dr. Rebecca Bull Schaefer</a>.
         </p>
 
         <footer class="small-footer">
-          <p>
-            © 2025 · matias[dot]wissinger[at]kellogg[dot]northwestern[dot]edu
-          </p>
+          <p>© 2025 · matias[dot]wissinger[at]kellogg[dot]northwestern[dot]edu</p>
         </footer>
       </div>
     </div>
 
     <section class="projects-section">
-      <div class="project-copy">
-        <strong>Stop and breathe for a moment.</strong>
+      <div class="project-row">
+        <div class="tile">
+          <div class="caption">Stop and breathe for a moment.</div>
+          <div id="sketch-holder"></div>
+        </div>
+
+        <div class="tile">
+          <div class="caption">Reflect on a relationship</div>
+          <a class="image-tile" href="relationalresponselocus_mw.html">
+            <img src="relresponselocus.png" alt="Reflect on a relationship" />
+          </a>
+        </div>
       </div>
-      <div id="sketch-holder"></div>
     </section>
 
     <script>
@@ -197,11 +169,9 @@
         if (!started || paused) return;
         const phaseName = phases[p];
         const freq =
-          phaseName === "inhale"
-            ? freqMap.inhale
-            : phaseName === "exhale"
-            ? freqMap.exhale
-            : freqMap.hold;
+          phaseName === "inhale" ? freqMap.inhale
+          : phaseName === "exhale" ? freqMap.exhale
+          : freqMap.hold;
         osc.freq(freq);
         osc.setType("sine");
         env.play(osc);
@@ -216,14 +186,7 @@
         fill("#000");
         noStroke();
         let s = 30;
-        triangle(
-          centerX - s / 2.5,
-          centerY - s / 2,
-          centerX - s / 2.5,
-          centerY + s / 2,
-          centerX + s / 2,
-          centerY
-        );
+        triangle(centerX - s / 2.5, centerY - s / 2, centerX - s / 2.5, centerY + s / 2, centerX + s / 2, centerY);
       }
 
       function drawBoxAndProgress(isStatic = false, isFifth = false) {
@@ -237,128 +200,76 @@
         let size = boxSize * scale;
         let offset = size / 2;
         let shortOffset = offset * 0.8;
+
         stroke("#000080");
         strokeWeight(8);
         noFill();
         rectMode(CENTER);
         rect(centerX, centerY, size, size, 10);
+
         strokeWeight(3);
-        for (let i = 0; i < 4; i++) {
-          if (sideAlphas[i] > 0 && sideAlphas[i] < 255) sideAlphas[i] += 5;
-        }
+        for (let i = 0; i < 4; i++) { if (sideAlphas[i] > 0 && sideAlphas[i] < 255) sideAlphas[i] += 5; }
+
         stroke(...progressColor, sideAlphas[0]);
-        if (completedSides >= 1)
-          line(
-            centerX - shortOffset,
-            centerY - shortOffset,
-            centerX + shortOffset,
-            centerY - shortOffset
-          );
+        if (completedSides >= 1) line(centerX - shortOffset, centerY - shortOffset, centerX + shortOffset, centerY - shortOffset);
         stroke(...progressColor, sideAlphas[1]);
-        if (completedSides >= 2)
-          line(
-            centerX + shortOffset,
-            centerY - shortOffset,
-            centerX + shortOffset,
-            centerY + shortOffset
-          );
+        if (completedSides >= 2) line(centerX + shortOffset, centerY - shortOffset, centerX + shortOffset, centerY + shortOffset);
         stroke(...progressColor, sideAlphas[2]);
-        if (completedSides >= 3)
-          line(
-            centerX + shortOffset,
-            centerY + shortOffset,
-            centerX - shortOffset,
-            centerY + shortOffset
-          );
+        if (completedSides >= 3) line(centerX + shortOffset, centerY + shortOffset, centerX - shortOffset, centerY + shortOffset);
         stroke(...progressColor, sideAlphas[3]);
-        if (completedSides >= 4)
-          line(
-            centerX - shortOffset,
-            centerY + shortOffset,
-            centerX - shortOffset,
-            centerY - shortOffset
-          );
+        if (completedSides >= 4) line(centerX - shortOffset, centerY + shortOffset, centerX - shortOffset, centerY - shortOffset);
+
         if (!isStatic) {
           strokeWeight(2);
           stroke(...progressColor);
           if (phase === 0) {
-            let x = map(
-              progress,
-              0,
-              1,
-              centerX - shortOffset,
-              centerX + shortOffset
-            );
+            let x = map(progress, 0, 1, centerX - shortOffset, centerX + shortOffset);
             line(centerX - shortOffset, centerY - shortOffset, x, centerY - shortOffset);
           } else if (phase === 1) {
             let y = map(progress, 0, 1, centerY - shortOffset, centerY + shortOffset);
             line(centerX + shortOffset, centerY - shortOffset, centerX + shortOffset, y);
           } else if (phase === 2) {
-            let x = map(
-              progress,
-              0,
-              1,
-              centerX + shortOffset,
-              centerX - shortOffset
-            );
+            let x = map(progress, 0, 1, centerX + shortOffset, centerX - shortOffset);
             line(centerX + shortOffset, centerY + shortOffset, x, centerY + shortOffset);
           } else if (phase === 3) {
             let y = map(progress, 0, 1, centerY + shortOffset, centerY - shortOffset);
             line(centerX - shortOffset, centerY + shortOffset, centerX - shortOffset, y);
           }
+
           noStroke();
           fill("#333");
           textSize(16);
           let label = isFifth ? "calm mind" : phases[phase];
           text(label, centerX, centerY - 10);
+
           textSize(10);
           if (!isFifth) {
             let seconds = ceil((duration - timer) / 60);
-            text(
-              `${seconds} sec • round ${min(roundCount, 4)} of 4`,
-              centerX,
-              centerY + 15
-            );
+            text(`${seconds} sec • round ${min(roundCount, 4)} of 4`, centerX, centerY + 15);
           }
         }
       }
 
       function resetAll() {
-        started = false;
-        paused = false;
-        pauseBeforeFinal = false;
-        pauseFrames = 0;
-        phase = 0;
-        timer = 0;
-        roundCount = 1;
-        completedSides = 0;
-        holdRegistered = false;
-        sideAlphas = [0, 0, 0, 0];
-        fifthRound = false;
-        fifthRoundTimer = 0;
-        fadeAlpha = 0;
+        started = false; paused = false;
+        pauseBeforeFinal = false; pauseFrames = 0;
+        phase = 0; timer = 0; roundCount = 1; completedSides = 0;
+        holdRegistered = false; sideAlphas = [0, 0, 0, 0];
+        fifthRound = false; fifthRoundTimer = 0; fadeAlpha = 0;
       }
 
       function mousePressed() {
         if (mouseX < 0 || mouseX > width || mouseY < 0 || mouseY > height) return;
         if (getAudioContext().state !== "running") getAudioContext().resume();
-        if (!started) {
-          started = true;
-          paused = false;
-        } else {
-          paused = !paused;
-        }
+        if (!started) { started = true; paused = false; }
+        else { paused = !paused; }
       }
 
       function touchStarted() {
         if (mouseX >= 0 && mouseX <= width && mouseY >= 0 && mouseY <= height) {
           if (getAudioContext().state !== "running") getAudioContext().resume();
-          if (!started) {
-            started = true;
-            paused = false;
-          } else {
-            paused = !paused;
-          }
+          if (!started) { started = true; paused = false; }
+          else { paused = !paused; }
           return false;
         }
       }
