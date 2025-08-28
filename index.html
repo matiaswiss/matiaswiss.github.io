@@ -10,16 +10,20 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/addons/p5.sound.min.js"></script>
         <style>
+          /* Keep existing layout; just control the sketch placement */
           #sketch-holder {
-            width: 300px; 
+            width: 300px;
             height: 300px;
-            float: left;
-            margin-top: 20px;
+            display: block;     /* no floating; behaves like a block below bio */
+            clear: both;        /* ensure it sits under any floated elements */
+            margin-top: 80px;   /* push it well below the bio */
+            margin-left: 0;     /* left-aligned at the left margin */
           }
           #sketch-holder canvas {
             max-width: 100%;
             height: auto;
-            cursor: pointer; /* makes it look clickable */
+            cursor: pointer;    /* indicate interactivity */
+            display: block;
           }
         </style>
       </head>      
@@ -71,16 +75,21 @@
     let roundCount = 1;
     let completedSides = 0;
     let holdRegistered = false;
-    let started = false;
+
+    let started = false;  // running at least once
+    let paused  = false;  // true when user toggles stop
+
     let boxPulse = 0;
     let pauseBeforeFinal = false;
     let pauseFrames = 0;
     let finalBoxSize;
     let sideAlphas = [0, 0, 0, 0];
+
     let fifthRound = false;
     let fifthRoundTimer = 0;
     const fastDuration = 60; 
     let fadeAlpha = 0;
+
     let osc, env;
     const freqMap = { inhale: 174, hold: 136, exhale: 110 };
     const progressColor = [0, 128, 128]; 
@@ -90,21 +99,28 @@
       textAlign(CENTER, CENTER);
       textFont('Didact Gothic');
       boxSize = min(width, height) * 0.6;
+
       osc = new p5.Oscillator('sine');
       osc.amp(0);
       osc.start();
+
       env = new p5.Envelope();
       env.setADSR(0.05, 0.1, 0.1, 0.2);
       env.setRange(0.08, 0);
     }
 
     function draw() {
+      // Transparent canvas (no blue background)
       clear();
-      background('#f0f8ff');
+
       centerX = width / 2;
       centerY = height / 2;
 
-      if (!started) { drawIdleBox(); return; }
+      if (!started || paused) {
+        // Show idle square when not running or paused
+        drawIdleBox();
+        return;
+      }
 
       if (pauseBeforeFinal) {
         drawBoxAndProgress(true);
@@ -149,7 +165,7 @@
     }
 
     function triggerPhaseSound(p) {
-      if (!started) return;
+      if (!started || paused) return;
       const phaseName = phases[p];
       const freq = (phaseName === 'inhale') ? freqMap.inhale
                  : (phaseName === 'exhale') ? freqMap.exhale
@@ -162,6 +178,7 @@
     function drawIdleBox() {
       stroke('#000080'); strokeWeight(8); noFill();
       rectMode(CENTER); rect(centerX, centerY, boxSize, boxSize, 10);
+      // Simple "play" indicator
       fill('#000'); noStroke(); let s = 30;
       triangle(centerX - s / 2.5, centerY - s / 2,
                centerX - s / 2.5, centerY + s / 2,
@@ -213,13 +230,7 @@
           line(centerX - shortOffset, centerY + shortOffset, centerX - shortOffset, y);
         }
 
-        if (isFifth) {
-          fadeAlpha = map(sin((fifthRoundTimer / (fastDuration * 4)) * PI), 0, 1, 0, 255);
-          fill(...progressColor, fadeAlpha);
-        } else {
-          fill('#333');
-        }
-        noStroke(); textSize(16);
+        noStroke(); textSize(16); fill('#333');
         let label = isFifth ? "calm mind" : phases[phase];
         text(label, centerX, centerY - 10);
 
@@ -232,23 +243,30 @@
     }
 
     function resetAll() {
-      started = false; pauseBeforeFinal = false; pauseFrames = 0;
+      started = false; paused = false;
+      pauseBeforeFinal = false; pauseFrames = 0;
       phase = 0; timer = 0; roundCount = 1; completedSides = 0;
       holdRegistered = false; boxPulse = 0; sideAlphas = [0,0,0,0];
       fifthRound = false; fifthRoundTimer = 0; fadeAlpha = 0;
     }
 
+    // Toggle logic: first click starts, second click stops (pauses), third resumes.
     function mousePressed() {
-      // Only respond if inside canvas
       if (mouseX < 0 || mouseX > width || mouseY < 0 || mouseY > height) return;
       if (getAudioContext().state !== 'running') getAudioContext().resume();
-      if (!started) started = true;
+
+      if (!started) {
+        started = true; paused = false;
+      } else {
+        paused = !paused;
+      }
     }
 
     function touchStarted() {
       if (mouseX >= 0 && mouseX <= width && mouseY >= 0 && mouseY <= height) {
         if (getAudioContext().state !== 'running') getAudioContext().resume();
-        if (!started) started = true;
+        if (!started) { started = true; paused = false; }
+        else { paused = !paused; }
         return false; // prevent page scroll
       }
     }
