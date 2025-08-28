@@ -16,19 +16,25 @@
       .project-row {
         display: flex;
         justify-content: center;
-        align-items: center; /* centers both tiles vertically */
+        align-items: center;
         gap: 60px;
         flex-wrap: wrap;
       }
 
-      .tile { text-align: center; }
+      .caption-row {
+        display: flex;
+        justify-content: center;
+        gap: 60px;
+        margin-bottom: 8px;
+      }
 
       .caption {
-        margin-bottom: 8px;
         font-size: 0.95rem;
         color: #666;
         font-weight: 400;
         font-style: italic;
+        width: 400px;
+        text-align: center;
       }
 
       #sketch-holder { width: 400px; height: 400px; margin: 0 auto; }
@@ -87,21 +93,19 @@
     </div>
 
     <section class="projects-section">
+      <div class="caption-row">
+        <div class="caption">Stop and breathe for a moment:</div>
+        <div class="caption">Reflect on a relationship:</div>
+      </div>
       <div class="project-row">
-        <div class="tile">
-          <div class="caption">Stop and breathe for a moment:</div>
-          <div id="sketch-holder"></div>
-        </div>
-
-        <div class="tile">
-          <div class="caption">Reflect on a relationship:</div>
-          <a class="image-tile" href="relationalresponselocus_mw.html" target="_blank">
-            <img src="relresponselocus.png" alt="Reflect on a relationship" />
-          </a>
-        </div>
+        <div id="sketch-holder"></div>
+        <a class="image-tile" href="relationalresponselocus_mw.html" target="_blank">
+          <img src="relresponselocus.png" alt="Reflect on a relationship" />
+        </a>
       </div>
     </section>
 
+    <!-- p5.js breathing script stays the same -->
     <script>
       let phase = 0;
       let timer = 0;
