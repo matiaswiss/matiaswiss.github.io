@@ -10,7 +10,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/addons/p5.sound.min.js"></script>
     <style>
       .container { margin-bottom: 0; }
-
       .projects-section {
         clear: both;
         margin-top: 40px;
@@ -18,30 +17,25 @@
         padding: 24px 0;
         background: transparent;
       }
-
       .projects-inner {
         max-width: 1320px;
         margin: 0 auto;
         padding: 0 24px;
       }
-
       .projects-bubble {
         background: #fafbfc;
         border: 1px solid #e6e9ee;
         border-radius: 28px;
         padding: 20px;
       }
-
       .caption-row,
       .project-row {
         display: grid;
-        grid-template-columns: 400px 360px 360px;
+        grid-template-columns: repeat(3, 300px);
         justify-content: center;
         column-gap: 24px;
       }
-
       .caption-row { margin-bottom: 10px; }
-
       .caption {
         font-size: 0.95rem;
         color: #8b929b;
@@ -51,12 +45,10 @@
         text-decoration: underline;
         text-underline-offset: 3px;
       }
-
       .project-row { align-items: center; }
-
       #sketch-holder {
-        width: 400px;
-        height: 400px;
+        width: 300px;
+        height: 300px;
         margin: 0 auto;
       }
       #sketch-holder canvas {
@@ -65,19 +57,14 @@
         cursor: pointer;
         display: block;
       }
-
       .image-tile {
-        width: 400px;
-        height: 400px;
+        width: 300px;
+        height: 300px;
         margin: 0 auto;
         display: flex;
         align-items: center;
         justify-content: center;
         text-align: center;
-      }
-      .image-tile.img-small {
-        width: 360px;
-        height: 360px;
       }
       .image-tile img {
         max-width: 100%;
@@ -138,11 +125,11 @@
           <div class="project-row">
             <div id="sketch-holder"></div>
 
-            <a class="image-tile img-small" href="relationalresponselocus_mw.html" target="_blank" rel="noopener">
+            <a class="image-tile" href="relationalresponselocus_mw.html" target="_blank" rel="noopener">
               <img src="relresponselocus.png" alt="Reflect on a relationship" />
             </a>
 
-            <a class="image-tile img-small" href="importantconversations_schedule_helper.html" target="_blank" rel="noopener">
+            <a class="image-tile" href="importantconversations_schedule_helper.html" target="_blank" rel="noopener">
               <img src="importantconversations.png" alt="Schedule an important conversation" />
             </a>
           </div>
@@ -174,7 +161,7 @@
       const progressColor = [0, 128, 128];
 
       function setup() {
-        createCanvas(400, 400).parent("sketch-holder");
+        createCanvas(300, 300).parent("sketch-holder");
         textAlign(CENTER, CENTER);
         textFont("Didact Gothic");
         boxSize = Math.min(width, height) * 0.6;
