@@ -86,7 +86,7 @@
       </div>
 
       <div class="text-column">
-    
+
         <h1 class="single-line">
           Howdy, I'm 
           <a href="mailto:matias.wissinger@kellogg.northwestern.edu" 
@@ -101,14 +101,14 @@
           <a href="projects.html">Projects</a>
           <a href="Art.html">Art</a>
         </nav>
-
+    
         <p class="small-bio">
           I'm a Predoctoral Research Fellow at Northwestern’s Kellogg School of
           Management, where I work with
           <a href="https://www.kellogg.northwestern.edu/faculty/directory/teeny_jacob.aspx" target="_blank">Dr. Jacob Teeny</a>,
           <a href="https://www.kellogg.northwestern.edu/faculty/directory/achar_chethana.aspx" target="_blank">Dr. Chethana Achar</a>, and Management & Organizations faculty.
         </p>
-
+    
         <p class="small-bio">
           Before Kellogg, I worked in the
           <a href="https://www.gonzaga.edu/college-of-arts-sciences/departments/psychology/research-labs/social-interdependence-lab/ongoing-projects" target="_blank">
@@ -118,13 +118,13 @@
           and completed my thesis with the help of
           <a href="https://www.gonzaga.edu/school-of-business-administration/faculty/detail/rebecca-a-bull-schaefer-phd-ed35b7f4" target="_blank">Dr. Rebecca Bull Schaefer</a>.
         </p>
-
+    
         <footer class="small-footer">
           <p>© 2025</p>
         </footer>
       </div>
     </div>
-
+    
     <section class="projects-section">
       <div class="projects-inner">
         <div class="projects-bubble">
@@ -133,14 +133,14 @@
             <div class="caption">Reflect on a relationship:</div>
             <div class="caption">Schedule an important conversation:</div>
           </div>
-
+    
           <div class="project-row">
             <div id="sketch-holder"></div>
-
+    
             <a class="image-tile" href="relationalresponselocus_mw.html" target="_blank" rel="noopener">
               <img src="relresponselocus.png" alt="Reflect on a relationship" />
             </a>
-
+    
             <a class="image-tile" href="importantconversations_schedule_helper.html" target="_blank" rel="noopener">
               <img src="importantconversations.png" alt="Schedule an important conversation" />
             </a>
@@ -148,7 +148,7 @@
         </div>
       </div>
     </section>
-
+    
     <script>
       let phase = 0;
       let timer = 0;
@@ -171,7 +171,7 @@
       let osc, env;
       const freqMap = { inhale: 174, hold: 136, exhale: 110 };
       const progressColor = [0, 128, 128];
-
+    
       function setup() {
         createCanvas(300, 300).parent("sketch-holder");
         textAlign(CENTER, CENTER);
@@ -184,7 +184,7 @@
         env.setADSR(0.05, 0.1, 0.1, 0.2);
         env.setRange(0.08, 0);
       }
-
+    
       function draw() {
         clear();
         centerX = width / 2;
@@ -234,7 +234,7 @@
         }
         drawBoxAndProgress();
       }
-
+    
       function triggerPhaseSound(p) {
         if (!started || paused) return;
         const phaseName = phases[p];
@@ -246,7 +246,7 @@
         osc.setType("sine");
         env.play(osc);
       }
-
+    
       function drawIdleBox() {
         stroke("#000080");
         strokeWeight(8);
@@ -258,7 +258,7 @@
         let s = 30;
         triangle(centerX - s / 2.5, centerY - s / 2, centerX - s / 2.5, centerY + s / 2, centerX + s / 2, centerY);
       }
-
+    
       function drawBoxAndProgress(isStatic = false, isFifth = false) {
         let progress = timer / (isFifth ? fastDuration : duration);
         let scale = 1.0;
@@ -270,16 +270,16 @@
         let size = boxSize * scale;
         let offset = size / 2;
         let shortOffset = offset * 0.8;
-
+    
         stroke("#000080");
         strokeWeight(8);
         noFill();
         rectMode(CENTER);
         rect(centerX, centerY, size, size, 10);
-
+    
         strokeWeight(3);
         for (let i = 0; i < 4; i++) { if (sideAlphas[i] > 0 && sideAlphas[i] < 255) sideAlphas[i] += 5; }
-
+    
         stroke(...progressColor, sideAlphas[0]);
         if (completedSides >= 1) line(centerX - shortOffset, centerY - shortOffset, centerX + shortOffset, centerY - shortOffset);
         stroke(...progressColor, sideAlphas[1]);
@@ -288,7 +288,7 @@
         if (completedSides >= 3) line(centerX + shortOffset, centerY + shortOffset, centerX - shortOffset, centerY + shortOffset);
         stroke(...progressColor, sideAlphas[3]);
         if (completedSides >= 4) line(centerX - shortOffset, centerY + shortOffset, centerX - shortOffset, centerY - shortOffset);
-
+    
         if (!isStatic) {
           strokeWeight(2);
           stroke(...progressColor);
@@ -305,13 +305,13 @@
             let y = map(progress, 0, 1, centerY + shortOffset, centerY - shortOffset);
             line(centerX - shortOffset, centerY + shortOffset, centerX - shortOffset, y);
           }
-
+    
           noStroke();
           fill("#333");
           textSize(16);
           let label = isFifth ? "calm mind" : phases[phase];
           text(label, centerX, centerY - 10);
-
+    
           textSize(10);
           if (!isFifth) {
             let seconds = ceil((duration - timer) / 60);
@@ -319,7 +319,7 @@
           }
         }
       }
-
+    
       function resetAll() {
         started = false; paused = false;
         pauseBeforeFinal = false; pauseFrames = 0;
@@ -327,14 +327,14 @@
         holdRegistered = false; sideAlphas = [0, 0, 0, 0];
         fifthRound = false; fifthRoundTimer = 0; fadeAlpha = 0;
       }
-
+    
       function mousePressed() {
         if (mouseX < 0 || mouseX > width || mouseY < 0 || mouseY > height) return;
         if (getAudioContext().state !== "running") getAudioContext().resume();
         if (!started) { started = true; paused = false; }
         else { paused = !paused; }
       }
-
+    
       function touchStarted() {
         if (mouseX >= 0 && mouseY >= 0 && mouseX <= width && mouseY <= height) {
           if (getAudioContext().state !== "running") getAudioContext().resume();
@@ -344,5 +344,4 @@
         }
       }
     </script>
-  </body>
-</html>
+    
