@@ -179,7 +179,7 @@ nav a + a::before {
 
 .gradient-hover {
   display: inline-block;
-  background-image: linear-gradient(90deg, #888, #888); 
+  background-image: linear-gradient(90deg, #888, #888); /* solid gray default */
   background-size: 200% 100%;
   background-position: 50% 50%;
   -webkit-background-clip: text;
@@ -193,7 +193,7 @@ nav a + a::before {
   background-image: linear-gradient(
     90deg,
     #888 0%,
-    #1a2a6c 50%, 
+    #000 50%,   /* black highlight */
     #888 100%
   );
   animation: gradient-shift 8s ease-in-out infinite alternate;
