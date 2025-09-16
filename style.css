@@ -50,6 +50,10 @@ a {
   text-decoration-color: black;
 }
 
+nav a[href="Art.html"] {
+  color: #000080; 
+}
+
 a:hover {
   color: #006400;
   text-decoration-color: black;
