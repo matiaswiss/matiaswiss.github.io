@@ -9,7 +9,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/addons/p5.sound.min.js"></script>
     <style>
-      .container { margin-bottom: 0; }
+      .container { 
+        margin-bottom: 0; 
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        max-width: 1200px;
+        margin: 60px auto;
+        padding: 0 20px;
+      }
       .projects-section {
         clear: both;
         margin-top: 40px;
@@ -77,12 +85,20 @@
         border-radius: 20px;
         display: block;
       }
+
+      .photo-column img {
+        width: 420px;
+        height: auto;
+        border-radius: 20px;
+        display: block;
+        object-fit: cover;
+      }
     </style>
   </head>
   <body>
     <div class="container">
       <div class="photo-column">
-        <img src="" alt="Matias Wissinger" />
+        <img src="headshot_no_white.png" alt="Matías Wissinger headshot" />
       </div>
 
       <div class="text-column">
@@ -344,4 +360,5 @@
         }
       }
     </script>
-    
+  </body>
+</html>
