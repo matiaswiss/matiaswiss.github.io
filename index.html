@@ -8,16 +8,59 @@
     <link href="style.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/addons/p5.sound.min.js"></script>
-    
+
+    <style>
+      .index-hero {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 80px;
+        margin: 100px auto 80px;
+        text-align: center;
+      }
+
+      .index-hero .text-column {
+        max-width: 620px;
+        margin: 0 auto;
+      }
+
+      .index-hero .small-bio {
+        line-height: 1.5;
+        margin-bottom: 8px;
+      }
+
+      .index-hero .small-footer p {
+        margin-top: 20px;
+        line-height: 1.5;
+      }
+
+      .index-projects .projects-bubble {
+        background: #f5f6f7;
+        border: 1px solid #e2e4e7;
+        border-radius: 20px;
+        padding: 40px;
+      }
+
+      .index-projects {
+        margin-top: 80px;
+      }
+
+      @media (max-width: 768px) {
+        .index-hero {
+          flex-direction: column;
+          gap: 40px;
+        }
+      }
+    </style>
   </head>
+
   <body>
-    <div class="container">
+    <div class="container index-hero">
       <div class="photo-column">
         <img src="wissinger_headshot.png" alt="Headshot coming soon" />
       </div>
 
       <div class="text-column">
-
         <h1 class="single-line">
           Howdy, I'm 
           <a href="mailto:matias.wissinger@kellogg.northwestern.edu" 
@@ -56,7 +99,7 @@
       </div>
     </div>
     
-    <section class="projects-section">
+    <section class="projects-section index-projects">
       <div class="projects-inner">
         <div class="projects-bubble">
           <div class="caption-row">
