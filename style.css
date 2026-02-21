@@ -270,3 +270,41 @@ nav a + a::before {
 .projects-bubble:has(.project-row > :nth-child(2):hover) .caption-row .caption:nth-child(2) { color: #228B22; }
 .projects-bubble:has(.project-row > :nth-child(3):hover) .caption-row .caption:nth-child(3) { color: #228B22; }
 </style>
+
+@media (max-width: 768px) {
+  .projects-inner {
+    padding: 0 16px;
+  }
+
+  .projects-bubble {
+    padding: 16px;
+  }
+
+  .caption-row,
+  .project-row {
+    grid-template-columns: 1fr;
+    row-gap: 18px;
+    column-gap: 0;
+  }
+
+  .caption {
+    text-align: center;
+  }
+
+  #sketch-holder,
+  .image-tile,
+  .photo-column img {
+    width: min(300px, 100%);
+    height: auto;
+  }
+
+  .image-tile {
+    height: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .single-line {
+    white-space: normal;
+  }
+}
