@@ -4,11 +4,16 @@ html, body {
   background-color: white;
   font-family: 'Source Code Pro', monospace;
   font-size: 16px;
-  color: #444; 
-  margin: 0 auto;         
+  color: #444;
+  margin: 0;
+  padding: 0;
+  letter-spacing: normal;
+}
+
+body {
   max-width: 1200px;
+  margin: 0 auto;
   padding: 0 20px;
-  letter-spacing: normal; 
 }
 
 .container {
@@ -16,14 +21,17 @@ html, body {
   align-items: center;
   gap: 80px;
   max-width: 1200px;
-  margin: 40px auto;     
+  margin: 40px auto;
   padding: 0 20px;
 }
 
 .photo-column img {
-  width: 420px;
+  width: 260px;
+  max-width: 100%;
   height: auto;
-  border-radius: 10px;
+  border-radius: 30px;
+  display: block;
+  object-fit: cover;
 }
 
 .text-column {
@@ -37,7 +45,7 @@ h1 {
   margin-bottom: 0.6em;
   color: #888;
   letter-spacing: normal;
-}  
+}
 
 nav {
   margin-bottom: 1.5em;
@@ -51,7 +59,7 @@ a {
 }
 
 nav a[href="Art.html"] {
-  color: #000080; 
+  color: #000080;
 }
 
 a:hover {
@@ -62,7 +70,7 @@ a:hover {
 p {
   line-height: 1.8;
   font-size: 16px;
-}  
+}
 
 .small-bio {
   font-size: 16px;
@@ -129,24 +137,9 @@ p {
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-@media (max-width: 768px) {
-  .container {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .photo-column img {
-    width: 100%;
-    max-width: 340px;
-  }
-
-  .text-column {
-    max-width: 100%;
-  }
-}
-
-.text-column, .small-bio, .small-footer p {
+.text-column,
+.small-bio,
+.small-footer p {
   letter-spacing: -0.25px;
 }
 
@@ -158,8 +151,13 @@ a, button, [role='button'], input[type='button'], input[type='submit'] {
   cursor: url("green-chat-bubble.png") 16 16, pointer !important;
 }
 
-input[type="text"], input[type="search"], input[type="email"], input[type="url"],
-input[type="tel"], input[type="password"], textarea {
+input[type="text"],
+input[type="search"],
+input[type="email"],
+input[type="url"],
+input[type="tel"],
+input[type="password"],
+textarea {
   cursor: text !important;
 }
 
@@ -169,8 +167,8 @@ input[type="tel"], input[type="password"], textarea {
 
 nav a:not(:first-child)::before {
   content: "/";
-  color: #888;          
-  margin: 0 12px;       
+  color: #888;
+  margin: 0 12px;
 }
 
 nav a + a::before {
@@ -183,7 +181,7 @@ nav a + a::before {
 
 .gradient-hover {
   display: inline-block;
-  background-image: linear-gradient(90deg, #888, #888); 
+  background-image: linear-gradient(90deg, #888, #888);
   background-size: 200% 100%;
   background-position: 50% 50%;
   -webkit-background-clip: text;
@@ -197,34 +195,37 @@ nav a + a::before {
   background-image: linear-gradient(
     90deg,
     #888 0%,
-    #000 50%,  
+    #000 50%,
     #888 100%
   );
   animation: gradient-shift 8s ease-in-out infinite alternate;
 }
 
 @keyframes gradient-shift {
-  0%   { background-position: 48% 50%; }
+  0% { background-position: 48% 50%; }
   100% { background-position: 52% 50%; }
 }
 
 .no-underline {
-  text-decoration: none;  
+  text-decoration: none;
 }
 
 .no-underline:hover {
-  text-decoration: none;  
+  text-decoration: none;
 }
 
 .caption-row,
 .project-row {
   display: grid;
-  grid-template-columns: repeat(3, minmax(300px, 1fr)); 
+  grid-template-columns: repeat(3, minmax(300px, 1fr));
   column-gap: 24px;
-  justify-items: center;  
+  justify-items: center;
   align-items: center;
 }
-.caption-row { margin-bottom: 10px; }
+
+.caption-row {
+  margin-bottom: 10px;
+}
 
 .caption {
   font-size: 0.95rem;
@@ -242,6 +243,7 @@ nav a + a::before {
   height: 300px;
   margin: 0 auto;
 }
+
 #sketch-holder canvas {
   max-width: 100%;
   height: auto;
@@ -258,6 +260,7 @@ nav a + a::before {
   justify-content: center;
   text-align: center;
 }
+
 .image-tile img {
   max-width: 100%;
   max-height: 100%;
@@ -269,42 +272,39 @@ nav a + a::before {
 .projects-bubble:has(.project-row > :nth-child(1):hover) .caption-row .caption:nth-child(1) { color: #228B22; }
 .projects-bubble:has(.project-row > :nth-child(2):hover) .caption-row .caption:nth-child(2) { color: #228B22; }
 .projects-bubble:has(.project-row > :nth-child(3):hover) .caption-row .caption:nth-child(3) { color: #228B22; }
-</style>
 
 @media (max-width: 768px) {
-  .projects-inner {
-    padding: 0 16px;
+
+  .container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
 
-  .projects-bubble {
-    padding: 16px;
+  .text-column {
+    max-width: 100%;
+  }
+
+  .photo-column img {
+    width: 220px;
   }
 
   .caption-row,
   .project-row {
     grid-template-columns: 1fr;
-    row-gap: 18px;
+    row-gap: 20px;
     column-gap: 0;
   }
 
-  .caption {
-    text-align: center;
-  }
-
-  #sketch-holder,
-  .image-tile,
-  .photo-column img {
-    width: min(300px, 100%);
-    height: auto;
-  }
-
-  .image-tile {
-    height: auto;
-  }
-}
-
-@media (max-width: 768px) {
   .single-line {
     white-space: normal;
   }
+
+  #sketch-holder,
+  .image-tile {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+  }
+
 }
