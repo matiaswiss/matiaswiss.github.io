@@ -44,22 +44,29 @@ body {
   height: auto;
   border-radius: 30px;
   display: block;
-  object-fit: cover;
 }
 
-.project-container .photo-column img,
-.project-container .photo-row img {
+/* Single-image projects */
+.project-container .photo-column img {
   width: 420px;
-  height: 280px;
-  object-fit: cover;
+  max-width: 100%;
+  height: auto;
   border-radius: 12px;
-  display: block;
 }
 
-.photo-row {
+/* Two-image projects */
+.project-container .photo-row {
   display: flex;
   gap: 20px;
   flex-shrink: 0;
+}
+
+.project-container .photo-row img {
+  width: 200px;
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  display: block;
 }
 
 .text-column {
@@ -278,11 +285,11 @@ nav a + a::before {
   .project-container .photo-row img {
     width: 100%;
     max-width: 420px;
-    height: 240px;
   }
 
-  .photo-row {
+  .project-container .photo-row {
     flex-direction: column;
+    gap: 20px;
   }
 
   .caption-row,
