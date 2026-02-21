@@ -61,13 +61,16 @@
         box-shadow: 0 6px 18px rgba(0,0,0,0.06);
       }
     
-      .index-projects .caption-row .caption:nth-child(1):hover {
+      .index-projects .projects-bubble:has(.project-row > :nth-child(1):hover) 
+      .caption-row .caption:nth-child(1) {
         color: #000080;
       }
     
-      .index-projects .caption-row .caption:nth-child(2):hover,
-      .index-projects .caption-row .caption:nth-child(3):hover {
-        color: #006400;
+      .index-projects .projects-bubble:has(.project-row > :nth-child(2):hover) 
+      .caption-row .caption:nth-child(2),
+      .index-projects .projects-bubble:has(.project-row > :nth-child(3):hover) 
+      .caption-row .caption:nth-child(3) {
+        color: #228B22;
       }
     
       @media (max-width: 768px) {
