@@ -28,6 +28,11 @@ body {
 .project-container {
   display: flex;
   align-items: center;
+  gap: 60px;
+  max-width: 1200px;
+  margin: 60px auto;
+  padding: 0 20px;
+}
 
 .photo-column {
   flex-shrink: 0;
@@ -41,15 +46,14 @@ body {
   display: block;
 }
 
-/* Single-image projects */
 .project-container .photo-column img {
   width: 420px;
   max-width: 100%;
   height: auto;
   border-radius: 12px;
+  display: block;
 }
 
-/* Two-image projects */
 .project-container .photo-row {
   display: flex;
   gap: 20px;
