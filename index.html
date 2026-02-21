@@ -16,17 +16,6 @@
         justify-content: center;
         gap: 80px;
         margin: 40px auto 40px;
-        position: relative;
-      }
-    
-      .index-hero::after {
-        content: "";
-        position: absolute;
-        left: 360px;
-        top: 20px;
-        bottom: 20px;
-        width: 1px;
-        background: #e5e7eb;
       }
     
       .index-hero h1 {
@@ -52,10 +41,25 @@
         color: #8B4513;
       }
     
+      .index-hero .photo-column {
+        position: relative;
+        padding-right: 50px;
+      }
+    
+      .index-hero .photo-column::after {
+        content: "";
+        position: absolute;
+        top: 12px;
+        bottom: 12px;
+        right: 0;
+        width: 1px;
+        background: #e5e7eb;
+      }
+    
       .index-hero .photo-column img {
         border-radius: 20px;
-        box-shadow: 0 10px 28px rgba(0,0,0,0.08);
-        filter: contrast(1.03) saturate(1.02) brightness(1.01);
+        box-shadow: 0 14px 34px rgba(0,0,0,0.10);
+        filter: contrast(1.04) saturate(1.03) brightness(1.01);
       }
     
       .index-hero .text-column {
@@ -86,14 +90,14 @@
         box-shadow: 0 6px 18px rgba(0,0,0,0.06);
       }
     
-      .index-projects .projects-bubble:has(.project-row > :nth-child(1):hover) 
+      .index-projects .projects-bubble:has(.project-row > :nth-child(1):hover)
       .caption-row .caption:nth-child(1) {
         color: #000080;
       }
     
-      .index-projects .projects-bubble:has(.project-row > :nth-child(2):hover) 
+      .index-projects .projects-bubble:has(.project-row > :nth-child(2):hover)
       .caption-row .caption:nth-child(2),
-      .index-projects .projects-bubble:has(.project-row > :nth-child(3):hover) 
+      .index-projects .projects-bubble:has(.project-row > :nth-child(3):hover)
       .caption-row .caption:nth-child(3) {
         color: #228B22;
       }
@@ -104,7 +108,11 @@
           gap: 30px;
         }
     
-        .index-hero::after {
+        .index-hero .photo-column {
+          padding-right: 0;
+        }
+    
+        .index-hero .photo-column::after {
           display: none;
         }
       }
