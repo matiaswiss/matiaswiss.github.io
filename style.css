@@ -262,6 +262,14 @@ nav a[href="projects.html"] {
   color: #D4A437;
 }
 
+.projects-page a {
+  color: #D4A437;
+}
+
+.projects-page a:hover {
+  color: #B8922E;
+}
+
 @media (max-width: 768px) {
 
   .container {
