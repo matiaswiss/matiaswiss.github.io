@@ -91,17 +91,17 @@ nav {
 }
 
 a {
-  color: #1E5A3C;
+  color: #2E7D5A;
   text-decoration: underline;
   text-decoration-color: black;
 }
 
 nav a[href="Art.html"] {
-  color: #1C2F5A;
+  color: #2F4FA3;
 }
 
 a:hover {
-  color: #1E5A3C;
+  color: #2E7D5A;
   text-decoration-color: black;
 }
 
