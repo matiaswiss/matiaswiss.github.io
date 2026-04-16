@@ -91,17 +91,17 @@ nav {
 }
 
 a {
-  color: green;
+  color: #2F5D50;
   text-decoration: underline;
   text-decoration-color: black;
 }
 
 nav a[href="Art.html"] {
-  color: #000080;
+  color: #3A4A5A;
 }
 
 a:hover {
-  color: #006400;
+  color: #2F5D50;
   text-decoration-color: black;
 }
 
@@ -259,15 +259,15 @@ nav a + a::before {
 .projects-bubble:has(.project-row > :nth-child(3):hover) .caption-row .caption:nth-child(3) { color: #228B22; }
 
 nav a[href="projects.html"] {
-  color: #D4A437;
+  color: #C2A14A;
 }
 
 .projects-page a {
-  color: #D4A437;
+  color: #C2A14A;
 }
 
 .projects-page a:hover {
-  color: #B8922E;
+  color: #C2A14A;
 }
 
 @media (max-width: 768px) {
