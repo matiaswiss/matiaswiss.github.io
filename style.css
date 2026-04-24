@@ -11,12 +11,6 @@ html, body {
 }
 
 body {
-  transform: scale(0.9);
-  transform-origin: top center;
-  width: 111.11%;
-}
-
-body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
