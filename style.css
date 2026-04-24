@@ -105,6 +105,10 @@ a:hover {
   text-decoration-color: black;
 }
 
+a[href="index.html"]:hover {
+  color: #BA8E23;
+}
+
 .index-hero nav a[href="research.html"]:hover {
   color: #000080;
 }
