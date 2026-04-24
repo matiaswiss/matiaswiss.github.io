@@ -91,17 +91,17 @@ nav {
 }
 
 a {
-  color: #C2A14A;
+  color: #000080;
   text-decoration: underline;
   text-decoration-color: black;
 }
 
 nav a[href="Art.html"] {
-  color: #000080;
+  color: #BA8E23;
 }
 
 a:hover {
-  color: #000080;
+  color: #BA8E23;
   text-decoration-color: black;
 }
 
@@ -254,20 +254,20 @@ nav a + a::before {
   display: block;
 }
 
-.projects-bubble:has(.project-row > :nth-child(1):hover) .caption-row .caption:nth-child(1) { color: #C2A14A; }
-.projects-bubble:has(.project-row > :nth-child(2):hover) .caption-row .caption:nth-child(2) { color: #C2A14A; }
-.projects-bubble:has(.project-row > :nth-child(3):hover) .caption-row .caption:nth-child(3) { color: #C2A14A; }
+.projects-bubble:has(.project-row > :nth-child(1):hover) .caption-row .caption:nth-child(1) { color: #000080; }
+.projects-bubble:has(.project-row > :nth-child(2):hover) .caption-row .caption:nth-child(2) { color: #000080; }
+.projects-bubble:has(.project-row > :nth-child(3):hover) .caption-row .caption:nth-child(3) { color: #000080; }
 
 nav a[href="projects.html"] {
-  color: #C2A14A;
+  color: #000080;
 }
 
 .projects-page a {
-  color: #C2A14A;
+  color: #000080;
 }
 
 .projects-page a:hover {
-  color: #C2A14A;
+  color: #000080;
 }
 
 @media (max-width: 768px) {
