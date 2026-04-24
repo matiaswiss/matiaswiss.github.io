@@ -105,6 +105,10 @@ a:hover {
   text-decoration-color: black;
 }
 
+.index-hero nav a[href="research.html"]:hover {
+  color: #000080;
+}
+
 p {
   line-height: 1.8;
   font-size: 16px;
@@ -254,7 +258,7 @@ nav a + a::before {
   display: block;
 }
 
-.projects-bubble:has(.project-row > :nth-child(1):hover) .caption-row .caption:nth-child(1) { color: #000080; }
+.projects-bubble:has(.project-row > :nth-child(1):hover) .caption-row .caption:nth-child(1) { color: #BA8E23; }
 .projects-bubble:has(.project-row > :nth-child(2):hover) .caption-row .caption:nth-child(2) { color: #000080; }
 .projects-bubble:has(.project-row > :nth-child(3):hover) .caption-row .caption:nth-child(3) { color: #000080; }
 
