@@ -321,11 +321,15 @@ nav a[href="projects.html"] {
     white-space: normal;
   }
 
-  #sketch-holder,
-  .image-tile {
-    width: 100%;
-    max-width: 300px;
-    height: auto;
+  #sketch-holder {
+    width: 380px;
+    height: 380px;
+    margin: 0 auto;
   }
-
+  
+  #sketch-holder-2 {
+    width: 380px;
+    height: 380px;
+    margin: 0 auto;
+  }
 }

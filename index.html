@@ -293,7 +293,7 @@
         noStroke();
         textSize(9);
         textAlign(RIGHT, BOTTOM);
-        text("\u00A9 Wissinger 2025", width - 6, height - 6);
+        text("\u00A9 Wissinger 2024", width - 6, height - 6);
         textAlign(CENTER, CENTER);
       }
     
@@ -310,12 +310,12 @@
       }
     
       function drawIdleBox() {
-        stroke("#000080");
+        stroke("#BA8E23");
         strokeWeight(8);
         noFill();
         rectMode(CENTER);
         rect(centerX, centerY, boxSize, boxSize, 10);
-        fill("#000080");
+        fill("#BA8E23");
         noStroke();
         let s = 30;
         triangle(centerX - s / 2.5, centerY - s / 2, centerX - s / 2.5, centerY + s / 2, centerX + s / 2, centerY);
@@ -485,16 +485,16 @@
           s.noStroke();
           s.textSize(9);
           s.textAlign(s.RIGHT, s.BOTTOM);
-          s.text("\u00A9 Wissinger 2025", s.width - 6, s.height - 6);
+          s.text("\u00A9 Wissinger 2024", s.width - 6, s.height - 6);
           s.textAlign(s.CENTER, s.CENTER);
         }
     
         function drawIdleCircle2(cx, cy) {
-          s.stroke('#000080');
+          s.stroke('#BA8E23');
           s.strokeWeight(8);
           s.noFill();
           s.ellipse(cx, cy, baseRadius2 * 2);
-          s.fill('#000080');
+          s.fill('#BA8E23');
           s.noStroke();
           let t = 30;
           s.triangle(cx - t/2.5, cy - t/2, cx - t/2.5, cy + t/2, cx + t/2, cy);
