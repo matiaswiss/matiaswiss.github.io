@@ -98,6 +98,14 @@
       .caption-row .caption:nth-child(3) {
         color: #000080;
       }
+
+      .image-tile img {
+        border-radius: 0 !important;
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
     
       @media (max-width: 768px) {
         .index-hero {
@@ -155,7 +163,7 @@
           <a href="https://www.kellogg.northwestern.edu/faculty/directory/achar_chethana.aspx" target="_blank">Dr. Chethana Achar</a>.
         </p>
 
-        <p class="small-bio">This fall, I’ll be starting my PhD in the Micro MORS group at UC Berkeley Haas.</p>
+        <p class="small-bio">This fall, I'll be starting my PhD in the Micro MORS group at UC Berkeley Haas.</p>
     
         <p class="small-bio">
           Before Kellogg, I worked in the
@@ -182,7 +190,7 @@
     
           <div class="project-row">
             <div id="sketch-holder"></div>
-    
+
             <div id="sketch-holder-2"></div>
     
             <a class="image-tile" href="SPSPposter2026MW_JT.png" target="_blank" rel="noopener">
@@ -218,7 +226,7 @@
       const progressColor = [0, 128, 128];
     
       function setup() {
-        createCanvas(300, 300).parent("sketch-holder");
+        createCanvas(380, 380).parent("sketch-holder");
         textAlign(CENTER, CENTER);
         textFont("Didact Gothic");
         boxSize = Math.min(width, height) * 0.6;
@@ -285,7 +293,7 @@
         noStroke();
         textSize(9);
         textAlign(RIGHT, BOTTOM);
-        text("Wissinger 2025", width - 6, height - 6);
+        text("\u00A9 Wissinger 2025", width - 6, height - 6);
         textAlign(CENTER, CENTER);
       }
     
@@ -302,12 +310,12 @@
       }
     
       function drawIdleBox() {
-        stroke("#BA8E23");
+        stroke("#000080");
         strokeWeight(8);
         noFill();
         rectMode(CENTER);
         rect(centerX, centerY, boxSize, boxSize, 10);
-        fill("#BA8E23");
+        fill("#000080");
         noStroke();
         let s = 30;
         triangle(centerX - s / 2.5, centerY - s / 2, centerX - s / 2.5, centerY + s / 2, centerX + s / 2, centerY);
@@ -324,7 +332,7 @@
         let size = boxSize * scale;
         let offset = size / 2;
         let shortOffset = offset * 0.8;
-        stroke("#BA8E23");
+        stroke("#000080");
         strokeWeight(8);
         noFill();
         rectMode(CENTER);
@@ -363,7 +371,7 @@
           textSize(10);
           if (!isFifth) {
             let seconds = ceil((duration - timer) / 60);
-            text(`${seconds} sec \u2022 round ${Math.min(roundCount, 4)} of 4`, centerX, centerY + 15);
+            text(`${seconds} sec • round ${Math.min(roundCount, 4)} of 4`, centerX, centerY + 15);
           }
         }
       }
@@ -392,8 +400,8 @@
         }
       }
     </script>
-    
-    <!-- 2-1 breathing  -->
+
+    <!-- 2-1 breathing -->
     <script>
       new p5(function(s) {
         let phase2 = 0;
@@ -424,7 +432,7 @@
         let fadeAlpha2 = 0;
     
         s.setup = function() {
-          let cnv = s.createCanvas(300, 300);
+          let cnv = s.createCanvas(380, 380);
           cnv.parent("sketch-holder-2");
           s.textAlign(s.CENTER, s.CENTER);
           s.textFont('Didact Gothic');
@@ -477,16 +485,16 @@
           s.noStroke();
           s.textSize(9);
           s.textAlign(s.RIGHT, s.BOTTOM);
-          s.text("Wissinger 2025", s.width - 6, s.height - 6);
+          s.text("\u00A9 Wissinger 2025", s.width - 6, s.height - 6);
           s.textAlign(s.CENTER, s.CENTER);
         }
     
         function drawIdleCircle2(cx, cy) {
-          s.stroke('#BA8E23');
+          s.stroke('#000080');
           s.strokeWeight(8);
           s.noFill();
           s.ellipse(cx, cy, baseRadius2 * 2);
-          s.fill('#BA8E23');
+          s.fill('#000080');
           s.noStroke();
           let t = 30;
           s.triangle(cx - t/2.5, cy - t/2, cx - t/2.5, cy + t/2, cx + t/2, cy);
@@ -537,7 +545,7 @@
           s.textSize(10);
           if (!isFinal) {
             let secs = s.ceil((durations2[phase2] - timer2) / 60);
-            s.text("round " + s.min(roundCount2, 4) + " of 4 \u2022 " + secs + " sec", cx, cy + 15);
+            s.text("round " + s.min(roundCount2, 4) + " of 4 • " + secs + " sec", cx, cy + 15);
           }
           if (isFinal) {
             fadeAlpha2 = s.map(s.sin((finalTimer2 / (fastDuration2 * 4)) * 180), 0, 1, 0, 255);
@@ -576,3 +584,5 @@
         };
       });
     </script>
+  </body>
+</html>
