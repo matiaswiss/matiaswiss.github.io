@@ -175,26 +175,25 @@
       <div class="projects-inner">
         <div class="projects-bubble">
           <div class="caption-row">
-            <div class="caption">Stop and breathe for a moment:</div>
-            <div class="caption">Reflect on a relationship:</div>
-            <div class="caption">Schedule an important conversation:</div>
+            <div class="caption">Slow your nervous system down:</div>
+            <div class="caption">Release stress:</div>
+            <div class="caption">My most recent project:</div>
           </div>
     
           <div class="project-row">
             <div id="sketch-holder"></div>
     
-            <a class="image-tile" href="relationalresponselocus_mw.html" target="_blank" rel="noopener">
-              <img src="relresponselocus.png" alt="Reflect on a relationship" />
-            </a>
+            <div id="sketch-holder-2"></div>
     
-            <a class="image-tile" href="importantconversations_schedule_helper.html" target="_blank" rel="noopener">
-              <img src="importantconversations.png" alt="Schedule an important conversation" />
+            <a class="image-tile" href="SPSPposter2026MW_JT.png" target="_blank" rel="noopener">
+              <img src="SPSPposter2026MW_JT.png" alt="My most recent project" />
             </a>
           </div>
         </div>
       </div>
     </section>
     
+    <!-- Box breathing -->
     <script>
       let phase = 0;
       let timer = 0;
@@ -237,10 +236,12 @@
         centerY = height / 2;
         if (!started || paused) {
           drawIdleBox();
+          drawWatermark();
           return;
         }
         if (pauseBeforeFinal) {
           drawBoxAndProgress(true);
+          drawWatermark();
           pauseFrames++;
           if (pauseFrames > 60) {
             pauseBeforeFinal = false;
@@ -252,15 +253,12 @@
         }
         if (fifthRound) {
           drawBoxAndProgress(false, true);
+          drawWatermark();
           fifthRoundTimer++;
-          if (fifthRoundTimer > fastDuration * 4) {
-            resetAll();
-          }
+          if (fifthRoundTimer > fastDuration * 4) resetAll();
           return;
         }
-        if (phase === 3 && timer === 1 && !holdRegistered) {
-          holdRegistered = true;
-        }
+        if (phase === 3 && timer === 1 && !holdRegistered) holdRegistered = true;
         if (phase === 0 && timer === 1 && holdRegistered) {
           if (completedSides < 4) sideAlphas[completedSides] = 1;
           completedSides++;
@@ -279,6 +277,16 @@
           triggerPhaseSound(phase);
         }
         drawBoxAndProgress();
+        drawWatermark();
+      }
+    
+      function drawWatermark() {
+        fill(180);
+        noStroke();
+        textSize(9);
+        textAlign(RIGHT, BOTTOM);
+        text("Wissinger 2025", width - 6, height - 6);
+        textAlign(CENTER, CENTER);
       }
     
       function triggerPhaseSound(p) {
@@ -316,16 +324,13 @@
         let size = boxSize * scale;
         let offset = size / 2;
         let shortOffset = offset * 0.8;
-    
         stroke("#BA8E23");
         strokeWeight(8);
         noFill();
         rectMode(CENTER);
         rect(centerX, centerY, size, size, 10);
-    
         strokeWeight(3);
         for (let i = 0; i < 4; i++) { if (sideAlphas[i] > 0 && sideAlphas[i] < 255) sideAlphas[i] += 5; }
-    
         stroke(...progressColor, sideAlphas[0]);
         if (completedSides >= 1) line(centerX - shortOffset, centerY - shortOffset, centerX + shortOffset, centerY - shortOffset);
         stroke(...progressColor, sideAlphas[1]);
@@ -334,7 +339,6 @@
         if (completedSides >= 3) line(centerX + shortOffset, centerY + shortOffset, centerX - shortOffset, centerY + shortOffset);
         stroke(...progressColor, sideAlphas[3]);
         if (completedSides >= 4) line(centerX - shortOffset, centerY + shortOffset, centerX - shortOffset, centerY - shortOffset);
-    
         if (!isStatic) {
           strokeWeight(2);
           stroke(...progressColor);
@@ -351,17 +355,15 @@
             let y = map(progress, 0, 1, centerY + shortOffset, centerY - shortOffset);
             line(centerX - shortOffset, centerY + shortOffset, centerX - shortOffset, y);
           }
-    
           noStroke();
           fill("#333");
           textSize(16);
           let label = isFifth ? "calm mind" : phases[phase];
           text(label, centerX, centerY - 10);
-    
           textSize(10);
           if (!isFifth) {
             let seconds = ceil((duration - timer) / 60);
-            text(`${seconds} sec • round ${Math.min(roundCount, 4)} of 4`, centerX, centerY + 15);
+            text(`${seconds} sec \u2022 round ${Math.min(roundCount, 4)} of 4`, centerX, centerY + 15);
           }
         }
       }
@@ -390,5 +392,187 @@
         }
       }
     </script>
-  </body>
-</html>
+    
+    <!-- 2-1 breathing  -->
+    <script>
+      new p5(function(s) {
+        let phase2 = 0;
+        let timer2 = 0;
+        let roundCount2 = 1;
+        let started2 = false;
+        let paused2 = false;
+    
+        const phases2 = ['inhale1', 'inhale2', 'exhale'];
+        const durations2 = [240, 60, 240];
+        const labels2 = {
+          inhale1: "inhale",
+          inhale2: "inhale again",
+          exhale: "exhale slowly"
+        };
+        const freqMap2 = { inhale1: 174, inhale2: 184, exhale: 110 };
+    
+        let osc2, env2;
+        let baseRadius2;
+        let currentScale2 = 1;
+        let targetScale2 = 1;
+    
+        let pauseBeforeFinal2 = false;
+        let pauseFrames2 = 0;
+        let finalPhase2 = false;
+        let finalTimer2 = 0;
+        const fastDuration2 = 60;
+        let fadeAlpha2 = 0;
+    
+        s.setup = function() {
+          let cnv = s.createCanvas(300, 300);
+          cnv.parent("sketch-holder-2");
+          s.textAlign(s.CENTER, s.CENTER);
+          s.textFont('Didact Gothic');
+          s.angleMode(s.DEGREES);
+          baseRadius2 = s.min(s.width, s.height) * 0.25;
+          osc2 = new p5.Oscillator('sine');
+          osc2.amp(0);
+          osc2.start();
+          env2 = new p5.Envelope();
+          env2.setADSR(0.05, 0.1, 0.1, 0.2);
+          env2.setRange(0.08, 0);
+        };
+    
+        s.draw = function() {
+          s.clear();
+          let cx = s.width / 2;
+          let cy = s.height / 2;
+    
+          if (!started2 || paused2) {
+            drawIdleCircle2(cx, cy);
+            drawWatermark2();
+            return;
+          }
+          if (pauseBeforeFinal2) {
+            drawBreathingVisual2(cx, cy, true);
+            drawWatermark2();
+            pauseFrames2++;
+            if (pauseFrames2 > 60) {
+              pauseBeforeFinal2 = false;
+              finalPhase2 = true;
+              timer2 = 0;
+              phase2 = 0;
+            }
+            return;
+          }
+          if (finalPhase2) {
+            drawBreathingVisual2(cx, cy, false, true);
+            drawWatermark2();
+            finalTimer2++;
+            if (finalTimer2 > fastDuration2 * 4) resetAll2();
+            return;
+          }
+          updateLogic2();
+          drawBreathingVisual2(cx, cy);
+          drawWatermark2();
+        };
+    
+        function drawWatermark2() {
+          s.fill(180);
+          s.noStroke();
+          s.textSize(9);
+          s.textAlign(s.RIGHT, s.BOTTOM);
+          s.text("Wissinger 2025", s.width - 6, s.height - 6);
+          s.textAlign(s.CENTER, s.CENTER);
+        }
+    
+        function drawIdleCircle2(cx, cy) {
+          s.stroke('#BA8E23');
+          s.strokeWeight(8);
+          s.noFill();
+          s.ellipse(cx, cy, baseRadius2 * 2);
+          s.fill('#BA8E23');
+          s.noStroke();
+          let t = 30;
+          s.triangle(cx - t/2.5, cy - t/2, cx - t/2.5, cy + t/2, cx + t/2, cy);
+        }
+    
+        function updateLogic2() {
+          if (phases2[phase2] === 'inhale1') {
+            targetScale2 = s.map(timer2, 0, durations2[phase2], 1.0, 1.3);
+          } else if (phases2[phase2] === 'inhale2') {
+            targetScale2 = s.map(timer2, 0, durations2[phase2], 1.3, 1.45);
+          } else if (phases2[phase2] === 'exhale') {
+            targetScale2 = s.map(timer2, 0, durations2[phase2], 1.45, 1.0);
+          }
+          currentScale2 = s.lerp(currentScale2, targetScale2, 0.05);
+          timer2++;
+          if (timer2 > durations2[phase2]) {
+            timer2 = 0;
+            phase2 = (phase2 + 1) % phases2.length;
+            if (phase2 === 0) roundCount2++;
+            if (roundCount2 > 4) {
+              pauseBeforeFinal2 = true;
+            } else {
+              triggerTone2(phases2[phase2]);
+            }
+          }
+        }
+    
+        function drawBreathingVisual2(cx, cy, isStatic = false, isFinal = false) {
+          let r = baseRadius2 * currentScale2;
+          s.stroke(0, 0, 128);
+          s.strokeWeight(6);
+          s.noFill();
+          s.ellipse(cx, cy, r * 2);
+          s.fill(0, 128, 128, 80);
+          s.noStroke();
+          s.ellipse(cx, cy, r * 1.5);
+          let pulse = r + s.sin(s.frameCount * 2) * 8;
+          s.stroke(0, 0, 128);
+          s.strokeWeight(2);
+          s.noFill();
+          s.ellipse(cx, cy, pulse * 2);
+          s.fill(51);
+          s.noStroke();
+          s.textSize(14);
+          let labelKey = phases2[phase2] || 'exhale';
+          let label = isFinal ? "calm mind" : labels2[labelKey];
+          s.text(label, cx, cy - 10);
+          s.textSize(10);
+          if (!isFinal) {
+            let secs = s.ceil((durations2[phase2] - timer2) / 60);
+            s.text("round " + s.min(roundCount2, 4) + " of 4 \u2022 " + secs + " sec", cx, cy + 15);
+          }
+          if (isFinal) {
+            fadeAlpha2 = s.map(s.sin((finalTimer2 / (fastDuration2 * 4)) * 180), 0, 1, 0, 255);
+          }
+        }
+    
+        function triggerTone2(phaseName) {
+          const freq = freqMap2[phaseName] || 110;
+          osc2.freq(freq);
+          osc2.setType('sine');
+          env2.play(osc2);
+        }
+    
+        function resetAll2() {
+          started2 = false; paused2 = false;
+          pauseBeforeFinal2 = false; pauseFrames2 = 0;
+          finalPhase2 = false; finalTimer2 = 0;
+          timer2 = 0; phase2 = 0; roundCount2 = 1;
+          currentScale2 = 1; targetScale2 = 1; fadeAlpha2 = 0;
+        }
+    
+        s.mousePressed = function() {
+          if (s.mouseX < 0 || s.mouseX > s.width || s.mouseY < 0 || s.mouseY > s.height) return;
+          if (getAudioContext().state !== 'running') getAudioContext().resume();
+          if (!started2) { started2 = true; triggerTone2(phases2[phase2]); }
+          else { paused2 = !paused2; }
+        };
+    
+        s.touchStarted = function() {
+          if (s.mouseX >= 0 && s.mouseY >= 0 && s.mouseX <= s.width && s.mouseY <= s.height) {
+            if (getAudioContext().state !== 'running') getAudioContext().resume();
+            if (!started2) { started2 = true; triggerTone2(phases2[phase2]); }
+            else { paused2 = !paused2; }
+            return false;
+          }
+        };
+      });
+    </script>
