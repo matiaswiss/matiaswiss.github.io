@@ -231,14 +231,21 @@ nav a + a::before {
 }
 
 #sketch-holder {
-  width: 300px;
-  height: 300px;
+  width: 380px;
+  height: 380px;
   margin: 0 auto;
 }
 
-#sketch-holder canvas {
+#sketch-holder-2 {
+  width: 380px;
+  height: 380px;
+  margin: 0 auto;
+}
+
+#sketch-holder canvas,
+#sketch-holder-2 canvas {
   max-width: 100%;
-  height: auto;
+  max-height: 100%;
   cursor: pointer;
   display: block;
 }
@@ -321,15 +328,4 @@ nav a[href="projects.html"] {
     white-space: normal;
   }
 
-  #sketch-holder {
-    width: 380px;
-    height: 380px;
-    margin: 0 auto;
-  }
-  
-  #sketch-holder-2 {
-    width: 380px;
-    height: 380px;
-    margin: 0 auto;
-  }
 }
