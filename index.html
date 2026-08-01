@@ -77,6 +77,28 @@
         box-shadow: 0 14px 34px rgba(0,0,0,0.10);
         filter: contrast(1.04) saturate(1.03) brightness(1.01);
       }
+
+      .index-hero .contact-emblems {
+        display: flex;
+        justify-content: center;
+        gap: 18px;
+        margin-top: 14px;
+        padding-right: 50px;
+      }
+
+      .index-hero .contact-emblems a {
+        color: #444;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        transition: color 0.2s ease, transform 0.2s ease;
+      }
+
+      .index-hero .contact-emblems a:hover {
+        color: #000080;
+        transform: translateY(-2px);
+      }
     
       .index-hero .text-column {
         max-width: 800px;
@@ -97,13 +119,39 @@
       .index-projects {
         margin-top: 40px;
       }
-    
+
+      .index-projects .projects-inner {
+        display: flex;
+        justify-content: center;
+      }
+
       .index-projects .projects-bubble {
+        display: inline-block;
         background: #f5f6f7;
         border: 1px solid #e2e4e7;
         border-radius: 20px;
-        padding: 0px 4px 2px 4px;
+        padding: 8px;
         box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+      }
+
+      .index-projects .project-row {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .index-projects #sketch-holder,
+      .index-projects #sketch-holder-2 {
+        width: 380px;
+        height: 380px;
+        margin: 0;
+      }
+
+      .index-projects .image-tile {
+        width: 380px;
+        height: 380px;
+        margin: 0;
       }
     
       .index-projects .projects-bubble:has(.project-row > :nth-child(1):hover)
@@ -157,6 +205,26 @@
     <div class="container index-hero">
       <div class="photo-column">
         <img src="wissinger_headshot_2025_blue.png" alt="Matías Wissinger headshot" />
+        <div class="contact-emblems">
+          <a href="mailto:matiaswissinger@berkeley.edu" aria-label="Email" title="matiaswissinger@berkeley.edu">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <path d="M2 6l10 7L22 6"/>
+            </svg>
+          </a>
+          <a href="https://haas.berkeley.edu/phd/academics/management-of-organizations/micro/" target="_blank" rel="noopener" aria-label="Berkeley Haas" title="Berkeley Haas — Management of Organizations (Micro)">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3L2 8l10 5 10-5-10-5z"/>
+              <path d="M6 10.5V16c0 1 2.7 2.5 6 2.5s6-1.5 6-2.5v-5.5"/>
+              <path d="M22 8v5"/>
+            </svg>
+          </a>
+          <a href="https://www.linkedin.com/in/matiaswissinger" target="_blank" rel="noopener" aria-label="LinkedIn" title="linkedin.com/in/matiaswissinger">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+              <path d="M4.98 3.5A2.5 2.5 0 002.5 6a2.5 2.5 0 002.48 2.5h.02A2.5 2.5 0 007.5 6 2.5 2.5 0 004.98 3.5zM3 9.5h4V21H3V9.5zm6 0h3.8v1.57h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.75V21h-4v-5.3c0-1.26-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21H9V9.5z"/>
+            </svg>
+          </a>
+        </div>
       </div>
 
       <div class="text-column">
@@ -178,7 +246,7 @@
 
         <br>
 
-        <p class="small-bio">I'm a first-year PhD student in the Micro MORS group at UC Berkeley Haas.</p>
+        <p class="small-bio">I am a first-year PhD student in the Micro MORS group at UC Berkeley Haas.</p>
         
         <p class="small-bio">
           Prior to Haas, I was a Behavioral Research Fellow at Northwestern Kellogg working with
@@ -615,8 +683,9 @@
   function centerHeadshot() {
     const hero = document.querySelector(".index-hero");
     const photo = document.querySelector(".index-hero .photo-column");
+    const img = document.querySelector(".index-hero .photo-column img");
     const intro = document.querySelector(".index-hero .intro-block");
-    if (!hero || !photo || !intro) return;
+    if (!hero || !photo || !img || !intro) return;
     // Skip on stacked mobile layout
     if (window.getComputedStyle(hero).flexDirection === "column") {
       photo.style.marginTop = "0px";
@@ -624,7 +693,7 @@
     }
     photo.style.marginTop = "0px";
     const introCenter = intro.offsetHeight / 2;
-    const photoCenter = photo.offsetHeight / 2;
+    const photoCenter = img.offsetHeight / 2;
     const offset = introCenter - photoCenter;
     photo.style.marginTop = (offset > 0 ? offset : 0) + "px";
   }
