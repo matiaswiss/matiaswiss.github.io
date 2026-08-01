@@ -32,8 +32,12 @@
         text-underline-offset: 4px;
       }
 
-      .index-hero nav a + a {
-        margin-left: 22px;
+      .index-hero nav a + a::before {
+        content: "–";
+        color: #444;
+        margin: 0 22px;
+        text-decoration: none;
+        display: inline-block;
       }
     
       .index-hero nav a[href="Wissinger_CV_2026.pdf"] {
@@ -166,6 +170,8 @@
           <a href="projects.html">Projects</a>
         </nav>
 
+        <br>
+
         <p class="small-bio">I'm a first-year PhD student in the Micro MORS group at UC Berkeley Haas.</p>
         
         <p class="small-bio">
@@ -232,7 +238,7 @@
       const progressColor = [0, 128, 128];
     
       function setup() {
-        createCanvas(380, 380).parent("sketch-holder");
+        createCanvas(190, 190).parent("sketch-holder");
         textAlign(CENTER, CENTER);
         textFont("Didact Gothic");
         boxSize = Math.min(width, height) * .5;
@@ -316,12 +322,12 @@
       }
     
       function drawIdleBox() {
-        stroke("#BA8E23");
+        stroke("#000000");
         strokeWeight(8);
         noFill();
         rectMode(CENTER);
         rect(centerX, centerY, boxSize, boxSize, 10);
-        fill("#BA8E23");
+        fill("#000000");
         noStroke();
         let s = 30;
         triangle(centerX - s / 2.5, centerY - s / 2, centerX - s / 2.5, centerY + s / 2, centerX + s / 2, centerY);
@@ -438,7 +444,7 @@
         let fadeAlpha2 = 0;
     
         s.setup = function() {
-          let cnv = s.createCanvas(380, 380);
+          let cnv = s.createCanvas(190, 190);
           cnv.parent("sketch-holder-2");
           s.textAlign(s.CENTER, s.CENTER);
           s.textFont('Didact Gothic');
@@ -496,11 +502,11 @@
         }
     
         function drawIdleCircle2(cx, cy) {
-          s.stroke('#BA8E23');
+          s.stroke('#000000');
           s.strokeWeight(8);
           s.noFill();
           s.ellipse(cx, cy, baseRadius2 * 2);
-          s.fill('#BA8E23');
+          s.fill('#000000');
           s.noStroke();
           let t = 30;
           s.triangle(cx - t/2.5, cy - t/2, cx - t/2.5, cy + t/2, cx + t/2, cy);
