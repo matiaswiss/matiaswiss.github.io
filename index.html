@@ -80,9 +80,10 @@
 
       .index-hero .contact-emblems {
         display: flex;
-        justify-content: center;
-        gap: 18px;
-        margin-top: 14px;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        margin-top: 18px;
         padding-right: 50px;
       }
 
@@ -130,13 +131,13 @@
         background: #f5f6f7;
         border: 1px solid #e2e4e7;
         border-radius: 20px;
-        padding: 8px;
+        padding: 2px;
         box-shadow: 0 6px 18px rgba(0,0,0,0.06);
       }
 
       .index-projects .project-row {
         display: flex;
-        gap: 12px;
+        gap: 0px;
         align-items: center;
         justify-content: center;
       }
@@ -152,6 +153,17 @@
         width: 380px;
         height: 380px;
         margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .index-projects .image-tile img {
+        max-width: 300px;
+        max-height: 300px;
+        width: auto;
+        height: auto;
+        object-fit: contain;
       }
     
       .index-projects .projects-bubble:has(.project-row > :nth-child(1):hover)
