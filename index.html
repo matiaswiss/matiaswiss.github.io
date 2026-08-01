@@ -12,10 +12,14 @@
     <style>
       .index-hero {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         justify-content: center;
         gap: 80px;
         margin: 40px auto 40px;
+      }
+
+      .index-hero .intro-block {
+        margin-bottom: 0;
       }
     
       .index-hero h1 {
@@ -98,7 +102,7 @@
         background: #f5f6f7;
         border: 1px solid #e2e4e7;
         border-radius: 20px;
-        padding: 0px 12px 2px 12px;
+        padding: 0px 4px 2px 4px;
         box-shadow: 0 6px 18px rgba(0,0,0,0.06);
       }
     
@@ -156,6 +160,7 @@
       </div>
 
       <div class="text-column">
+        <div class="intro-block">
         <h1 class="single-line">
           Hi, I'm 
           <a href="mailto:matiaswissinger@berkeley.edu"
@@ -169,6 +174,7 @@
           <a href="research.html">Research</a>
           <a href="projects.html">Projects</a>
         </nav>
+        </div>
 
         <br>
 
@@ -238,7 +244,7 @@
       const progressColor = [0, 128, 128];
     
       function setup() {
-        createCanvas(190, 190).parent("sketch-holder");
+        createCanvas(380, 380).parent("sketch-holder");
         textAlign(CENTER, CENTER);
         textFont("Didact Gothic");
         boxSize = Math.min(width, height) * .5;
@@ -444,7 +450,7 @@
         let fadeAlpha2 = 0;
     
         s.setup = function() {
-          let cnv = s.createCanvas(190, 190);
+          let cnv = s.createCanvas(380, 380);
           cnv.parent("sketch-holder-2");
           s.textAlign(s.CENTER, s.CENTER);
           s.textFont('Didact Gothic');
@@ -602,6 +608,28 @@
   window.addEventListener("scroll", () => {
     banner.classList.toggle("visible", window.scrollY > 20);
   });
+</script>
+
+<script>
+  // Center the headshot vertically on the name + nav block only
+  function centerHeadshot() {
+    const hero = document.querySelector(".index-hero");
+    const photo = document.querySelector(".index-hero .photo-column");
+    const intro = document.querySelector(".index-hero .intro-block");
+    if (!hero || !photo || !intro) return;
+    // Skip on stacked mobile layout
+    if (window.getComputedStyle(hero).flexDirection === "column") {
+      photo.style.marginTop = "0px";
+      return;
+    }
+    photo.style.marginTop = "0px";
+    const introCenter = intro.offsetHeight / 2;
+    const photoCenter = photo.offsetHeight / 2;
+    const offset = introCenter - photoCenter;
+    photo.style.marginTop = (offset > 0 ? offset : 0) + "px";
+  }
+  window.addEventListener("load", centerHeadshot);
+  window.addEventListener("resize", centerHeadshot);
 </script>
 
   </body>
