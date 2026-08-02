@@ -45,26 +45,16 @@
       }
     
       .index-hero nav a[href="Wissinger_CV_2026.pdf"] {
-        color: #000;
+        color: #000080;
       }
     
       .index-hero nav a[href="Wissinger_CV_2026.pdf"]:hover {
-        color: #000;
+        color: #000080;
       }
     
       .index-hero .photo-column {
         position: relative;
         padding-right: 50px;
-      }
-    
-      .index-hero .photo-column::after {
-        content: "";
-        position: absolute;
-        top: 12px;
-        bottom: 12px;
-        right: 0;
-        width: 1px;
-        background: #e5e7eb;
       }
 
       .index-hero .photo-column img {
@@ -81,7 +71,7 @@
       .index-hero .contact-emblems {
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
         gap: 14px;
         margin-top: 18px;
         padding-right: 50px;
@@ -110,6 +100,8 @@
         max-width: 800px;
         margin: 0;
         text-align: left;
+        border-left: 1px solid #e5e7eb;
+        padding-left: 80px;
       }
     
       .index-hero .small-bio {
@@ -199,8 +191,9 @@
           padding-right: 0;
         }
     
-        .index-hero .photo-column::after {
-          display: none;
+        .index-hero .text-column {
+          border-left: none;
+          padding-left: 0;
         }
       }
 
