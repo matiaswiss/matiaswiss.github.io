@@ -111,7 +111,7 @@
       }
     
       .index-hero .small-footer p {
-        margin-top: 8px;
+        margin-top: 28px;
         line-height: 1.5;
       }
     
@@ -142,14 +142,14 @@
 
       .index-projects #sketch-holder,
       .index-projects #sketch-holder-2 {
-        width: 380px;
-        height: 380px;
+        width: 300px;
+        height: 300px;
         margin: 0;
       }
 
       .index-projects .image-tile {
-        width: 380px;
-        height: 380px;
+        width: 300px;
+        height: 300px;
         margin: 0;
         display: flex;
         align-items: center;
@@ -157,8 +157,8 @@
       }
 
       .index-projects .image-tile img {
-        max-width: 300px;
-        max-height: 300px;
+        max-width: 240px;
+        max-height: 240px;
         width: auto;
         height: auto;
         object-fit: contain;
@@ -324,7 +324,7 @@
       const progressColor = [0, 128, 128];
     
       function setup() {
-        createCanvas(380, 380).parent("sketch-holder");
+        createCanvas(300, 300).parent("sketch-holder");
         textAlign(CENTER, CENTER);
         textFont("Didact Gothic");
         boxSize = Math.min(width, height) * .5;
@@ -530,7 +530,7 @@
         let fadeAlpha2 = 0;
     
         s.setup = function() {
-          let cnv = s.createCanvas(380, 380);
+          let cnv = s.createCanvas(300, 300);
           cnv.parent("sketch-holder-2");
           s.textAlign(s.CENTER, s.CENTER);
           s.textFont('Didact Gothic');
