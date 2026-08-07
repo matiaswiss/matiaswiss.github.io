@@ -691,28 +691,5 @@
   });
 </script>
 
-<script>
-  // Center the headshot vertically on the name + nav block only
-  function centerHeadshot() {
-    const hero = document.querySelector(".index-hero");
-    const photo = document.querySelector(".index-hero .photo-column");
-    const img = document.querySelector(".index-hero .photo-column img");
-    const intro = document.querySelector(".index-hero .intro-block");
-    if (!hero || !photo || !img || !intro) return;
-    // Skip on stacked mobile layout
-    if (window.getComputedStyle(hero).flexDirection === "column") {
-      photo.style.marginTop = "0px";
-      return;
-    }
-    photo.style.marginTop = "0px";
-    const introCenter = intro.offsetHeight / 2;
-    const photoCenter = img.offsetHeight / 2;
-    const offset = introCenter - photoCenter;
-    photo.style.marginTop = (offset > 0 ? offset : 0) + "px";
-  }
-  window.addEventListener("load", centerHeadshot);
-  window.addEventListener("resize", centerHeadshot);
-</script>
-
   </body>
 </html>
