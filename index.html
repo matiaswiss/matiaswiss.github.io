@@ -187,16 +187,54 @@
       @media (max-width: 768px) {
         .index-hero {
           flex-direction: column;
-          gap: 30px;
+          align-items: center;
+          gap: 24px;
+          text-align: center;
         }
-    
+
         .index-hero .photo-column {
           padding-right: 0;
+          margin-top: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
         }
-    
+
+        .index-hero .contact-emblems {
+          padding-left: 0;
+          padding-right: 0;
+          align-items: center;
+        }
+
         .index-hero .text-column {
           border-left: none;
           padding-left: 0;
+          max-width: 100%;
+          text-align: center;
+        }
+
+        .index-hero .intro-block {
+          text-align: center;
+        }
+
+        .index-hero nav {
+          display: flex;
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+
+        .index-projects .project-row {
+          flex-direction: column;
+          align-items: center;
+          gap: 16px;
+        }
+
+        .index-projects #sketch-holder,
+        .index-projects #sketch-holder-2,
+        .index-projects .image-tile {
+          width: 300px;
+          height: 300px;
+          max-width: 100%;
         }
       }
 
